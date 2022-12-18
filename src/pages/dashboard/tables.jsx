@@ -5,11 +5,11 @@ import {
   Typography,
   Avatar,
   Chip,
-  Tooltip,
-  Progress,
+  // Tooltip,
+  // Progress,
 } from "@material-tailwind/react";
-import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
-import { authorsTableData, projectsTableData } from "@/data";
+import { CheckCircleIcon,XCircleIcon,ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { authorsTableData } from "@/data";
 import { Link } from "react-router-dom";
 
 export function Tables() {
@@ -25,7 +25,7 @@ export function Tables() {
           <table className="w-full min-w-[640px] table-auto">
             <thead>
               <tr>
-                {["user", "function", "status", "employed", ""].map((el) => (
+                {["user","geofence", "function", "status", "employed", ""].map((el) => (
                   <th
                     key={el}
                     className="border-b border-blue-gray-50 py-3 px-5 text-left"
@@ -42,7 +42,7 @@ export function Tables() {
             </thead>
             <tbody>
               {authorsTableData.map(
-                ({ img, name, email, job, online, date }, key) => {
+                ({ img, name, email,geofenceStatus, job, online, date }, key) => {
                   const className = `py-3 px-5 ${
                     key === authorsTableData.length - 1
                       ? ""
@@ -69,6 +69,11 @@ export function Tables() {
                         </div>
                       </td>
                       <td className={className}>
+                        {geofenceStatus ==='inactive' &&<XCircleIcon className="w-8 text-gray-500"/> }
+                        {geofenceStatus ==='inArea' &&<CheckCircleIcon className="w-8 text-green-500"/> }
+                        {geofenceStatus ==='outOfArea' &&<ExclamationTriangleIcon className="w-8 text-red-500"/> }                     
+                      </td>
+                      <td className={className}>
                         <Typography className="text-xs font-semibold text-blue-gray-600">
                           {job[0]}
                         </Typography>
@@ -80,7 +85,7 @@ export function Tables() {
                         <Chip
                           variant="gradient"
                           color={online ? "green" : "blue-gray"}
-                          value={online ? "online" : "offline"}
+                          value={online ? "active" : "inactive"}
                           className="py-0.5 px-2 text-[11px] font-medium"
                         />
                       </td>
@@ -96,7 +101,7 @@ export function Tables() {
                             href="#"
                             className="text-xs font-semibold text-blue-gray-600"
                           >
-                            Edit
+                            View / Edit
                           </Typography>
                         </Link>
                       </td>
@@ -108,7 +113,7 @@ export function Tables() {
           </table>
         </CardBody>
       </Card>
-      <Card>
+      {/* <Card>
         <CardHeader variant="gradient" color="blue" className="mb-8 p-6">
           <Typography variant="h6" color="white">
             Projects Table
@@ -216,7 +221,7 @@ export function Tables() {
             </tbody>
           </table>
         </CardBody>
-      </Card>
+      </Card> */}
     </div>
   );
 }
