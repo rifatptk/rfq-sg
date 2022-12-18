@@ -1,14 +1,20 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import { Dashboard, Auth } from "@/layouts";
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { Dashboard, Auth } from '@/layouts';
+import { authContext } from './context/authContext';
+import { useContext } from 'react';
 
 function App() {
-  const auth = true;
+  const { isAuth } = useContext(authContext);
+
   return (
     <Routes>
-      {auth ? (
+      {isAuth ? (
         <>
           <Route path="/dashboard/*" element={<Dashboard />} />
-          <Route path="*" element={<Navigate to="/dashboard/users" replace />} />
+          <Route
+            path="*"
+            element={<Navigate to="/dashboard/users" replace />}
+          />
         </>
       ) : (
         <>

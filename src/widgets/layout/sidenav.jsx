@@ -8,8 +8,11 @@ import {
   Typography,
 } from '@material-tailwind/react';
 import { useMaterialTailwindController, setOpenSidenav } from '@/context';
+import { authContext } from '@/context/authContext';
+import { useContext } from 'react';
 
 export function Sidenav({ brandImg, brandName, routes }) {
+  const { doLogout } = useContext(authContext);
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavColor, sidenavType, openSidenav } = controller;
   const sidenavTypes = {
@@ -104,6 +107,7 @@ export function Sidenav({ brandImg, brandName, routes }) {
               color="red"
               className="flex items-center gap-4 px-4 capitalize"
               fullWidth
+              onClick={() => doLogout()}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

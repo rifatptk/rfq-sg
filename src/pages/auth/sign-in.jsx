@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import {
   Card,
   CardHeader,
@@ -8,9 +8,12 @@ import {
   Checkbox,
   Button,
   Typography,
-} from "@material-tailwind/react";
+} from '@material-tailwind/react';
+import { authContext } from '@/context/authContext';
+import { useContext } from 'react';
 
 export function SignIn() {
+  const { doLogin } = useContext(authContext);
   return (
     <>
       <img
@@ -38,7 +41,7 @@ export function SignIn() {
             </div>
           </CardBody>
           <CardFooter className="pt-0">
-            <Button variant="gradient" fullWidth>
+            <Button variant="gradient" fullWidth onClick={() => doLogin()}>
               Sign In
             </Button>
             <Typography variant="small" className="mt-6 flex justify-center">
