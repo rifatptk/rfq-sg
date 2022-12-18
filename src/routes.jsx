@@ -42,8 +42,8 @@ export const routes = [
       },
       {
         icon: <BellIcon {...icon} />,
-        name: "notifactions",
-        path: "/notifactions",
+        name: "notifications",
+        path: "/notifications",
         element: <Notifications />,
       },
     ],
