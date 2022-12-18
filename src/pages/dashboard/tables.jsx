@@ -8,7 +8,7 @@ import {
   // Tooltip,
   // Progress,
 } from "@material-tailwind/react";
-import { CheckCircleIcon,XCircleIcon,ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { CheckCircleIcon,XCircleIcon,ExclamationTriangleIcon } from "@heroicons/react/24/solid";
 import { authorsTableData } from "@/data";
 import { Link } from "react-router-dom";
 

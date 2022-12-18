@@ -11,16 +11,22 @@ import {
   Switch,
   Tooltip,
   Button,
-} from "@material-tailwind/react";
+  Chip,
+} from '@material-tailwind/react';
 import {
-  HomeIcon,
-  ChatBubbleLeftEllipsisIcon,
-  Cog6ToothIcon,
   PencilIcon,
-} from "@heroicons/react/24/solid";
-import { Link } from "react-router-dom";
-import { ProfileInfoCard, MessageCard } from "@/widgets/cards";
-import { platformSettingsData, conversationsData, projectsData } from "@/data";
+  XCircleIcon,
+  CheckCircleIcon,
+  ExclamationTriangleIcon,
+} from '@heroicons/react/24/solid';
+import { Link } from 'react-router-dom';
+import { ProfileInfoCard, MessageCard } from '@/widgets/cards';
+import {
+  platformSettingsData,
+  conversationsData,
+  projectsData,
+  authorsTableData,
+} from '@/data';
 
 export function Profile() {
   return (
@@ -30,7 +36,7 @@ export function Profile() {
       </div>
       <Card className="mx-3 -mt-16 mb-6 lg:mx-4">
         <CardBody className="p-4">
-          <div className="mb-10 flex items-center justify-between gap-6">
+          <div className="mb-10 ">
             <div className="flex items-center gap-6">
               <Avatar
                 src="/img/bruce-mars.jpeg"
@@ -50,26 +56,9 @@ export function Profile() {
                 </Typography>
               </div>
             </div>
-            <div className="w-96">
-              <Tabs value="app">
-                <TabsHeader>
-                  <Tab value="app">
-                    <HomeIcon className="-mt-1 mr-2 inline-block h-5 w-5" />
-                    App
-                  </Tab>
-                  <Tab value="message">
-                    <ChatBubbleLeftEllipsisIcon className="-mt-0.5 mr-2 inline-block h-5 w-5" />
-                    Message
-                  </Tab>
-                  <Tab value="settings">
-                    <Cog6ToothIcon className="-mt-1 mr-2 inline-block h-5 w-5" />
-                    Settings
-                  </Tab>
-                </TabsHeader>
-              </Tabs>
-            </div>
           </div>
           <div className="gird-cols-1 mb-12 grid gap-12 px-4 lg:grid-cols-2 xl:grid-cols-3">
+            {/* switches */}
             <div>
               <Typography variant="h6" color="blue-gray" className="mb-3">
                 Platform Settings
@@ -88,7 +77,7 @@ export function Profile() {
                           label={label}
                           defaultChecked={checked}
                           labelProps={{
-                            className: "text-sm font-normal text-blue-gray-500",
+                            className: 'text-sm font-normal text-blue-gray-500',
                           }}
                         />
                       ))}
@@ -97,14 +86,16 @@ export function Profile() {
                 ))}
               </div>
             </div>
+            {/* profile info */}
             <ProfileInfoCard
               title="Profile Information"
               description="Hi, I'm Alec Thompson, Decisions: If you can't decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality)."
               details={{
-                "first name": "Alec M. Thompson",
-                mobile: "(44) 123 1234 123",
-                email: "alecthompson@mail.com",
-                location: "USA",
+                'first name': 'Alec M. Thompson',
+                mobile: '(44) 123 1234 123',
+                email: 'alecthompson@mail.com',
+                location: 'USA',
+                NID: '7342-3458-5423469',
                 social: (
                   <div className="flex items-center gap-4">
                     <i className="fa-brands fa-facebook text-blue-700" />
@@ -119,9 +110,10 @@ export function Profile() {
                 </Tooltip>
               }
             />
+            {/* Emergency contacts */}
             <div>
               <Typography variant="h6" color="blue-gray" className="mb-3">
-                Platform Settings
+                Emergency Contacts
               </Typography>
               <ul className="flex flex-col gap-6">
                 {conversationsData.map((props) => (
@@ -130,14 +122,131 @@ export function Profile() {
                     {...props}
                     action={
                       <Button variant="text" size="sm">
-                        reply
+                        Delete
                       </Button>
                     }
                   />
                 ))}
               </ul>
+              <Button className="mt-5 block mx-auto">Add New</Button>
             </div>
           </div>
+          {/* timeline */}
+          <Card>
+            <CardHeader variant="gradient" color="blue" className="mb-8 p-6">
+              <Typography variant="h6" color="white">
+                Timeline
+              </Typography>
+            </CardHeader>
+            <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
+              <table className="w-full min-w-[640px] table-auto">
+                <thead>
+                  <tr>
+                    {[
+                      'user',
+                      'geofence',
+                      'function',
+                      'status',
+                      'employed',
+                      '',
+                    ].map((el) => (
+                      <th
+                        key={el}
+                        className="border-b border-blue-gray-50 py-3 px-5 text-left"
+                      >
+                        <Typography
+                          variant="small"
+                          className="text-[11px] font-bold uppercase text-blue-gray-400"
+                        >
+                          {el}
+                        </Typography>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {authorsTableData.map(
+                    (
+                      { img, name, email, geofenceStatus, job, online, date },
+                      key
+                    ) => {
+                      const className = `py-3 px-5 ${
+                        key === authorsTableData.length - 1
+                          ? ''
+                          : 'border-b border-blue-gray-50'
+                      }`;
+
+                      return (
+                        <tr key={name}>
+                          <td className={className}>
+                            <div className="flex items-center gap-4">
+                              <Avatar src={img} alt={name} size="sm" />
+                              <div>
+                                <Typography
+                                  variant="small"
+                                  color="blue-gray"
+                                  className="font-semibold"
+                                >
+                                  {name}
+                                </Typography>
+                                <Typography className="text-xs font-normal text-blue-gray-500">
+                                  {email}
+                                </Typography>
+                              </div>
+                            </div>
+                          </td>
+                          <td className={className}>
+                            {geofenceStatus === 'inactive' && (
+                              <XCircleIcon className="w-8 text-gray-500" />
+                            )}
+                            {geofenceStatus === 'inArea' && (
+                              <CheckCircleIcon className="w-8 text-green-500" />
+                            )}
+                            {geofenceStatus === 'outOfArea' && (
+                              <ExclamationTriangleIcon className="w-8 text-red-500" />
+                            )}
+                          </td>
+                          <td className={className}>
+                            <Typography className="text-xs font-semibold text-blue-gray-600">
+                              {job[0]}
+                            </Typography>
+                            <Typography className="text-xs font-normal text-blue-gray-500">
+                              {job[1]}
+                            </Typography>
+                          </td>
+                          <td className={className}>
+                            <Chip
+                              variant="gradient"
+                              color={online ? 'green' : 'blue-gray'}
+                              value={online ? 'active' : 'inactive'}
+                              className="py-0.5 px-2 text-[11px] font-medium"
+                            />
+                          </td>
+                          <td className={className}>
+                            <Typography className="text-xs font-semibold text-blue-gray-600">
+                              {date}
+                            </Typography>
+                          </td>
+                          <td className={className}>
+                            <Link to={`/dashboard/users/user1`}>
+                              <Typography
+                                as="a"
+                                href="#"
+                                className="text-xs font-semibold text-blue-gray-600"
+                              >
+                                View / Edit
+                              </Typography>
+                            </Link>
+                          </td>
+                        </tr>
+                      );
+                    }
+                  )}
+                </tbody>
+              </table>
+            </CardBody>
+          </Card>
+          {/* projects */}
           <div className="px-4 pb-4">
             <Typography variant="h6" color="blue-gray" className="mb-2">
               Projects
@@ -199,7 +308,7 @@ export function Profile() {
                               size="xs"
                               variant="circular"
                               className={`cursor-pointer border-2 border-white ${
-                                key === 0 ? "" : "-ml-2.5"
+                                key === 0 ? '' : '-ml-2.5'
                               }`}
                             />
                           </Tooltip>
