@@ -1,14 +1,18 @@
 import { Routes, Route } from "react-router-dom";
-import { Cog6ToothIcon } from "@heroicons/react/24/solid";
-import { IconButton } from "@material-tailwind/react";
+// import { Cog6ToothIcon } from "@heroicons/react/24/solid";
+// import { IconButton } from "@material-tailwind/react";
 import {
   Sidenav,
   DashboardNavbar,
   Configurator,
-  Footer,
+  // Footer,
 } from "@/widgets/layout";
 import routes from "@/routes";
-import { useMaterialTailwindController, setOpenConfigurator } from "@/context";
+import {
+  useMaterialTailwindController,
+  //  setOpenConfigurator
+} from "@/context";
+import { Profile } from "@/pages/dashboard";
 
 export function Dashboard() {
   const [controller, dispatch] = useMaterialTailwindController();
@@ -25,7 +29,7 @@ export function Dashboard() {
       <div className="p-4 xl:ml-80">
         <DashboardNavbar />
         <Configurator />
-        <IconButton
+        {/* <IconButton
           size="lg"
           color="white"
           className="fixed bottom-8 right-8 z-40 rounded-full shadow-blue-gray-900/10"
@@ -33,7 +37,7 @@ export function Dashboard() {
           onClick={() => setOpenConfigurator(dispatch, true)}
         >
           <Cog6ToothIcon className="h-5 w-5" />
-        </IconButton>
+        </IconButton> */}
         <Routes>
           {routes.map(
             ({ layout, pages }) =>
@@ -42,10 +46,11 @@ export function Dashboard() {
                 <Route exact path={path} element={element} />
               ))
           )}
+          <Route path="/users/:userId" element={<Profile />} />
         </Routes>
-        <div className="text-blue-gray-600">
+        {/* <div className="text-blue-gray-600">
           <Footer />
-        </div>
+        </div> */}
       </div>
     </div>
   );

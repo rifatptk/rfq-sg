@@ -10,6 +10,7 @@ import {
 } from "@material-tailwind/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { authorsTableData, projectsTableData } from "@/data";
+import { Link } from "react-router-dom";
 
 export function Tables() {
   return (
@@ -17,14 +18,14 @@ export function Tables() {
       <Card>
         <CardHeader variant="gradient" color="blue" className="mb-8 p-6">
           <Typography variant="h6" color="white">
-            Authors Table
+            Users Table
           </Typography>
         </CardHeader>
         <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
           <table className="w-full min-w-[640px] table-auto">
             <thead>
               <tr>
-                {["author", "function", "status", "employed", ""].map((el) => (
+                {["user", "function", "status", "employed", ""].map((el) => (
                   <th
                     key={el}
                     className="border-b border-blue-gray-50 py-3 px-5 text-left"
@@ -89,13 +90,15 @@ export function Tables() {
                         </Typography>
                       </td>
                       <td className={className}>
-                        <Typography
-                          as="a"
-                          href="#"
-                          className="text-xs font-semibold text-blue-gray-600"
-                        >
-                          Edit
-                        </Typography>
+                        <Link to={`/dashboard/users/user1`}>
+                          <Typography
+                            as="a"
+                            href="#"
+                            className="text-xs font-semibold text-blue-gray-600"
+                          >
+                            Edit
+                          </Typography>
+                        </Link>
                       </td>
                     </tr>
                   );
