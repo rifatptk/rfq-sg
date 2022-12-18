@@ -1,8 +1,6 @@
 import {
   Card,
   CardBody,
-  CardHeader,
-  CardFooter,
   Avatar,
   Typography,
   Switch,
@@ -10,9 +8,9 @@ import {
   Button,
 } from '@material-tailwind/react';
 import { PencilIcon } from '@heroicons/react/24/solid';
-import { Link } from 'react-router-dom';
 import { ProfileInfoCard, MessageCard } from '@/widgets/cards';
-import { platformSettingsData, conversationsData, projectsData } from '@/data';
+import { platformSettingsData, conversationsData } from '@/data';
+import RiMap from '@/components/RiMap';
 
 export function Profile() {
   return (
@@ -134,7 +132,9 @@ export function Profile() {
             >
               Location & Geofence
             </Typography>
-            <div className="mt-6 grid grid-cols-1 gap-12 md:grid-cols-2 xl:grid-cols-4"></div>
+            <div className="mt-6">
+              <RiMap />
+            </div>
           </div>
         </CardBody>
       </Card>
