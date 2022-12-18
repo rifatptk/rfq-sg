@@ -8,7 +8,7 @@ function App() {
       {auth ? (
         <>
           <Route path="/dashboard/*" element={<Dashboard />} />
-          <Route path="*" element={<Navigate to="/dashboard/home" replace />} />
+          <Route path="*" element={<Navigate to="/dashboard/users" replace />} />
         </>
       ) : (
         <>
