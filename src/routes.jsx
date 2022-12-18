@@ -1,18 +1,20 @@
 import {
-  HomeIcon,
+  // HomeIcon,
   // UserCircleIcon,
   TableCellsIcon,
   BellIcon,
   ArrowRightOnRectangleIcon,
   UserPlusIcon,
+  PlusCircleIcon
 } from "@heroicons/react/24/solid";
 import {
-  Home,
+  // Home,
   // Profile,
   Tables,
   Notifications,
 } from "@/pages/dashboard";
 import { SignIn, SignUp } from "@/pages/auth";
+import AddNewUser from "./pages/dashboard/AddNewUser";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -45,6 +47,12 @@ export const routes = [
         name: "notifications",
         path: "/notifications",
         element: <Notifications />,
+      },
+      {
+        icon: <PlusCircleIcon {...icon} />,
+        name: "add new user",
+        path: "/add-user",
+        element: <AddNewUser />,
       },
     ],
   },
