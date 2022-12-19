@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Circle, GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { Button, Input } from '@material-tailwind/react';
-
-// const libraries = ['drawing'];
+import { MapIcon } from '@heroicons/react/24/outline';
 
 const options = {
   strokeColor: '#2196F3',
@@ -10,8 +9,6 @@ const options = {
   strokeWeight: 2,
   fillColor: '#2196F3',
   fillOpacity: 0.2,
-
-  // zIndex: 1,
 };
 
 const RiMap = () => {
@@ -49,7 +46,11 @@ const RiMap = () => {
             center={fenceData.center}
             options={options}
           />
-          <Marker position={fenceData.center} />
+          <Marker
+            position={fenceData.center}
+            draggable={true}
+            onDragEnd={setCenter}
+          />
         </GoogleMap>
       </LoadScript>
       <div>
@@ -59,6 +60,7 @@ const RiMap = () => {
             label="Geofence Radius"
             size="lg"
             onChange={(e) => setRadius(e.target.value)}
+            icon={<MapIcon />}
           />
           <div className="w-fit ml-auto my-5 md:my-0 flex gap-5">
             <Button color="red" variant="text">
@@ -69,9 +71,10 @@ const RiMap = () => {
         </div>
         <p className="text-sm mt-5">
           <p className="font-bold">How To Change Geofence?</p>
-          1. Click on the map to center clicked position <br />
-          2. Enter radius <br />
-          3. Hit Save!
+          1. Click on the map or drag the marker to set Geofence center <br />
+          2. Enter Geofence radius in meter
+          <br />
+          3. Check realtime preview & hit save!
         </p>
       </div>
     </>
