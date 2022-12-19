@@ -160,21 +160,23 @@ export function Profile() {
         </CardBody>
       </Card>
       {/* modal */}
-      <Dialog open={open} handler={handleOpen}>
-        <DialogHeader>Edit User Profile.</DialogHeader>
-        <DialogBody divider className="grid md:grid-cols-2 gap-4">
-          <Input label="First Name" size="lg" />
-          <Input label="Last Name" size="lg" />
-          <Input label="Title" size="lg" />
+      <Dialog size="xl" open={open} handler={handleOpen}>
+        <DialogHeader className="text-base md:text-xl">
+          Edit User Profile.
+        </DialogHeader>
+        <DialogBody divider className="grid md:grid-cols-2 gap-2 md:gap-4 ">
+          <Input label="First Name" size="md" />
+          <Input label="Last Name" size="md" />
+          <Input label="Title" size="md" />
           <Select label="Select Status">
             <Option>Active</Option>
             <Option>Inactive</Option>
           </Select>
-          <Input label="Surname" size="lg" />
-          <Input label="Tel:" size="lg" />
-          <Input type="email" label="Email" size="lg" />
-          <Input label="Passport" size="lg" />
-          <Input label="NID" size="lg" />
+          <Input label="Surname" size="md" />
+          <Input label="Tel:" size="md" />
+          <Input type="email" label="Email" size="md" />
+          <Input label="Passport" size="md" />
+          <Input label="NID" size="md" />
           <Select label="Select Nationality">
             <Option>American</Option>
             <Option>British</Option>
@@ -182,7 +184,7 @@ export function Profile() {
             <Option>Indian</Option>
           </Select>
         </DialogBody>
-        <DialogFooter>
+        <DialogFooter className="py-2">
           <Button
             variant="text"
             color="red"
