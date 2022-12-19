@@ -8,15 +8,15 @@ import '../public/css/tailwind.css';
 import AuthProvider from './context/authContext';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <ThemeProvider>
-        <MaterialTailwindControllerProvider>
-          <AuthProvider>
-            <App />
-          </AuthProvider>
-        </MaterialTailwindControllerProvider>
-      </ThemeProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <BrowserRouter>
+    <ThemeProvider>
+      <MaterialTailwindControllerProvider>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </MaterialTailwindControllerProvider>
+    </ThemeProvider>
+  </BrowserRouter>
+  // </React.StrictMode>
 );
