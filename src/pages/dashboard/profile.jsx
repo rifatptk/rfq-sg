@@ -6,13 +6,24 @@ import {
   Switch,
   Tooltip,
   Button,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+  Input,
+  Select,
+  Option,
 } from '@material-tailwind/react';
-import { PencilIcon } from '@heroicons/react/24/solid';
+import { PencilSquareIcon } from '@heroicons/react/24/solid';
 import { ProfileInfoCard, MessageCard } from '@/widgets/cards';
 import { platformSettingsData, conversationsData } from '@/data';
 import RiMap from '@/components/RiMap';
+import { useState } from 'react';
 
 export function Profile() {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(!open);
   return (
     <>
       <div className="relative mt-8 h-72 w-full overflow-hidden rounded-xl bg-[url(https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80)] bg-cover	bg-center">
@@ -65,9 +76,17 @@ export function Profile() {
                 ),
               }}
               action={
-                <Button variant="text" size="sm" className="rounded">
+                <Button
+                  variant="text"
+                  size="sm"
+                  className="rounded"
+                  onClick={handleOpen}
+                >
                   <Tooltip content="Edit Profile">
-                    <PencilIcon className="h-4 w-4" />
+                    <div className="flex items-end gap-2">
+                      <span>Edit</span>
+                      <PencilSquareIcon className="h-5 w-5" />
+                    </div>
                   </Tooltip>
                 </Button>
               }
@@ -140,6 +159,43 @@ export function Profile() {
           </div>
         </CardBody>
       </Card>
+      {/* modal */}
+      <Dialog open={open} handler={handleOpen}>
+        <DialogHeader>Edit User Profile.</DialogHeader>
+        <DialogBody divider className="grid md:grid-cols-2 gap-4">
+          <Input label="First Name" size="lg" />
+          <Input label="Last Name" size="lg" />
+          <Input label="Title" size="lg" />
+          <Select label="Select Status">
+            <Option>Active</Option>
+            <Option>Inactive</Option>
+          </Select>
+          <Input label="Surname" size="lg" />
+          <Input label="Tel:" size="lg" />
+          <Input type="email" label="Email" size="lg" />
+          <Input label="Passport" size="lg" />
+          <Input label="NID" size="lg" />
+          <Select label="Select Nationality">
+            <Option>American</Option>
+            <Option>British</Option>
+            <Option>Bangladesh</Option>
+            <Option>Indian</Option>
+          </Select>
+        </DialogBody>
+        <DialogFooter>
+          <Button
+            variant="text"
+            color="red"
+            onClick={handleOpen}
+            className="mr-1"
+          >
+            <span>Cancel</span>
+          </Button>
+          <Button variant="gradient" color="green" onClick={handleOpen}>
+            <span>Confirm</span>
+          </Button>
+        </DialogFooter>
+      </Dialog>
     </>
   );
 }
