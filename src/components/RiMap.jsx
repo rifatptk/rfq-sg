@@ -25,9 +25,7 @@ const RiMap = () => {
   function setRadius(num) {
     setFenceData((prev) => ({ ...prev, radius: Number(num) }));
   }
-  const onRadiusChanged = (e) => {
-    console.log('event', e);
-  };
+
   const setCenter = (e) => {
     setFenceData((prev) => ({
       ...prev,
@@ -49,7 +47,6 @@ const RiMap = () => {
           <Circle
             radius={fenceData.radius}
             center={fenceData.center}
-            onRadiusChanged={onRadiusChanged}
             options={options}
           />
           <Marker position={fenceData.center} />
