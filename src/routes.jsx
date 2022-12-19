@@ -1,13 +1,20 @@
 import {
-  HomeIcon,
-  UserCircleIcon,
+  // HomeIcon,
+  // UserCircleIcon,
   TableCellsIcon,
   BellIcon,
   ArrowRightOnRectangleIcon,
   UserPlusIcon,
+  PlusCircleIcon
 } from "@heroicons/react/24/solid";
-import { Home, Profile, Tables, Notifications } from "@/pages/dashboard";
+import {
+  // Home,
+  // Profile,
+  Tables,
+  Notifications,
+} from "@/pages/dashboard";
 import { SignIn, SignUp } from "@/pages/auth";
+import AddNewUser from "./pages/dashboard/AddNewUser";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -17,29 +24,35 @@ export const routes = [
   {
     layout: "dashboard",
     pages: [
-      {
-        icon: <HomeIcon {...icon} />,
-        name: "dashboard",
-        path: "/home",
-        element: <Home />,
-      },
-      {
-        icon: <UserCircleIcon {...icon} />,
-        name: "profile",
-        path: "/profile",
-        element: <Profile />,
-      },
+      // {
+      //   icon: <HomeIcon {...icon} />,
+      //   name: "dashboard",
+      //   path: "/home",
+      //   element: <Home />,
+      // },
+      // {
+      //   icon: <UserCircleIcon {...icon} />,
+      //   name: "profile",
+      //   path: "/profile",
+      //   element: <Profile />,
+      // },
       {
         icon: <TableCellsIcon {...icon} />,
-        name: "tables",
-        path: "/tables",
+        name: "users",
+        path: "/users",
         element: <Tables />,
       },
       {
         icon: <BellIcon {...icon} />,
-        name: "notifactions",
-        path: "/notifactions",
+        name: "notifications",
+        path: "/notifications",
         element: <Notifications />,
+      },
+      {
+        icon: <PlusCircleIcon {...icon} />,
+        name: "add new user",
+        path: "/add-user",
+        element: <AddNewUser />,
       },
     ],
   },
