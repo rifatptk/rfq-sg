@@ -52,19 +52,27 @@ const RiMap = () => {
           <Marker position={fenceData.center} />
         </GoogleMap>
       </LoadScript>
-      <div className="mt-5 md:flex items-center gap-5">
-        <Input
-          type="number"
-          label="Geofence Radius"
-          size="lg"
-          onChange={(e) => setRadius(e.target.value)}
-        />
-        <div className="w-fit ml-auto my-5 md:my-0 flex gap-5">
-          <Button color="red" variant="text">
-            Cancel
-          </Button>
-          <Button>Save</Button>
+      <div>
+        <div className="mt-5 md:flex items-center gap-5">
+          <Input
+            type="number"
+            label="Geofence Radius"
+            size="lg"
+            onChange={(e) => setRadius(e.target.value)}
+          />
+          <div className="w-fit ml-auto my-5 md:my-0 flex gap-5">
+            <Button color="red" variant="text">
+              Cancel
+            </Button>
+            <Button>Save</Button>
+          </div>
         </div>
+        <p className="text-sm mt-5">
+          <p className="font-bold">How To Change Geofence?</p>
+          1. Click on the map to center clicked position <br />
+          2. Enter radius <br />
+          3. Hit Save!
+        </p>
       </div>
     </>
   );
