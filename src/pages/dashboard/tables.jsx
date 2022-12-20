@@ -40,7 +40,7 @@ export function Tables() {
         .then((res) => res.data),
     {
       // Set the interval to 5 seconds (5000 milliseconds)
-      refetchInterval: 120000,
+      refetchInterval: 5000,
       refetchOnWindowFocus: false,
     }
   );
