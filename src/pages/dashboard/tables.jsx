@@ -16,7 +16,6 @@ import {
 } from '@heroicons/react/24/solid';
 import { authorsTableData } from '@/data';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 // import { useEffect, useState } from 'react';
 import { BASE_URL } from '@/apiConfigs';
 // import { toast } from 'react-toastify';
@@ -33,11 +32,9 @@ export function Tables() {
   } = useQuery(
     'users',
     () =>
-      axios
-        .get(`${BASE_URL}/api/admin/user`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((res) => res.data),
+      fetch(`${BASE_URL}/api/admin/user`, {
+        headers: { Authorization: `Bearer ${token}` },
+      }).then((res) => res.json()),
     {
       // Set the interval to 5 seconds (5000 milliseconds)
       refetchInterval: 5000,

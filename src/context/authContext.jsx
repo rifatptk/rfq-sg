@@ -1,5 +1,4 @@
 import { BASE_URL } from '@/apiConfigs';
-import axios from 'axios';
 import { createContext, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
@@ -28,13 +27,19 @@ const AuthProvider = ({ children }) => {
   function doLogin(credentials) {
     setloading(true);
 
-    axios
-      .post(`${BASE_URL}/api/admin/login`, credentials)
-      .then((res) => {
+    fetch(`${BASE_URL}/api/admin/login`, {
+      method: 'POST',
+      body: JSON.stringify(credentials),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
         setloading(false);
-        localStorage.setItem('token', res.data.token);
-        localStorage.setItem('userId', res.data.userId);
-        setuserId(res.data.userId);
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('userId', data.userId);
+        setuserId(data.userId);
         setIsAuth(true);
       })
       .catch((err) => {

@@ -20,7 +20,6 @@ import { ProfileInfoCard, MessageCard } from '@/widgets/cards';
 import { conversationsData } from '@/data';
 import RiMap from '@/components/RiMap';
 import { useState } from 'react';
-import axios from 'axios';
 import { BASE_URL } from '@/apiConfigs';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
@@ -37,11 +36,9 @@ export function Profile() {
     data: user,
     refetch,
   } = useQuery(['user', userId], () =>
-    axios
-      .get(`${BASE_URL}/api/admin/singleUser/${userId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => res.data)
+    fetch(`${BASE_URL}/api/admin/singleUser/${userId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    }).then((res) => res.json())
   );
   console.log('single-user', user);
 

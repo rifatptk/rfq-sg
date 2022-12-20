@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Circle, GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { Button, Input } from '@material-tailwind/react';
 import { MapIcon } from '@heroicons/react/24/outline';
-import axios from 'axios';
 import { BASE_URL } from '@/apiConfigs';
 import { toast } from 'react-toastify';
 
@@ -36,10 +35,14 @@ const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
 
   function updateGeofence() {
     console.log('update geofence', fenceData);
-    axios
-      .put(`${BASE_URL}/api/admin/update/location/${userId}`, fenceData, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+    fetch(`${BASE_URL}/api/admin/update/location/${userId}`, {
+      method: 'PUT',
+      body: JSON.stringify(fenceData),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => {
         refetch({ force: true });
         toast.success('Successfully updated geofence!');
