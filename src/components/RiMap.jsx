@@ -20,7 +20,7 @@ const CENTER = {
   radius: 200,
 };
 
-const RiMap = ({ geofence = CENTER, userId, token }) => {
+const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
   const [fenceData, setFenceData] = useState(geofence);
   function setRadius(num) {
     setFenceData((prev) => ({ ...prev, radius: Number(num) }));
@@ -41,6 +41,7 @@ const RiMap = ({ geofence = CENTER, userId, token }) => {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
+        refetch({ force: true });
         toast.success('Successfully updated geofence!');
       })
       .catch((err) => toast.error('Failed to update geofence'));

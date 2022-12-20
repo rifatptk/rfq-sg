@@ -35,6 +35,7 @@ export function Profile() {
     isLoading,
     error,
     data: user,
+    refetch,
   } = useQuery(['user', userId], () =>
     axios
       .get(`${BASE_URL}/api/admin/singleUser/${userId}`, {
@@ -249,6 +250,7 @@ export function Profile() {
                         radius: 200,
                       }
                     }
+                    refetch={refetch}
                     userId={userId}
                     token={token}
                   />
