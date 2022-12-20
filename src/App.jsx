@@ -5,7 +5,7 @@ import { useContext } from 'react';
 
 function App() {
   const { isAuth } = useContext(authContext);
-  console.log('isAuth', isAuth);
+  // console.log('isAuth', isAuth);
 
   return (
     <Routes>

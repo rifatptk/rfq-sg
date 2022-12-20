@@ -7,7 +7,7 @@ import {
 } from '@heroicons/react/24/solid';
 import { Tables, Notifications } from '@/pages/dashboard';
 import { SignIn } from '@/pages/auth';
-import AddNewUser from './pages/dashboard/AddNewUser';
+// import AddNewUser from './pages/dashboard/AddNewUser';
 
 const icon = {
   className: 'w-5 h-5 text-inherit',

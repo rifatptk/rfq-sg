@@ -1,5 +1,5 @@
-import PropTypes from "prop-types";
-import { Avatar, Typography } from "@material-tailwind/react";
+import PropTypes from 'prop-types';
+import { Avatar, Typography } from '@material-tailwind/react';
 
 export function MessageCard({ img, name, message, action }) {
   return (
@@ -19,7 +19,7 @@ export function MessageCard({ img, name, message, action }) {
             {name}
           </Typography>
           <Typography className="text-xs font-normal text-blue-gray-400">
-            {message}
+            +880 1784-254902
           </Typography>
         </div>
       </div>
@@ -39,6 +39,6 @@ MessageCard.propTypes = {
   action: PropTypes.node,
 };
 
-MessageCard.displayName = "/src/widgets/cards/message-card.jsx";
+MessageCard.displayName = '/src/widgets/cards/message-card.jsx';
 
 export default MessageCard;

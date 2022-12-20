@@ -13,17 +13,59 @@ import {
   Input,
   Select,
   Option,
+  Checkbox,
 } from '@material-tailwind/react';
 import { PencilSquareIcon } from '@heroicons/react/24/solid';
 import { ProfileInfoCard, MessageCard } from '@/widgets/cards';
-import { platformSettingsData, conversationsData } from '@/data';
+import { conversationsData } from '@/data';
 import RiMap from '@/components/RiMap';
 import { useState } from 'react';
 
 export function Profile() {
+  //edit profile info=========
   const [open, setOpen] = useState(false);
-
   const handleOpen = () => setOpen(!open);
+
+  const [profileInfo, setProfileInfo] = useState({
+    firstName: '',
+    middleName: '',
+    surName: '',
+    title: '',
+    geoFenceStatus: '',
+    tel: '',
+    email: '',
+    nationality: '',
+    nid: '',
+    passport: '',
+  });
+
+  console.log(profileInfo);
+
+  function onProfileInfoChangeHandler(e) {
+    const { name, value } = e.target;
+    setProfileInfo((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
+  //edit profile info---------
+
+  // settings===============
+  const [isActive, setisActive] = useState(true);
+  function isActiveChangeHandler(e) {
+    setisActive(e.target.checked);
+  }
+
+  const [permissions, setPermissions] = useState([]);
+  function permissionChangeHandler(e) {
+    e.target.checked
+      ? setPermissions([...permissions, e.target.value])
+      : setPermissions(permissions.filter((p) => p !== e.target.value));
+  }
+  const updateSettings = (e) => {
+    e.preventDefault();
+  };
+  //settings----------------
   return (
     <>
       <div className="relative mt-8 h-72 w-full overflow-hidden rounded-xl bg-[url(https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80)] bg-cover	bg-center">
@@ -111,38 +153,57 @@ export function Profile() {
               </ul>
               <Button className="mt-5 block mx-auto">Add New</Button>
             </div>
+          </div>
+          {/* settings */}
+          <div className="px-4 mb-5">
+            <Typography variant="h6" color="blue-gray" className="mb-3">
+              Settings
+            </Typography>
 
-            {/* switches */}
-            <div>
-              <Typography variant="h6" color="blue-gray" className="mb-3">
-                Settings
-              </Typography>
-              <div className="flex flex-col gap-12">
-                {platformSettingsData.map(({ title, options }) => (
-                  <div key={title}>
-                    <Typography className="mb-4 block text-xs font-semibold uppercase text-blue-gray-500">
-                      {title}
-                    </Typography>
-                    <div className="flex flex-col gap-6">
-                      {options.map(({ checked, label }) => (
-                        <Switch
-                          key={label}
-                          id={label}
-                          label={label}
-                          defaultChecked={checked}
-                          labelProps={{
-                            className: 'text-sm font-normal text-blue-gray-500',
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                ))}
+            <form
+              onSubmit={updateSettings}
+              className="grid md:grid-cols-2 gap-5 bg-gray-100 rounded-lg shadow-inner p-5 "
+            >
+              <div>
+                <h5>Status</h5>
+                <Switch
+                  id="isActive"
+                  label="Active"
+                  checked={isActive}
+                  onChange={isActiveChangeHandler}
+                />
               </div>
-            </div>
+              <div>
+                <h5>Tick Desired Permisions</h5>
+                <div className="flex gap-6">
+                  <Checkbox
+                    label="ADMIN"
+                    id="admin"
+                    value="ADMIN"
+                    checked={permissions.includes('ADMIN')}
+                    onChange={permissionChangeHandler}
+                  />
+                  <Checkbox
+                    label="MANAGER"
+                    id="manager"
+                    value="MANAGER"
+                    onChange={permissionChangeHandler}
+                  />
+                  <Checkbox
+                    label="USER"
+                    id="user"
+                    value="USER"
+                    onChange={permissionChangeHandler}
+                  />
+                </div>
+              </div>
+              <Button type="submit" className="w-fit">
+                Update
+              </Button>
+            </form>
           </div>
 
-          {/* projects */}
+          {/* geofence */}
           <div className="px-4 pb-4">
             <Typography variant="h6" color="blue-gray" className="mb-2">
               Geofence
@@ -165,23 +226,76 @@ export function Profile() {
           Edit User Profile.
         </DialogHeader>
         <DialogBody divider className="grid md:grid-cols-2 gap-2 md:gap-4 ">
-          <Input label="First Name" size="md" />
-          <Input label="Last Name" size="md" />
-          <Input label="Title" size="md" />
-          <Select label="Select Status">
-            <Option>Active</Option>
-            <Option>Inactive</Option>
-          </Select>
-          <Input label="Surname" size="md" />
-          <Input label="Tel:" size="md" />
-          <Input type="email" label="Email" size="md" />
-          <Input label="Passport" size="md" />
-          <Input label="NID" size="md" />
-          <Select label="Select Nationality">
-            <Option>American</Option>
-            <Option>British</Option>
-            <Option>Bangladesh</Option>
-            <Option>Indian</Option>
+          <Input
+            label="First Name"
+            name="firstName"
+            size="md"
+            value={profileInfo.firstName}
+            onChange={onProfileInfoChangeHandler}
+          />
+          <Input
+            label="Middle Name"
+            name="middleName"
+            size="md"
+            value={profileInfo.middleName}
+            onChange={onProfileInfoChangeHandler}
+          />
+          <Input
+            label="Sur Name"
+            name="surName"
+            size="md"
+            value={profileInfo.surName}
+            onChange={onProfileInfoChangeHandler}
+          />
+          <Input
+            label="Title"
+            name="title"
+            size="md"
+            value={profileInfo.title}
+            onChange={onProfileInfoChangeHandler}
+          />
+
+          <Input
+            label="Tel:"
+            name="tel"
+            size="md"
+            value={profileInfo.tel}
+            onChange={onProfileInfoChangeHandler}
+          />
+          <Input
+            type="email"
+            label="Email"
+            name="email"
+            size="md"
+            value={profileInfo.email}
+            onChange={onProfileInfoChangeHandler}
+          />
+          <Input
+            label="Passport No."
+            name="passport"
+            size="md"
+            value={profileInfo.passport}
+            onChange={onProfileInfoChangeHandler}
+          />
+          <Input
+            label="NID"
+            name="nid"
+            size="md"
+            value={profileInfo.nid}
+            onChange={onProfileInfoChangeHandler}
+          />
+          <Select
+            label="Select Nationality"
+            name="nationality"
+            value={profileInfo.nationality}
+            onChange={(selected) =>
+              setProfileInfo({ ...profileInfo, nationality: selected })
+            }
+          >
+            <Option value="american">American</Option>
+            <Option value="british">British</Option>
+            <Option value="bangladeshi">Bangladeshi</Option>
+            <Option value="indian">Indian</Option>
           </Select>
         </DialogBody>
         <DialogFooter className="py-2">
