@@ -69,13 +69,13 @@ const RiMap = () => {
             <Button>Save</Button>
           </div>
         </div>
-        <p className="text-sm mt-5">
+        <div className="text-sm mt-5">
           <p className="font-bold">How To Change Geofence?</p>
           1. Click on the map or drag the marker to set Geofence center <br />
           2. Enter Geofence radius in meter
           <br />
           3. Check realtime preview & hit save!
-        </p>
+        </div>
       </div>
     </>
   );

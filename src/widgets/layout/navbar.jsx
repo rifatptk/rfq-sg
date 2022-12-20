@@ -1,20 +1,20 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import {
   Navbar as MTNavbar,
   MobileNav,
   Typography,
   IconButton,
-} from "@material-tailwind/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+} from '@material-tailwind/react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
 export function Navbar({ brandName, routes }) {
   const [openNav, setOpenNav] = React.useState(false);
 
   React.useEffect(() => {
     window.addEventListener(
-      "resize",
+      'resize',
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
   }, []);
@@ -32,7 +32,7 @@ export function Navbar({ brandName, routes }) {
           <Link to={path} className="flex items-center gap-1 p-1 font-normal">
             {icon &&
               React.createElement(icon, {
-                className: "w-[18px] h-[18px] opacity-50 mr-1",
+                className: 'w-[18px] h-[18px] opacity-50 mr-1',
               })}
             {name}
           </Link>
@@ -75,7 +75,7 @@ export function Navbar({ brandName, routes }) {
 }
 
 Navbar.defaultProps = {
-  brandName: "RFQ - SG",
+  brandName: 'RFQ - SG',
 };
 
 Navbar.propTypes = {
@@ -84,6 +84,6 @@ Navbar.propTypes = {
   action: PropTypes.node,
 };
 
-Navbar.displayName = "/src/widgets/layout/navbar.jsx";
+Navbar.displayName = '/src/widgets/layout/navbar.jsx';
 
 export default Navbar;

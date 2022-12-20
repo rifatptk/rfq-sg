@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import {
   Card,
   CardHeader,
@@ -44,7 +43,7 @@ export function SignIn() {
             <Button variant="gradient" fullWidth onClick={() => doLogin()}>
               Sign In
             </Button>
-            <Typography variant="small" className="mt-6 flex justify-center">
+            {/* <Typography variant="small" className="mt-6 flex justify-center">
               Don't have an account?
               <Link to="/auth/sign-up">
                 <Typography
@@ -56,7 +55,7 @@ export function SignIn() {
                   Sign up
                 </Typography>
               </Link>
-            </Typography>
+            </Typography> */}
           </CardFooter>
         </Card>
       </div>
