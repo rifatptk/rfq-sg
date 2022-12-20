@@ -110,13 +110,22 @@ export function Tables() {
                     </td>
                     <td className={className}>
                       {data.user.geofence === 'NOT_RESPONDING' && (
-                        <XCircleIcon className="w-8 text-gray-500" />
+                        <div className="flex items-center gap-2">
+                          <XCircleIcon className="w-8 text-gray-500" />
+                          <small className="text-[10px]">No Response</small>
+                        </div>
                       )}
                       {data.user.geofence === 'IN_AREA' && (
-                        <CheckCircleIcon className="w-8 text-green-500" />
+                        <div className="flex items-center gap-2">
+                          <CheckCircleIcon className="w-8 text-green-500" />
+                          <small className="text-[10px]">In Area</small>
+                        </div>
                       )}
                       {data.user.geofence === 'NOT_IN_AREA' && (
-                        <ExclamationTriangleIcon className="w-8 text-red-500" />
+                        <div className="flex items-center gap-2">
+                          <ExclamationTriangleIcon className="w-8 text-red-500" />
+                          <small className="text-[10px]">Out Of Area</small>
+                        </div>
                       )}
                     </td>
                     <td className={className}>
@@ -124,7 +133,7 @@ export function Tables() {
                         {data.user.roles[0]}
                       </Typography>
                       <Typography className="text-xs font-normal text-blue-gray-500">
-                        JOB
+                        Staff
                       </Typography>
                     </td>
                     <td className={className}>
@@ -137,12 +146,12 @@ export function Tables() {
                     </td>
                     <td className={className}>
                       <Typography className="text-xs font-semibold text-blue-gray-600">
-                        {new Date(data.user.cratedAt).toLocaleDateString()}
+                        {data.user.createdAt}
                       </Typography>
                     </td>
                     <td className={className}>
                       <Link to={`/dashboard/users/${data.user._id}`}>
-                        <Button size="sm">View / Edit</Button>
+                        <Button size="sm">View/Edit</Button>
                       </Link>
                     </td>
                   </tr>
