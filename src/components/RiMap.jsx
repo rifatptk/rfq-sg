@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Circle, GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { Button, Input } from '@material-tailwind/react';
 import { MapIcon } from '@heroicons/react/24/outline';
+import axios from 'axios';
+import { BASE_URL } from '@/apiConfigs';
+import { toast } from 'react-toastify';
 
 const options = {
   strokeColor: '#2196F3',
@@ -11,14 +14,14 @@ const options = {
   fillOpacity: 0.2,
 };
 
-const RiMap = () => {
-  const [fenceData, setFenceData] = useState({
-    center: {
-      lat: 26.0289243,
-      lng: 88.4682187,
-    },
-    radius: 100,
-  });
+const CENTER = {
+  lat: 26.0289243,
+  long: 88.4682187,
+  radius: 200,
+};
+
+const RiMap = ({ geofence = CENTER, userId, token }) => {
+  const [fenceData, setFenceData] = useState(geofence);
   function setRadius(num) {
     setFenceData((prev) => ({ ...prev, radius: Number(num) }));
   }
@@ -26,28 +29,47 @@ const RiMap = () => {
   const setCenter = (e) => {
     setFenceData((prev) => ({
       ...prev,
-      center: {
-        lat: e.latLng.lat(),
-        lng: e.latLng.lng(),
-      },
+      lat: e.latLng.lat(),
+      long: e.latLng.lng(),
     }));
   };
+
+  function updateGeofence() {
+    console.log('update geofence', fenceData);
+    axios
+      .put(`${BASE_URL}/api/admin/update/location/${userId}`, fenceData, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        toast.success('Successfully updated geofence!');
+      })
+      .catch((err) => toast.error('Failed to update geofence'));
+  }
   return (
     <>
       <LoadScript googleMapsApiKey={process.env.REACT_APP_GMAPS_API_KEY}>
         <GoogleMap
           mapContainerClassName="w-full h-[400px] rounded-lg"
           zoom={16}
-          center={fenceData.center}
+          center={{
+            lng: Number(fenceData.long),
+            lat: Number(fenceData.lat),
+          }}
           onClick={setCenter}
         >
           <Circle
-            radius={fenceData.radius}
-            center={fenceData.center}
+            radius={Number(fenceData.radius)}
+            center={{
+              lng: Number(fenceData.long),
+              lat: Number(fenceData.lat),
+            }}
             options={options}
           />
           <Marker
-            position={fenceData.center}
+            position={{
+              lng: Number(fenceData.long),
+              lat: Number(fenceData.lat),
+            }}
             draggable={true}
             onDragEnd={setCenter}
           />
@@ -66,7 +88,7 @@ const RiMap = () => {
             <Button color="red" variant="text">
               Cancel
             </Button>
-            <Button>Save</Button>
+            <Button onClick={updateGeofence}>Save</Button>
           </div>
         </div>
         <div className="text-sm mt-5">
@@ -82,3 +104,4 @@ const RiMap = () => {
 };
 
 export default React.memo(RiMap);
+// export default RiMap;

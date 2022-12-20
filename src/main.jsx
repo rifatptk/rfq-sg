@@ -6,15 +6,25 @@ import { ThemeProvider } from '@material-tailwind/react';
 import { MaterialTailwindControllerProvider } from '@/context';
 import '../public/css/tailwind.css';
 import AuthProvider from './context/authContext';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
   <BrowserRouter>
     <ThemeProvider>
       <MaterialTailwindControllerProvider>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <App />
+            <ToastContainer position="top-center" />
+            <ReactQueryDevtools initialIsOpen={false} />
+          </AuthProvider>
+        </QueryClientProvider>
       </MaterialTailwindControllerProvider>
     </ThemeProvider>
   </BrowserRouter>

@@ -9,10 +9,24 @@ import {
   Typography,
 } from '@material-tailwind/react';
 import { authContext } from '@/context/authContext';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
+import BarLoader from 'react-spinners/BarLoader';
 
 export function SignIn() {
-  const { doLogin } = useContext(authContext);
+  const [credentials, setCredentials] = useState({
+    email: '',
+    password: '',
+    remember: '',
+  });
+
+  function onChangeHandler(e) {
+    const { name, value } = e.target;
+    setCredentials((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
+  const { doLogin, loading } = useContext(authContext);
   return (
     <>
       <img
@@ -33,16 +47,35 @@ export function SignIn() {
             </Typography>
           </CardHeader>
           <CardBody className="flex flex-col gap-4">
-            <Input type="email" label="Email" size="lg" />
-            <Input type="password" label="Password" size="lg" />
+            <Input
+              type="email"
+              label="E-mail"
+              name="email"
+              size="lg"
+              onChange={onChangeHandler}
+            />
+            <Input
+              type="password"
+              label="Password"
+              name="password"
+              size="lg"
+              onChange={onChangeHandler}
+            />
             <div className="-ml-2.5">
               <Checkbox label="Remember Me" />
             </div>
           </CardBody>
           <CardFooter className="pt-0">
-            <Button variant="gradient" fullWidth onClick={() => doLogin()}>
+            <Button
+              variant="gradient"
+              fullWidth
+              onClick={() => doLogin(credentials)}
+            >
               Sign In
             </Button>
+            <div className="my-2">
+              <BarLoader width="100%" loading={loading} color="#36d7b7" />
+            </div>
             {/* <Typography variant="small" className="mt-6 flex justify-center">
               Don't have an account?
               <Link to="/auth/sign-up">

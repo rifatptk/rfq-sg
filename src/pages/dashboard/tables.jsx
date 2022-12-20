@@ -3,7 +3,7 @@ import {
   CardHeader,
   CardBody,
   Typography,
-  Avatar,
+  // Avatar,
   Chip,
   Button,
   // Tooltip,
@@ -16,8 +16,35 @@ import {
 } from '@heroicons/react/24/solid';
 import { authorsTableData } from '@/data';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+// import { useEffect, useState } from 'react';
+import { BASE_URL } from '@/apiConfigs';
+// import { toast } from 'react-toastify';
+import { useQuery } from 'react-query';
+import { HashLoader } from 'react-spinners';
 
 export function Tables() {
+  const token = localStorage.getItem('token');
+
+  const {
+    isLoading,
+    error,
+    data: users,
+  } = useQuery(
+    'users',
+    () =>
+      axios
+        .get(`${BASE_URL}/api/admin/user`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => res.data),
+    {
+      // Set the interval to 5 seconds (5000 milliseconds)
+      refetchInterval: 120000,
+      refetchOnWindowFocus: false,
+    }
+  );
+
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
       <Card>
@@ -48,190 +75,99 @@ export function Tables() {
               </tr>
             </thead>
             <tbody>
-              {authorsTableData.map(
-                (
-                  { img, name, email, geofenceStatus, job, online, date },
-                  key
-                ) => {
-                  const className = `py-3 px-5 ${
-                    key === authorsTableData.length - 1
-                      ? ''
-                      : 'border-b border-blue-gray-50'
-                  }`;
+              {users?.users?.map((data, key) => {
+                const className = `py-3 px-5 ${
+                  key === authorsTableData.length - 1
+                    ? ''
+                    : 'border-b border-blue-gray-50'
+                }`;
 
-                  return (
-                    <tr key={name}>
-                      <td className={className}>
-                        <div className="flex items-center gap-4">
-                          <Avatar src={img} alt={name} size="sm" />
-                          <div>
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-semibold"
-                            >
-                              {name}
-                            </Typography>
-                            <Typography className="text-xs font-normal text-blue-gray-500">
-                              {email}
-                            </Typography>
-                          </div>
+                return (
+                  <tr key={key}>
+                    <td className={className}>
+                      <div className="flex items-center gap-4">
+                        {/* <Avatar
+                          src={img}
+                          alt={name}
+                          size="sm"
+                          className="bg-gray-500"
+                        /> */}
+                        <div>
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-semibold"
+                          >
+                            {`${data.profile?.firstName || 'No Name'} ${
+                              data.profile?.middleName || ''
+                            } ${data.profile?.surName || ''}`}
+                          </Typography>
+                          <Typography className="text-xs font-normal text-blue-gray-500">
+                            {data.user.email}
+                          </Typography>
                         </div>
-                      </td>
-                      <td className={className}>
-                        {geofenceStatus === 'inactive' && (
-                          <XCircleIcon className="w-8 text-gray-500" />
-                        )}
-                        {geofenceStatus === 'inArea' && (
-                          <CheckCircleIcon className="w-8 text-green-500" />
-                        )}
-                        {geofenceStatus === 'outOfArea' && (
-                          <ExclamationTriangleIcon className="w-8 text-red-500" />
-                        )}
-                      </td>
-                      <td className={className}>
-                        <Typography className="text-xs font-semibold text-blue-gray-600">
-                          {job[0]}
-                        </Typography>
-                        <Typography className="text-xs font-normal text-blue-gray-500">
-                          {job[1]}
-                        </Typography>
-                      </td>
-                      <td className={className}>
-                        <Chip
-                          variant="gradient"
-                          color={online ? 'green' : 'blue-gray'}
-                          value={online ? 'active' : 'inactive'}
-                          className="py-0.5 px-2 text-[11px] font-medium"
-                        />
-                      </td>
-                      <td className={className}>
-                        <Typography className="text-xs font-semibold text-blue-gray-600">
-                          {date}
-                        </Typography>
-                      </td>
-                      <td className={className}>
-                        <Link to={`/dashboard/users/${key}`}>
-                          <Button size="sm">View / Edit</Button>
-                        </Link>
-                      </td>
-                    </tr>
-                  );
-                }
+                      </div>
+                    </td>
+                    <td className={className}>
+                      {data.user.geofence === 'NOT_RESPONDING' && (
+                        <XCircleIcon className="w-8 text-gray-500" />
+                      )}
+                      {data.user.geofence === 'IN_AREA' && (
+                        <CheckCircleIcon className="w-8 text-green-500" />
+                      )}
+                      {data.user.geofence === 'NOT_IN_AREA' && (
+                        <ExclamationTriangleIcon className="w-8 text-red-500" />
+                      )}
+                    </td>
+                    <td className={className}>
+                      <Typography className="text-xs font-semibold text-blue-gray-600">
+                        {data.user.roles[0]}
+                      </Typography>
+                      <Typography className="text-xs font-normal text-blue-gray-500">
+                        JOB
+                      </Typography>
+                    </td>
+                    <td className={className}>
+                      <Chip
+                        variant="gradient"
+                        color={data.user.active ? 'green' : 'blue-gray'}
+                        value={data.user.active ? 'active' : 'inactive'}
+                        className="py-0.5 px-2 text-[11px] font-medium"
+                      />
+                    </td>
+                    <td className={className}>
+                      <Typography className="text-xs font-semibold text-blue-gray-600">
+                        {new Date(data.user.cratedAt).toLocaleDateString()}
+                      </Typography>
+                    </td>
+                    <td className={className}>
+                      <Link to={`/dashboard/users/${data.user._id}`}>
+                        <Button size="sm">View / Edit</Button>
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
+              {error && (
+                <tr className="text-red-500 w-full text-center">
+                  <td colSpan={5} className="py-5">
+                    &#9888; Error Fetching Data!
+                  </td>
+                </tr>
+              )}
+              {isLoading && (
+                <tr className="text-red-500 w-full text-center">
+                  <td colSpan={5} className="">
+                    <div className="w-fit mx-auto py-5">
+                      <HashLoader color="#36d7b7" />
+                    </div>
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>
         </CardBody>
       </Card>
-      {/* <Card>
-        <CardHeader variant="gradient" color="blue" className="mb-8 p-6">
-          <Typography variant="h6" color="white">
-            Projects Table
-          </Typography>
-        </CardHeader>
-        <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
-          <table className="w-full min-w-[640px] table-auto">
-            <thead>
-              <tr>
-                {["companies", "members", "budget", "completion", ""].map(
-                  (el) => (
-                    <th
-                      key={el}
-                      className="border-b border-blue-gray-50 py-3 px-5 text-left"
-                    >
-                      <Typography
-                        variant="small"
-                        className="text-[11px] font-bold uppercase text-blue-gray-400"
-                      >
-                        {el}
-                      </Typography>
-                    </th>
-                  )
-                )}
-              </tr>
-            </thead>
-            <tbody>
-              {projectsTableData.map(
-                ({ img, name, members, budget, completion }, key) => {
-                  const className = `py-3 px-5 ${
-                    key === projectsTableData.length - 1
-                      ? ""
-                      : "border-b border-blue-gray-50"
-                  }`;
-
-                  return (
-                    <tr key={name}>
-                      <td className={className}>
-                        <div className="flex items-center gap-4">
-                          <Avatar src={img} alt={name} size="sm" />
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-bold"
-                          >
-                            {name}
-                          </Typography>
-                        </div>
-                      </td>
-                      <td className={className}>
-                        {members.map(({ img, name }, key) => (
-                          <Tooltip key={name} content={name}>
-                            <Avatar
-                              src={img}
-                              alt={name}
-                              size="xs"
-                              variant="circular"
-                              className={`cursor-pointer border-2 border-white ${
-                                key === 0 ? "" : "-ml-2.5"
-                              }`}
-                            />
-                          </Tooltip>
-                        ))}
-                      </td>
-                      <td className={className}>
-                        <Typography
-                          variant="small"
-                          className="text-xs font-medium text-blue-gray-600"
-                        >
-                          {budget}
-                        </Typography>
-                      </td>
-                      <td className={className}>
-                        <div className="w-10/12">
-                          <Typography
-                            variant="small"
-                            className="mb-1 block text-xs font-medium text-blue-gray-600"
-                          >
-                            {completion}%
-                          </Typography>
-                          <Progress
-                            value={completion}
-                            variant="gradient"
-                            color={completion === 100 ? "green" : "blue"}
-                            className="h-1"
-                          />
-                        </div>
-                      </td>
-                      <td className={className}>
-                        <Typography
-                          as="a"
-                          href="#"
-                          className="text-xs font-semibold text-blue-gray-600"
-                        >
-                          <EllipsisVerticalIcon
-                            strokeWidth={2}
-                            className="h-5 w-5 text-inherit"
-                          />
-                        </Typography>
-                      </td>
-                    </tr>
-                  );
-                }
-              )}
-            </tbody>
-          </table>
-        </CardBody>
-      </Card> */}
     </div>
   );
 }
