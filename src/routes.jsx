@@ -3,7 +3,7 @@ import {
   BellIcon,
   ArrowRightOnRectangleIcon,
   // UserPlusIcon,
-  PlusCircleIcon,
+  // PlusCircleIcon,
 } from '@heroicons/react/24/solid';
 import { Tables, Notifications } from '@/pages/dashboard';
 import { SignIn } from '@/pages/auth';
@@ -29,12 +29,12 @@ export const routes = [
         path: '/notifications',
         element: <Notifications />,
       },
-      {
-        icon: <PlusCircleIcon {...icon} />,
-        name: 'add new user',
-        path: '/add-user',
-        element: <AddNewUser />,
-      },
+      // {
+      //   icon: <PlusCircleIcon {...icon} />,
+      //   name: 'add new user',
+      //   path: '/add-user',
+      //   element: <AddNewUser />,
+      // },
     ],
   },
   {
