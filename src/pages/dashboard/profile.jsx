@@ -21,6 +21,7 @@ import { BASE_URL } from '@/apiConfigs';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import HashLoader from 'react-spinners/HashLoader';
+import { toast } from 'react-toastify';
 
 export function Profile() {
   const token = localStorage.getItem('token');
@@ -49,14 +50,14 @@ export function Profile() {
   const handleOpen = () => setOpen(!open);
 
   const [profileInfo, setProfileInfo] = useState({
-    firstName: '',
+    address: '',
+    firstName: '.',
     middleName: '',
-    surName: '',
-    title: '',
-    phone: '',
     nationalId: '',
     passportId: '',
-    address: '',
+    phone: '',
+    surName: '',
+    title: '',
   });
 
   function onProfileInfoChangeHandler(e) {
@@ -66,6 +67,26 @@ export function Profile() {
       [name]: value,
     }));
   }
+
+  function updateProfileInfo() {
+    fetch(`${BASE_URL}/api/admin/update/profile/${userId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(profileInfo),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        refetch({ force: true });
+        toast.success('Updated profile info successfully!');
+        handleOpen();
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error('Failed to update profile info!');
+      });
+  }
   //edit profile info---------
 
   // settings ==========
@@ -73,7 +94,7 @@ export function Profile() {
     active: false,
     roles: ['USER'],
   });
-  console.log('settings', settings);
+  // console.log('settings', settings);
 
   function isActiveChangeHandler(e) {
     setsettings({ ...settings, active: e.target.checked });
@@ -351,7 +372,7 @@ export function Profile() {
           >
             <span>Cancel</span>
           </Button>
-          <Button variant="gradient" color="green" onClick={handleOpen}>
+          <Button variant="gradient" color="green" onClick={updateProfileInfo}>
             <span>Confirm</span>
           </Button>
         </DialogFooter>
