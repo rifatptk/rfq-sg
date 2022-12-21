@@ -16,8 +16,13 @@ export function SignIn() {
   const [credentials, setCredentials] = useState({
     email: '',
     password: '',
-    remember: '',
+    remember: true,
   });
+
+  function submitHandler(e) {
+    e.preventDefault();
+    doLogin(credentials);
+  }
 
   function onChangeHandler(e) {
     const { name, value } = e.target;
@@ -46,50 +51,47 @@ export function SignIn() {
               Sign In
             </Typography>
           </CardHeader>
-          <CardBody className="flex flex-col gap-4">
-            <Input
-              type="email"
-              label="E-mail"
-              name="email"
-              size="lg"
-              onChange={onChangeHandler}
-            />
-            <Input
-              type="password"
-              label="Password"
-              name="password"
-              size="lg"
-              onChange={onChangeHandler}
-            />
-            <div className="-ml-2.5">
-              <Checkbox label="Remember Me" />
-            </div>
-          </CardBody>
-          <CardFooter className="pt-0">
-            <Button
-              variant="gradient"
-              fullWidth
-              onClick={() => doLogin(credentials)}
-            >
-              Sign In
-            </Button>
-            <div className="my-2">
-              <BarLoader width="100%" loading={loading} color="#36d7b7" />
-            </div>
-            {/* <Typography variant="small" className="mt-6 flex justify-center">
-              Don't have an account?
-              <Link to="/auth/sign-up">
-                <Typography
-                  as="span"
-                  variant="small"
-                  color="blue"
-                  className="ml-1 font-bold"
-                >
-                  Sign up
-                </Typography>
-              </Link>
-            </Typography> */}
-          </CardFooter>
+          <form onSubmit={submitHandler}>
+            <CardBody className="flex flex-col gap-4">
+              <Input
+                required
+                type="email"
+                label="E-mail"
+                name="email"
+                size="lg"
+                onChange={onChangeHandler}
+              />
+              <Input
+                required
+                type="password"
+                label="Password"
+                name="password"
+                size="lg"
+                onChange={onChangeHandler}
+              />
+              <div className="-ml-2.5">
+                <Checkbox
+                  label="Remember Me"
+                  name="remember"
+                  defaultChecked
+                  onChange={(e) =>
+                    setCredentials({
+                      ...credentials,
+                      remember: e.target.checked,
+                    })
+                  }
+                />
+              </div>
+            </CardBody>
+            <CardFooter className="pt-0">
+              <Button type="submit" variant="gradient" fullWidth>
+                Sign In
+              </Button>
+              <div className="my-2">
+                <BarLoader width="100%" loading={loading} color="#36d7b7" />
+              </div>
+            </CardFooter>
+          </form>
         </Card>
       </div>
     </>
