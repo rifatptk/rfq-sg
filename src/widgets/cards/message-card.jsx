@@ -10,26 +10,18 @@ import {
 } from '@material-tailwind/react';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
+import { BASE_URL } from '@/apiConfigs';
+import { toast } from 'react-toastify';
 
-export function MessageCard({
-  firstName,
-  middleName,
-  surName,
-  relation,
-  phone,
-  title,
-  userId,
-  _id,
-}) {
+export function MessageCard({ emergency, userId, refetch, token }) {
   const [data, setData] = useState({
-    firstName,
-    middleName,
-    surName,
-    relation,
-    phone,
-    title,
+    firstName: emergency?.firstName || '',
+    middleName: emergency?.middleName || '',
+    surName: emergency?.surName || '',
+    relation: emergency?.relation || '',
+    phone: emergency?.phone || '',
+    title: emergency?.title || '',
   });
-  // console.log(data);
 
   function onChangeHandler(e) {
     const { name, value } = e.target;
@@ -43,45 +35,70 @@ export function MessageCard({
   const handleOpen = () => setOpen(!open);
 
   function updateEmegencyContact() {
-    console.log(userId, _id);
-    handleOpen();
+    fetch(`${BASE_URL}/api/admin/update/emergency/${userId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        refetch({ force: true });
+        toast.success('Updated emergency contact successfully!');
+        handleOpen();
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error('Failed to update emergency contact!');
+      });
   }
   return (
     <>
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <div className="h-10 w-10 rounded-full grid place-items-center bg-gray-500 shadow-lg font-bold uppercase text-xl text-white">
-            {firstName[0]}
-          </div>
-          <div>
-            <Typography
-              variant="small"
-              color="blue-gray"
-              className="mb-1 font-semibold"
+      {emergency ? (
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="h-10 w-10 rounded-full grid place-items-center bg-gray-500 shadow-lg font-bold uppercase text-xl text-white">
+              {emergency.firstName[0]}
+            </div>
+            <div>
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="mb-1 font-semibold"
+              >
+                {`${emergency.firstName || 'No Name'} ${
+                  emergency.middleName || ''
+                } ${emergency.surName || ''} (${emergency.relation || ''})`}
+              </Typography>
+              <Typography className="text-xs font-normal text-blue-gray-400">
+                {emergency.phone}
+              </Typography>
+            </div>
+            <Button
+              variant="text"
+              size="sm"
+              className="rounded"
+              onClick={handleOpen}
             >
-              {`${firstName || 'No Name'} ${middleName || ''} ${
-                surName || ''
-              } (${relation || ''})`}
-            </Typography>
-            <Typography className="text-xs font-normal text-blue-gray-400">
-              {phone}
-            </Typography>
+              <Tooltip content="Edit Profile">
+                <div className="flex items-end gap-2">
+                  <span>Edit</span>
+                  <PencilSquareIcon className="h-5 w-5" />
+                </div>
+              </Tooltip>
+            </Button>
           </div>
-          <Button
-            variant="text"
-            size="sm"
-            className="rounded"
-            onClick={handleOpen}
-          >
-            <Tooltip content="Edit Profile">
-              <div className="flex items-end gap-2">
-                <span>Edit</span>
-                <PencilSquareIcon className="h-5 w-5" />
-              </div>
-            </Tooltip>
+        </div>
+      ) : (
+        <div>
+          <p>No emergency contact found!</p>
+          <Button size="sm" className="mt-5 block" onClick={handleOpen}>
+            Add
           </Button>
         </div>
-      </div>
+      )}
+
       {/* modal */}
       <Dialog size="xl" open={open} handler={handleOpen}>
         <DialogHeader className="text-base md:text-xl">

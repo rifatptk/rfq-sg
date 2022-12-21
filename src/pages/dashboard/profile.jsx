@@ -51,7 +51,7 @@ export function Profile() {
 
   const [profileInfo, setProfileInfo] = useState({
     address: '',
-    firstName: '.',
+    firstName: '',
     middleName: '',
     nationalId: '',
     passportId: '',
@@ -182,15 +182,13 @@ export function Profile() {
                     Emergency Contacts
                   </Typography>
                   <ul className="flex flex-col gap-6">
-                    {user.emergency ? (
-                      <MessageCard {...user.emergency} />
-                    ) : (
-                      'No emergency contacts found!'
-                    )}
+                    <MessageCard
+                      token={token}
+                      refetch={refetch}
+                      emergency={user.emergency}
+                      userId={userId}
+                    />
                   </ul>
-                  {/* {!user.emergency && (
-                    <Button className="mt-5 block">Add New</Button>
-                  )} */}
                 </div>
 
                 {/*  Settings */}
