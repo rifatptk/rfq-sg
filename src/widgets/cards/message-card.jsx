@@ -57,9 +57,9 @@ export function MessageCard({ emergency, userId, refetch, token }) {
   return (
     <>
       {emergency ? (
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="h-10 w-10 rounded-full grid place-items-center bg-gray-500 shadow-lg font-bold uppercase text-xl text-white">
+        <div className="flex items-center justify-between gap-4 mt-2">
+          <div className="flex items-center gap-4 bg-gray-100 rounded-lg p-4 border">
+            <div className="h-10 w-10 rounded-full grid place-items-center bg-gray-500 font-bold uppercase text-xl text-white">
               {emergency.firstName[0]}
             </div>
             <div>
@@ -73,7 +73,7 @@ export function MessageCard({ emergency, userId, refetch, token }) {
                 } ${emergency.surName || ''} (${emergency.relation || ''})`}
               </Typography>
               <Typography className="text-xs font-normal text-blue-gray-400">
-                {emergency.phone}
+                Title: {emergency.title} | Tel: {emergency.phone}
               </Typography>
             </div>
             <Button
@@ -92,7 +92,7 @@ export function MessageCard({ emergency, userId, refetch, token }) {
           </div>
         </div>
       ) : (
-        <div>
+        <div className="mt-2">
           <p>No emergency contact found!</p>
           <Button size="sm" className="mt-5 block" onClick={handleOpen}>
             Add

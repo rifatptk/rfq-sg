@@ -180,7 +180,7 @@ export function Profile() {
                     }
                   />
                   <Typography variant="h6" color="blue-gray" className="mt-10">
-                    Emergency Contacts
+                    Emergency Contact
                   </Typography>
                   <ul className="flex flex-col gap-6">
                     <MessageCard
@@ -200,7 +200,7 @@ export function Profile() {
 
                   <form
                     onSubmit={updateSettings}
-                    className="space-y-5 bg-gray-100 rounded-lg shadow-inner p-5 "
+                    className="space-y-5 bg-gray-100 rounded-lg border shadow-inner p-5 "
                   >
                     <div>
                       <h5>Status</h5>
