@@ -54,7 +54,7 @@ const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
       <LoadScript googleMapsApiKey={process.env.REACT_APP_GMAPS_API_KEY}>
         <GoogleMap
           mapContainerClassName="w-full h-[400px] rounded-lg"
-          zoom={16}
+          zoom={14}
           center={{
             lng: Number(fenceData.long),
             lat: Number(fenceData.lat),
@@ -85,7 +85,8 @@ const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
             type="number"
             label="Geofence Radius"
             size="lg"
-            onChange={(e) => setRadius(e.target.value)}
+            // value={fenceData.radius / 1000}
+            onChange={(e) => setRadius(e.target.value * 1000)}
             icon={<MapIcon />}
           />
           <div className="w-fit ml-auto my-5 md:my-0 flex gap-5">
@@ -98,7 +99,7 @@ const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
         <div className="text-sm mt-5">
           <p className="font-bold">How To Change Geofence?</p>
           1. Click on the map or drag the marker to set Geofence center <br />
-          2. Enter Geofence radius in meter
+          2. Enter Geofence radius in KM
           <br />
           3. Check realtime preview & hit save!
         </div>
