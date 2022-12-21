@@ -11,13 +11,10 @@ import {
   DialogBody,
   DialogFooter,
   Input,
-  // Select,
-  // Option,
   Checkbox,
 } from '@material-tailwind/react';
 import { PencilSquareIcon } from '@heroicons/react/24/solid';
 import { ProfileInfoCard, MessageCard } from '@/widgets/cards';
-import { conversationsData } from '@/data';
 import RiMap from '@/components/RiMap';
 import { useState } from 'react';
 import { BASE_URL } from '@/apiConfigs';
@@ -26,7 +23,6 @@ import { useQuery } from 'react-query';
 import HashLoader from 'react-spinners/HashLoader';
 
 export function Profile() {
-  // const [user, setUser] = useState(null);
   const token = localStorage.getItem('token');
 
   const { userId } = useParams();
@@ -119,47 +115,37 @@ export function Profile() {
               </div>
               <div className="gird-cols-1 mb-12 grid gap-12 px-4 lg:grid-cols-2 ">
                 {/* profile info */}
-                <ProfileInfoCard
-                  title="Profile Information"
-                  description="Hi, I'm Alec Thompson, Decisions: If you can't decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality)."
-                  details={{
-                    name: `${user?.profile?.firstName || 'No Name'} ${
-                      user?.profile?.middleName || ''
-                    } ${user?.profile?.surName || ''}`,
-                    title: user?.profile?.title || 'Not Set',
-                    status: user?.user.active ? 'Active' : 'Inactive',
-                    geoFenceStatus: user?.user.geofence,
-                    phone: user?.profile?.phone || 'Empty',
-                    email: user?.user.email,
-                    NID: user?.profile?.nationalId || 'Empty',
-                    Passport: user?.profile?.passportId || 'Empty',
-                    social: (
-                      <div className="flex items-center gap-4">
-                        <i className="fa-brands fa-facebook text-blue-700" />
-                        <i className="fa-brands fa-twitter text-blue-400" />
-                        <i className="fa-brands fa-instagram text-purple-500" />
-                      </div>
-                    ),
-                  }}
-                  action={
-                    <Button
-                      variant="text"
-                      size="sm"
-                      className="rounded"
-                      onClick={handleOpen}
-                    >
-                      <Tooltip content="Edit Profile">
-                        <div className="flex items-end gap-2">
-                          <span>Edit</span>
-                          <PencilSquareIcon className="h-5 w-5" />
-                        </div>
-                      </Tooltip>
-                    </Button>
-                  }
-                />
-                {/* Emergency contacts & settings */}
                 <div>
-                  <Typography variant="h6" color="blue-gray" className="mb-3">
+                  <ProfileInfoCard
+                    title="Profile Information"
+                    details={{
+                      name: `${user?.profile?.firstName || 'No Name'} ${
+                        user?.profile?.middleName || ''
+                      } ${user?.profile?.surName || ''}`,
+                      title: user?.profile?.title || 'Not Set',
+                      geoFenceStatus: user?.user.geofence,
+                      phone: user?.profile?.phone || 'Empty',
+                      email: user?.user.email,
+                      NID: user?.profile?.nationalId || 'Empty',
+                      Passport: user?.profile?.passportId || 'Empty',
+                    }}
+                    action={
+                      <Button
+                        variant="text"
+                        size="sm"
+                        className="rounded"
+                        onClick={handleOpen}
+                      >
+                        <Tooltip content="Edit Profile">
+                          <div className="flex items-end gap-2">
+                            <span>Edit</span>
+                            <PencilSquareIcon className="h-5 w-5" />
+                          </div>
+                        </Tooltip>
+                      </Button>
+                    }
+                  />
+                  <Typography variant="h6" color="blue-gray" className="mt-10">
                     Emergency Contacts
                   </Typography>
                   <ul className="flex flex-col gap-6">
@@ -172,55 +158,56 @@ export function Profile() {
                   {/* {!user.emergency && (
                     <Button className="mt-5 block">Add New</Button>
                   )} */}
-                  {/* settings */}
-                  <div className="px-4 mt-10">
-                    <Typography variant="h6" color="blue-gray" className="mb-3">
-                      Settings
-                    </Typography>
+                </div>
 
-                    <form
-                      onSubmit={updateSettings}
-                      className="space-y-10 bg-gray-100 rounded-lg shadow-inner p-5 "
-                    >
-                      <div>
-                        <h5>Status</h5>
-                        <Switch
-                          id="isActive"
-                          label="Active"
-                          checked={isActive}
-                          onChange={isActiveChangeHandler}
+                {/*  Settings */}
+                <div>
+                  <Typography variant="h6" color="blue-gray" className="mb-3">
+                    Settings
+                  </Typography>
+
+                  <form
+                    onSubmit={updateSettings}
+                    className="space-y-5 bg-gray-100 rounded-lg shadow-inner p-5 "
+                  >
+                    <div>
+                      <h5>Status</h5>
+                      <Switch
+                        id="isActive"
+                        label="Active"
+                        checked={isActive}
+                        onChange={isActiveChangeHandler}
+                      />
+                    </div>
+                    <div>
+                      <h5>Tick Desired Permisions</h5>
+                      <div className="flex flex-col">
+                        <Checkbox
+                          label="ADMIN"
+                          id="admin"
+                          value="ADMIN"
+                          checked={permissions.includes('ADMIN')}
+                          onChange={permissionChangeHandler}
+                        />
+                        <Checkbox
+                          label="MANAGER"
+                          id="manager"
+                          value="MANAGER"
+                          onChange={permissionChangeHandler}
+                        />
+                        <Checkbox
+                          label="USER"
+                          id="user"
+                          value="USER"
+                          onChange={permissionChangeHandler}
                         />
                       </div>
-                      <div>
-                        <h5>Tick Desired Permisions</h5>
-                        <div className="flex flex-col">
-                          <Checkbox
-                            label="ADMIN"
-                            id="admin"
-                            value="ADMIN"
-                            checked={permissions.includes('ADMIN')}
-                            onChange={permissionChangeHandler}
-                          />
-                          <Checkbox
-                            label="MANAGER"
-                            id="manager"
-                            value="MANAGER"
-                            onChange={permissionChangeHandler}
-                          />
-                          <Checkbox
-                            label="USER"
-                            id="user"
-                            value="USER"
-                            onChange={permissionChangeHandler}
-                          />
-                        </div>
-                      </div>
+                    </div>
 
-                      <Button type="submit" className="w-fit">
-                        Update
-                      </Button>
-                    </form>
-                  </div>
+                    <Button type="submit" className="w-fit">
+                      Update
+                    </Button>
+                  </form>
                 </div>
               </div>
 

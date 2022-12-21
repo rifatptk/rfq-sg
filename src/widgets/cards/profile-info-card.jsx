@@ -1,10 +1,10 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import {
   Card,
   CardHeader,
   CardBody,
   Typography,
-} from "@material-tailwind/react";
+} from '@material-tailwind/react';
 
 export function ProfileInfoCard({ title, description, details, action }) {
   return (
@@ -21,17 +21,6 @@ export function ProfileInfoCard({ title, description, details, action }) {
         {action}
       </CardHeader>
       <CardBody className="p-0">
-        {description && (
-          <Typography
-            variant="small"
-            className="font-normal text-blue-gray-500"
-          >
-            {description}
-          </Typography>
-        )}
-        {description && details ? (
-          <hr className="my-8 border-blue-gray-50" />
-        ) : null}
         {details && (
           <ul className="flex flex-col gap-4 p-0">
             {Object.keys(details).map((el, key) => (
@@ -43,7 +32,7 @@ export function ProfileInfoCard({ title, description, details, action }) {
                 >
                   {el}:
                 </Typography>
-                {typeof details[el] === "string" ? (
+                {typeof details[el] === 'string' ? (
                   <Typography
                     variant="small"
                     className="font-normal text-blue-gray-500"
@@ -74,6 +63,6 @@ ProfileInfoCard.propTypes = {
   details: PropTypes.object,
 };
 
-ProfileInfoCard.displayName = "/src/widgets/cards/profile-info-card.jsx";
+ProfileInfoCard.displayName = '/src/widgets/cards/profile-info-card.jsx';
 
 export default ProfileInfoCard;
