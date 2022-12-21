@@ -1,8 +1,7 @@
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link } from 'react-router-dom';
 import {
   Navbar,
   Typography,
-  Button,
   IconButton,
   Breadcrumbs,
   Input,
@@ -11,34 +10,56 @@ import {
   MenuList,
   MenuItem,
   Avatar,
-} from "@material-tailwind/react";
+} from '@material-tailwind/react';
 import {
-  UserCircleIcon,
   Cog6ToothIcon,
   BellIcon,
   ClockIcon,
   CreditCardIcon,
   Bars3Icon,
-} from "@heroicons/react/24/solid";
+} from '@heroicons/react/24/solid';
 import {
   useMaterialTailwindController,
   setOpenConfigurator,
   setOpenSidenav,
-} from "@/context";
+} from '@/context';
+// import { useQuery } from 'react-query';
+// import { BASE_URL } from '@/apiConfigs';
+// import { useState } from 'react';
 
 export function DashboardNavbar() {
   const [controller, dispatch] = useMaterialTailwindController();
   const { fixedNavbar, openSidenav } = controller;
   const { pathname } = useLocation();
-  const [layout, page] = pathname.split("/").filter((el) => el !== "");
+  const [layout, page] = pathname.split('/').filter((el) => el !== '');
+
+  // const token = localStorage.getItem('token');
+
+  // const { data: users } = useQuery('users', () =>
+  //   fetch(`${BASE_URL}/api/admin/user`, {
+  //     headers: { Authorization: `Bearer ${token}` },
+  //   }).then((res) => res.json())
+  // );
+
+  // const [input, setinput] = useState('');
+
+  // function filterSearchedUsers() {
+  //   const filteredUsers = users?.filter((user) => {
+  //     return user.profile?.firstName
+  //       .toLowercase()
+  //       .includes(input.toLowerCase());
+  //   });
+
+  //   return filteredUsers;
+  // }
 
   return (
     <Navbar
-      color={fixedNavbar ? "white" : "transparent"}
+      color={fixedNavbar ? 'white' : 'transparent'}
       className={`rounded-xl transition-all ${
         fixedNavbar
-          ? "sticky top-4 z-40 py-3 shadow-md shadow-blue-gray-500/5"
-          : "px-0 py-1"
+          ? 'sticky top-4 z-40 py-3 shadow-md shadow-blue-gray-500/5'
+          : 'px-0 py-1'
       }`}
       fullWidth
       blurred={fixedNavbar}
@@ -47,7 +68,7 @@ export function DashboardNavbar() {
         <div className="capitalize">
           <Breadcrumbs
             className={`bg-transparent p-0 transition-all ${
-              fixedNavbar ? "mt-1" : ""
+              fixedNavbar ? 'mt-1' : ''
             }`}
           >
             <Link to={`/${layout}`}>
@@ -72,8 +93,19 @@ export function DashboardNavbar() {
           </Typography>
         </div>
         <div className="flex items-center">
-          <div className="mr-auto md:mr-4 md:w-56">
-            <Input label="Type here" />
+          <div className="relative mr-auto md:mr-4 md:w-56">
+            <Input
+              label="Type here"
+              // value={input}
+              // onChange={(e) => setinput(e.target.value)}
+            />
+            {/* {input && (
+              <div className="absolute right-0 top-12 h-[400px] bg-gray-100 border shadow-lg rounded-lg w-[240px] z-10">
+                {filterSearchedUsers().map((user, i) => (
+                  <div>{user.profile.firstName}</div>
+                ))}
+              </div>
+            )} */}
           </div>
           <IconButton
             variant="text"
@@ -83,23 +115,7 @@ export function DashboardNavbar() {
           >
             <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
           </IconButton>
-          {/* <Link to="/auth/sign-in">
-            <Button
-              variant="text"
-              color="blue-gray"
-              className="hidden items-center gap-1 px-4 xl:flex"
-            >
-              <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
-              Sign In
-            </Button>
-            <IconButton
-              variant="text"
-              color="blue-gray"
-              className="grid xl:hidden"
-            >
-              <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
-            </IconButton>
-          </Link> */}
+
           <IconButton
             variant="text"
             color="blue-gray"
@@ -191,6 +207,6 @@ export function DashboardNavbar() {
   );
 }
 
-DashboardNavbar.displayName = "/src/widgets/layout/dashboard-navbar.jsx";
+DashboardNavbar.displayName = '/src/widgets/layout/dashboard-navbar.jsx';
 
 export default DashboardNavbar;

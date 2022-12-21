@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
   Navbar as MTNavbar,
-  MobileNav,
   Typography,
   IconButton,
 } from '@material-tailwind/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
-export function Navbar({ brandName, routes }) {
+export function Navbar({ brandName }) {
   const [openNav, setOpenNav] = React.useState(false);
 
   React.useEffect(() => {
