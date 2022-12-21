@@ -83,7 +83,7 @@ const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
         <div className="mt-5 md:flex items-center gap-5">
           <Input
             type="number"
-            label="Geofence Radius"
+            label="Geofence Radius in KM"
             size="lg"
             // value={fenceData.radius / 1000}
             onChange={(e) => setRadius(e.target.value * 1000)}
