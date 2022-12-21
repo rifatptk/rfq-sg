@@ -17,7 +17,7 @@ material-tailwind-dashboard-react
     │   ├── widgets
     │   ├── App.jsx
     │   ├── main.jsx
-    │   └── routes.jsx
+    │ 
     ├── .gitignore
     ├── CHANGELOG.md
     ├── index.html

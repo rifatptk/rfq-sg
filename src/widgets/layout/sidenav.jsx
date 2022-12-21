@@ -10,8 +10,25 @@ import {
 import { useMaterialTailwindController, setOpenSidenav } from '@/context';
 import { authContext } from '@/context/authContext';
 import { useContext } from 'react';
+import { BellIcon, TableCellsIcon } from '@heroicons/react/24/solid';
 
-export function Sidenav({ brandImg, brandName, routes }) {
+const icon = {
+  className: 'w-5 h-5 text-inherit',
+};
+const sideNavLinks = [
+  {
+    icon: <TableCellsIcon {...icon} />,
+    name: 'users',
+    path: '/users',
+  },
+  {
+    icon: <BellIcon {...icon} />,
+    name: 'notifications',
+    path: '/notifications',
+  },
+];
+
+export function Sidenav({ brandImg, brandName }) {
   const { doLogout } = useContext(authContext);
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavColor, sidenavType, openSidenav } = controller;
@@ -60,13 +77,13 @@ export function Sidenav({ brandImg, brandName, routes }) {
               color={sidenavType === 'dark' ? 'white' : 'blue-gray'}
               className="font-black uppercase opacity-75"
             >
-              {routes[0].layout}
+              Dashboard
             </Typography>
           </li>
 
-          {routes[0].pages.map(({ icon, name, path }) => (
+          {sideNavLinks.map(({ icon, name, path }) => (
             <li key={name}>
-              <NavLink to={`/${routes[0].layout}${path}`}>
+              <NavLink to={`/dashboard${path}`}>
                 {({ isActive }) => (
                   <Button
                     variant={isActive ? 'gradient' : 'text'}
@@ -98,7 +115,7 @@ export function Sidenav({ brandImg, brandName, routes }) {
               color={sidenavType === 'dark' ? 'white' : 'blue-gray'}
               className="font-black uppercase opacity-75"
             >
-              {routes[1].layout}
+              Auth
             </Typography>
           </li>
           <li>
@@ -146,7 +163,6 @@ Sidenav.defaultProps = {
 Sidenav.propTypes = {
   brandImg: PropTypes.string,
   brandName: PropTypes.string,
-  routes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 Sidenav.displayName = '/src/widgets/layout/sidnave.jsx';

@@ -157,74 +157,71 @@ export function Profile() {
                     </Button>
                   }
                 />
-                {/* Emergency contacts */}
+                {/* Emergency contacts & settings */}
                 <div>
                   <Typography variant="h6" color="blue-gray" className="mb-3">
                     Emergency Contacts
                   </Typography>
                   <ul className="flex flex-col gap-6">
-                    {conversationsData.map((props) => (
-                      <MessageCard
-                        key={props.name}
-                        {...props}
-                        action={
-                          <Button variant="text" size="sm">
-                            Delete
-                          </Button>
-                        }
-                      />
-                    ))}
+                    {user.emergency ? (
+                      <MessageCard {...user.emergency} />
+                    ) : (
+                      'No emergency contacts found!'
+                    )}
                   </ul>
-                  <Button className="mt-5 block mx-auto">Add New</Button>
-                </div>
-              </div>
-              {/* settings */}
-              <div className="px-4 mb-5">
-                <Typography variant="h6" color="blue-gray" className="mb-3">
-                  Settings
-                </Typography>
+                  {/* {!user.emergency && (
+                    <Button className="mt-5 block">Add New</Button>
+                  )} */}
+                  {/* settings */}
+                  <div className="px-4 mt-10">
+                    <Typography variant="h6" color="blue-gray" className="mb-3">
+                      Settings
+                    </Typography>
 
-                <form
-                  onSubmit={updateSettings}
-                  className="grid md:grid-cols-2 gap-5 bg-gray-100 rounded-lg shadow-inner p-5 "
-                >
-                  <div>
-                    <h5>Status</h5>
-                    <Switch
-                      id="isActive"
-                      label="Active"
-                      checked={isActive}
-                      onChange={isActiveChangeHandler}
-                    />
+                    <form
+                      onSubmit={updateSettings}
+                      className="space-y-10 bg-gray-100 rounded-lg shadow-inner p-5 "
+                    >
+                      <div>
+                        <h5>Status</h5>
+                        <Switch
+                          id="isActive"
+                          label="Active"
+                          checked={isActive}
+                          onChange={isActiveChangeHandler}
+                        />
+                      </div>
+                      <div>
+                        <h5>Tick Desired Permisions</h5>
+                        <div className="flex flex-col">
+                          <Checkbox
+                            label="ADMIN"
+                            id="admin"
+                            value="ADMIN"
+                            checked={permissions.includes('ADMIN')}
+                            onChange={permissionChangeHandler}
+                          />
+                          <Checkbox
+                            label="MANAGER"
+                            id="manager"
+                            value="MANAGER"
+                            onChange={permissionChangeHandler}
+                          />
+                          <Checkbox
+                            label="USER"
+                            id="user"
+                            value="USER"
+                            onChange={permissionChangeHandler}
+                          />
+                        </div>
+                      </div>
+
+                      <Button type="submit" className="w-fit">
+                        Update
+                      </Button>
+                    </form>
                   </div>
-                  <div>
-                    <h5>Tick Desired Permisions</h5>
-                    <div className="flex gap-6">
-                      <Checkbox
-                        label="ADMIN"
-                        id="admin"
-                        value="ADMIN"
-                        checked={permissions.includes('ADMIN')}
-                        onChange={permissionChangeHandler}
-                      />
-                      <Checkbox
-                        label="MANAGER"
-                        id="manager"
-                        value="MANAGER"
-                        onChange={permissionChangeHandler}
-                      />
-                      <Checkbox
-                        label="USER"
-                        id="user"
-                        value="USER"
-                        onChange={permissionChangeHandler}
-                      />
-                    </div>
-                  </div>
-                  <Button type="submit" className="w-fit">
-                    Update
-                  </Button>
-                </form>
+                </div>
               </div>
 
               {/* geofence */}
