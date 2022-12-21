@@ -34,7 +34,13 @@ export function Profile() {
   } = useQuery(['user', userId], () =>
     fetch(`${BASE_URL}/api/admin/singleUser/${userId}`, {
       headers: { Authorization: `Bearer ${token}` },
-    }).then((res) => res.json())
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.profile) setProfileInfo(data.profile);
+        setsettings({ active: data.user.active, roles: data.user.roles });
+        return data;
+      })
   );
   console.log('single-user', user);
 
@@ -53,8 +59,6 @@ export function Profile() {
     address: '',
   });
 
-  console.log(profileInfo);
-
   function onProfileInfoChangeHandler(e) {
     const { name, value } = e.target;
     setProfileInfo((prev) => ({
@@ -64,17 +68,24 @@ export function Profile() {
   }
   //edit profile info---------
 
-  // settings===============
-  const [isActive, setisActive] = useState(true);
+  // settings ==========
+  const [settings, setsettings] = useState({
+    active: false,
+    roles: ['USER'],
+  });
+  console.log('settings', settings);
+
   function isActiveChangeHandler(e) {
-    setisActive(e.target.checked);
+    setsettings({ ...settings, active: e.target.checked });
   }
 
-  const [permissions, setPermissions] = useState([]);
   function permissionChangeHandler(e) {
     e.target.checked
-      ? setPermissions([...permissions, e.target.value])
-      : setPermissions(permissions.filter((p) => p !== e.target.value));
+      ? setsettings({ ...settings, roles: [...settings.roles, e.target.value] })
+      : setsettings({
+          ...settings,
+          roles: settings.roles.filter((p) => p !== e.target.value),
+        });
   }
   const updateSettings = (e) => {
     e.preventDefault();
@@ -128,6 +139,7 @@ export function Profile() {
                       email: user?.user.email,
                       NID: user?.profile?.nationalId || 'Empty',
                       Passport: user?.profile?.passportId || 'Empty',
+                      DeviceId: user.user.deviceId || 'Empty',
                     }}
                     action={
                       <Button
@@ -175,7 +187,7 @@ export function Profile() {
                       <Switch
                         id="isActive"
                         label="Active"
-                        checked={isActive}
+                        checked={settings.active}
                         onChange={isActiveChangeHandler}
                       />
                     </div>
@@ -185,20 +197,22 @@ export function Profile() {
                         <Checkbox
                           label="ADMIN"
                           id="admin"
-                          value="ADMIN"
-                          checked={permissions.includes('ADMIN')}
+                          value="ADMINISTRATOR"
+                          checked={settings.roles.includes('ADMINISTRATOR')}
                           onChange={permissionChangeHandler}
                         />
                         <Checkbox
                           label="MANAGER"
                           id="manager"
                           value="MANAGER"
+                          checked={settings.roles.includes('MANAGER')}
                           onChange={permissionChangeHandler}
                         />
                         <Checkbox
                           label="USER"
                           id="user"
                           value="USER"
+                          checked={settings.roles.includes('USER')}
                           onChange={permissionChangeHandler}
                         />
                       </div>

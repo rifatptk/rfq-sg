@@ -143,7 +143,7 @@ export function Tables() {
                     </td>
                     <td className={className}>
                       <Typography className="text-xs font-semibold text-blue-gray-600">
-                        {data.user.createdAt}
+                        {data.user.createdAt.substring(0, 10)}
                       </Typography>
                     </td>
                     <td className={className}>

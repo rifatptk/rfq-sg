@@ -29,7 +29,7 @@ export function MessageCard({
     phone,
     title,
   });
-  console.log(data);
+  // console.log(data);
 
   function onChangeHandler(e) {
     const { name, value } = e.target;
