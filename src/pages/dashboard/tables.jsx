@@ -54,21 +54,28 @@ export function Tables() {
           <table className="w-full min-w-[640px] table-auto">
             <thead>
               <tr>
-                {['user', 'geofence', 'function', 'status', 'employed', ''].map(
-                  (el) => (
-                    <th
-                      key={el}
-                      className="border-b border-blue-gray-50 py-3 px-5 text-left"
+                {[
+                  'user',
+                  'geofence',
+                  'function',
+                  'status',
+                  'tel',
+                  'NID',
+                  'passport',
+                  '',
+                ].map((el) => (
+                  <th
+                    key={el}
+                    className="border-b border-blue-gray-50 py-3 px-5 text-left"
+                  >
+                    <Typography
+                      variant="small"
+                      className="text-[11px] font-bold uppercase text-blue-gray-400"
                     >
-                      <Typography
-                        variant="small"
-                        className="text-[11px] font-bold uppercase text-blue-gray-400"
-                      >
-                        {el}
-                      </Typography>
-                    </th>
-                  )
-                )}
+                      {el}
+                    </Typography>
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody>
@@ -143,7 +150,17 @@ export function Tables() {
                     </td>
                     <td className={className}>
                       <Typography className="text-xs font-semibold text-blue-gray-600">
-                        {data.user.createdAt.substring(0, 10)}
+                        {data.profile?.phone || 'Empty'}
+                      </Typography>
+                    </td>
+                    <td className={className}>
+                      <Typography className="text-xs font-semibold text-blue-gray-600">
+                        {data.profile?.nationalId || 'Empty'}
+                      </Typography>
+                    </td>
+                    <td className={className}>
+                      <Typography className="text-xs font-semibold text-blue-gray-600">
+                        {data.profile?.passportId || 'Empty'}
                       </Typography>
                     </td>
                     <td className={className}>
