@@ -34,7 +34,8 @@ export function MessageCard({ emergency, userId, refetch, token }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
 
-  function updateEmegencyContact() {
+  function updateEmegencyContact(e) {
+    e.preventDefault();
     fetch(`${BASE_URL}/api/admin/update/emergency/${userId}`, {
       method: 'PATCH',
       body: JSON.stringify(data),
@@ -104,68 +105,72 @@ export function MessageCard({ emergency, userId, refetch, token }) {
         <DialogHeader className="text-base md:text-xl">
           Edit Emergency Contact
         </DialogHeader>
-        <DialogBody divider className="grid md:grid-cols-2 gap-2 md:gap-4 ">
-          <Input
-            label="First Name"
-            name="firstName"
-            size="md"
-            value={data.firstName}
-            onChange={onChangeHandler}
-          />
-          <Input
-            label="Middle Name"
-            name="middleName"
-            size="md"
-            value={data.middleName}
-            onChange={onChangeHandler}
-          />
-          <Input
-            label="Sur Name"
-            name="surName"
-            size="md"
-            value={data.surName}
-            onChange={onChangeHandler}
-          />
-          <Input
-            label="Title"
-            name="title"
-            size="md"
-            value={data.title}
-            onChange={onChangeHandler}
-          />
+        <form onSubmit={updateEmegencyContact}>
+          <DialogBody divider className="grid md:grid-cols-2 gap-2 md:gap-4 ">
+            <Input
+              required
+              label="First Name"
+              name="firstName"
+              size="md"
+              value={data.firstName}
+              onChange={onChangeHandler}
+            />
+            <Input
+              required
+              label="Middle Name"
+              name="middleName"
+              size="md"
+              value={data.middleName}
+              onChange={onChangeHandler}
+            />
+            <Input
+              required
+              label="Sur Name"
+              name="surName"
+              size="md"
+              value={data.surName}
+              onChange={onChangeHandler}
+            />
+            <Input
+              required
+              label="Title"
+              name="title"
+              size="md"
+              value={data.title}
+              onChange={onChangeHandler}
+            />
 
-          <Input
-            label="Phone"
-            name="phone"
-            size="md"
-            value={data.phone}
-            onChange={onChangeHandler}
-          />
-          <Input
-            label="relation"
-            name="relation"
-            size="md"
-            value={data.relation}
-            onChange={onChangeHandler}
-          />
-        </DialogBody>
-        <DialogFooter className="py-2">
-          <Button
-            variant="text"
-            color="red"
-            onClick={handleOpen}
-            className="mr-1"
-          >
-            <span>Cancel</span>
-          </Button>
-          <Button
-            variant="gradient"
-            color="green"
-            onClick={updateEmegencyContact}
-          >
-            <span>Confirm</span>
-          </Button>
-        </DialogFooter>
+            <Input
+              required
+              label="Phone"
+              name="phone"
+              size="md"
+              value={data.phone}
+              onChange={onChangeHandler}
+            />
+            <Input
+              required
+              label="relation"
+              name="relation"
+              size="md"
+              value={data.relation}
+              onChange={onChangeHandler}
+            />
+          </DialogBody>
+          <DialogFooter className="py-2">
+            <Button
+              variant="text"
+              color="red"
+              onClick={handleOpen}
+              className="mr-1"
+            >
+              <span>Cancel</span>
+            </Button>
+            <Button variant="gradient" color="green" type="submit">
+              <span>Confirm</span>
+            </Button>
+          </DialogFooter>
+        </form>
       </Dialog>
     </>
   );

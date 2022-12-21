@@ -68,7 +68,8 @@ export function Profile() {
     }));
   }
 
-  function updateProfileInfo() {
+  function updateProfileInfo(e) {
+    e.preventDefault();
     fetch(`${BASE_URL}/api/admin/update/profile/${userId}`, {
       method: 'PATCH',
       body: JSON.stringify(profileInfo),
@@ -289,65 +290,74 @@ export function Profile() {
         <DialogHeader className="text-base md:text-xl">
           Edit User Profile.
         </DialogHeader>
-        <DialogBody divider className="grid md:grid-cols-2 gap-2 md:gap-4 ">
-          <Input
-            label="First Name"
-            name="firstName"
-            size="md"
-            value={profileInfo.firstName}
-            onChange={onProfileInfoChangeHandler}
-          />
-          <Input
-            label="Middle Name"
-            name="middleName"
-            size="md"
-            value={profileInfo.middleName}
-            onChange={onProfileInfoChangeHandler}
-          />
-          <Input
-            label="Sur Name"
-            name="surName"
-            size="md"
-            value={profileInfo.surName}
-            onChange={onProfileInfoChangeHandler}
-          />
-          <Input
-            label="Title"
-            name="title"
-            size="md"
-            value={profileInfo.title}
-            onChange={onProfileInfoChangeHandler}
-          />
+        <form onSubmit={updateProfileInfo}>
+          <DialogBody divider className="grid md:grid-cols-2 gap-2 md:gap-4 ">
+            <Input
+              required
+              label="First Name"
+              name="firstName"
+              size="md"
+              value={profileInfo.firstName}
+              onChange={onProfileInfoChangeHandler}
+            />
+            <Input
+              required
+              label="Middle Name"
+              name="middleName"
+              size="md"
+              value={profileInfo.middleName}
+              onChange={onProfileInfoChangeHandler}
+            />
+            <Input
+              required
+              label="Sur Name"
+              name="surName"
+              size="md"
+              value={profileInfo.surName}
+              onChange={onProfileInfoChangeHandler}
+            />
+            <Input
+              required
+              label="Title"
+              name="title"
+              size="md"
+              value={profileInfo.title}
+              onChange={onProfileInfoChangeHandler}
+            />
 
-          <Input
-            label="Phone"
-            name="phone"
-            size="md"
-            value={profileInfo.phone}
-            onChange={onProfileInfoChangeHandler}
-          />
-          <Input
-            label="Address"
-            name="address"
-            size="md"
-            value={profileInfo.address}
-            onChange={onProfileInfoChangeHandler}
-          />
-          <Input
-            label="Passport No."
-            name="passportId"
-            size="md"
-            value={profileInfo.passportId}
-            onChange={onProfileInfoChangeHandler}
-          />
-          <Input
-            label="NID"
-            name="nationalId"
-            size="md"
-            value={profileInfo.nationalId}
-            onChange={onProfileInfoChangeHandler}
-          />
-          {/* <Select
+            <Input
+              required
+              label="Phone"
+              name="phone"
+              size="md"
+              value={profileInfo.phone}
+              onChange={onProfileInfoChangeHandler}
+            />
+            <Input
+              required
+              label="Address"
+              name="address"
+              size="md"
+              value={profileInfo.address}
+              onChange={onProfileInfoChangeHandler}
+            />
+            <Input
+              required
+              label="Passport No."
+              name="passportId"
+              size="md"
+              value={profileInfo.passportId}
+              onChange={onProfileInfoChangeHandler}
+            />
+            <Input
+              required
+              label="NID"
+              name="nationalId"
+              size="md"
+              value={profileInfo.nationalId}
+              onChange={onProfileInfoChangeHandler}
+            />
+            {/* <Select
             label="Select Nationality"
             name="nationality"
             value={profileInfo.nationality}
@@ -360,20 +370,21 @@ export function Profile() {
             <Option value="bangladeshi">Bangladeshi</Option>
             <Option value="indian">Indian</Option>
           </Select> */}
-        </DialogBody>
-        <DialogFooter className="py-2">
-          <Button
-            variant="text"
-            color="red"
-            onClick={handleOpen}
-            className="mr-1"
-          >
-            <span>Cancel</span>
-          </Button>
-          <Button variant="gradient" color="green" onClick={updateProfileInfo}>
-            <span>Confirm</span>
-          </Button>
-        </DialogFooter>
+          </DialogBody>
+          <DialogFooter className="py-2">
+            <Button
+              variant="text"
+              color="red"
+              onClick={handleOpen}
+              className="mr-1"
+            >
+              <span>Cancel</span>
+            </Button>
+            <Button variant="gradient" color="green" type="submit">
+              <span>Confirm</span>
+            </Button>
+          </DialogFooter>
+        </form>
       </Dialog>
     </>
   );
