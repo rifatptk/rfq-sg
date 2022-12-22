@@ -63,6 +63,8 @@ export function Profile() {
     title: '',
   });
 
+  console.log(profileInfo);
+
   function onProfileInfoChangeHandler(e) {
     const { name, value } = e.target;
     setProfileInfo((prev) => ({
@@ -363,10 +365,10 @@ export function Profile() {
                 setProfileInfo({ ...profileInfo, nationality: selected })
               }
             >
-              <Option value="american">American</Option>
-              <Option value="british">British</Option>
-              <Option value="bangladeshi">Bangladeshi</Option>
-              <Option value="indian">Indian</Option>
+              <Option value="American">American</Option>
+              <Option value="British">British</Option>
+              <Option value="Bangladeshi">Bangladeshi</Option>
+              <Option value="Indian">Indian</Option>
             </Select>
             <Input
               required
