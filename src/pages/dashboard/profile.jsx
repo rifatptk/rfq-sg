@@ -93,6 +93,7 @@ export function Profile() {
   // settings ==========
   const [settings, setsettings] = useState({
     active: false,
+    getGeofenceAlert: false,
     roles: ['USER'],
   });
   // console.log('settings', settings);
@@ -202,12 +203,18 @@ export function Profile() {
                     onSubmit={updateSettings}
                     className="space-y-5 bg-gray-100 rounded-lg border shadow-inner p-5 "
                   >
-                    <div>
+                    <div className="flex flex-col gap-3">
                       <h5>Status</h5>
                       <Switch
                         id="isActive"
-                        label="Active"
+                        label={settings.active ? 'Active' : 'Inactive'}
                         checked={settings.active}
+                        onChange={isActiveChangeHandler}
+                      />
+                      <Switch
+                        id="getAlert"
+                        label="Get Geofence Alert"
+                        checked={settings.getGeofenceAlert}
                         onChange={isActiveChangeHandler}
                       />
                     </div>
