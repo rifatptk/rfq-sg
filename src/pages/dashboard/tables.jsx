@@ -181,7 +181,7 @@ export function Tables() {
               {isLoading && (
                 <tr className="text-red-500 w-full text-center">
                   <td colSpan={5} className="">
-                    <div className="w-fit mx-auto py-5">
+                    <div className="w-fit ml-[50vw] py-5">
                       <HashLoader color="#36d7b7" />
                     </div>
                   </td>

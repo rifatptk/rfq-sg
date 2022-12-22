@@ -12,6 +12,8 @@ import {
   DialogFooter,
   Input,
   Checkbox,
+  Select,
+  Option,
 } from '@material-tailwind/react';
 import { PencilSquareIcon } from '@heroicons/react/24/solid';
 import { ProfileInfoCard, MessageCard } from '@/widgets/cards';
@@ -53,6 +55,7 @@ export function Profile() {
     address: '',
     firstName: '',
     middleName: '',
+    nationality: '',
     nationalId: '',
     passportId: '',
     phone: '',
@@ -96,10 +99,14 @@ export function Profile() {
     getGeofenceAlert: false,
     roles: ['USER'],
   });
-  // console.log('settings', settings);
+  console.log('settings', settings);
 
-  function isActiveChangeHandler(e) {
-    setsettings({ ...settings, active: e.target.checked });
+  function settingsChangeHandler(e) {
+    const { name, checked } = e.target;
+    setsettings((prev) => ({
+      ...prev,
+      [name]: checked,
+    }));
   }
 
   function permissionChangeHandler(e) {
@@ -126,12 +133,9 @@ export function Profile() {
             <>
               <div className="mb-10 ">
                 <div className="flex items-center gap-6">
-                  <Avatar
-                    src="/img/bruce-mars.jpeg"
-                    alt="bruce-mars"
-                    size="xl"
-                    className="rounded-lg shadow-lg shadow-blue-gray-500/40"
-                  />
+                  <div className="uppercase w-20 h-20 text-4xl text-white grid place-items-center font-bold shadow-lg rounded-full bg-blue-400">
+                    {user?.profile?.firstName[0] || 'Q'}
+                  </div>
                   <div>
                     <Typography variant="h5" color="blue-gray" className="mb-1">
                       {`${user?.profile?.firstName || 'No Name'} ${
@@ -160,6 +164,7 @@ export function Profile() {
                       geoFenceStatus: user?.user.geofence,
                       phone: user?.profile?.phone || 'Empty',
                       email: user?.user.email,
+                      Nationality: user?.profile?.nationality || 'Empty',
                       NID: user?.profile?.nationalId || 'Empty',
                       Passport: user?.profile?.passportId || 'Empty',
                       DeviceId: user.user.deviceId || 'Empty',
@@ -207,15 +212,17 @@ export function Profile() {
                       <h5>Status</h5>
                       <Switch
                         id="isActive"
+                        name="active"
                         label={settings.active ? 'Active' : 'Inactive'}
                         checked={settings.active}
-                        onChange={isActiveChangeHandler}
+                        onChange={settingsChangeHandler}
                       />
                       <Switch
                         id="getAlert"
+                        name="getGeofenceAlert"
                         label="Get Geofence Alert"
                         checked={settings.getGeofenceAlert}
-                        onChange={isActiveChangeHandler}
+                        onChange={settingsChangeHandler}
                       />
                     </div>
                     <div>
@@ -348,14 +355,19 @@ export function Profile() {
               value={profileInfo.address}
               onChange={onProfileInfoChangeHandler}
             />
-            <Input
-              required
-              label="Passport No."
-              name="passportId"
-              size="md"
-              value={profileInfo.passportId}
-              onChange={onProfileInfoChangeHandler}
-            />
+            <Select
+              label="Select Nationality"
+              name="nationality"
+              value={profileInfo.nationality}
+              onChange={(selected) =>
+                setProfileInfo({ ...profileInfo, nationality: selected })
+              }
+            >
+              <Option value="american">American</Option>
+              <Option value="british">British</Option>
+              <Option value="bangladeshi">Bangladeshi</Option>
+              <Option value="indian">Indian</Option>
+            </Select>
             <Input
               required
               label="NID"
@@ -364,19 +376,14 @@ export function Profile() {
               value={profileInfo.nationalId}
               onChange={onProfileInfoChangeHandler}
             />
-            {/* <Select
-            label="Select Nationality"
-            name="nationality"
-            value={profileInfo.nationality}
-            onChange={(selected) =>
-              setProfileInfo({ ...profileInfo, nationality: selected })
-            }
-          >
-            <Option value="american">American</Option>
-            <Option value="british">British</Option>
-            <Option value="bangladeshi">Bangladeshi</Option>
-            <Option value="indian">Indian</Option>
-          </Select> */}
+            <Input
+              required
+              label="Passport No."
+              name="passportId"
+              size="md"
+              value={profileInfo.passportId}
+              onChange={onProfileInfoChangeHandler}
+            />
           </DialogBody>
           <DialogFooter className="py-2">
             <Button
