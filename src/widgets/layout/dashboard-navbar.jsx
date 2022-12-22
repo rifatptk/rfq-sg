@@ -23,6 +23,9 @@ import {
   setOpenConfigurator,
   setOpenSidenav,
 } from '@/context';
+import { useQuery } from 'react-query';
+import { BASE_URL } from '@/apiConfigs';
+import { useState } from 'react';
 // import { useQuery } from 'react-query';
 // import { BASE_URL } from '@/apiConfigs';
 // import { useState } from 'react';
@@ -33,25 +36,29 @@ export function DashboardNavbar() {
   const { pathname } = useLocation();
   const [layout, page] = pathname.split('/').filter((el) => el !== '');
 
-  // const token = localStorage.getItem('token');
+  const token = localStorage.getItem('token');
 
-  // const { data: users } = useQuery('users', () =>
-  //   fetch(`${BASE_URL}/api/admin/user`, {
-  //     headers: { Authorization: `Bearer ${token}` },
-  //   }).then((res) => res.json())
-  // );
+  const { data } = useQuery('users', () =>
+    fetch(`${BASE_URL}/api/admin/user`, {
+      headers: { Authorization: `Bearer ${token}` },
+    }).then((res) => res.json())
+  );
 
-  // const [input, setinput] = useState('');
+  const [input, setinput] = useState('');
 
-  // function filterSearchedUsers() {
-  //   const filteredUsers = users?.filter((user) => {
-  //     return user.profile?.firstName
-  //       .toLowercase()
-  //       .includes(input.toLowerCase());
-  //   });
+  function filterSearchedUsers() {
+    const filteredUsers = data?.users.filter((user) => {
+      return JSON.stringify(user).toLowerCase().includes(input.toLowerCase());
+    });
 
-  //   return filteredUsers;
-  // }
+    return filteredUsers;
+  }
+
+  function renderFullname(user) {
+    return `${user.profile?.firstName || 'No Name'} ${
+      user?.profile?.middleName || ''
+    } ${user?.profile?.surName || ''}`;
+  }
 
   return (
     <Navbar
@@ -96,16 +103,24 @@ export function DashboardNavbar() {
           <div className="relative mr-auto md:mr-4 md:w-56">
             <Input
               label="Type here"
-              // value={input}
-              // onChange={(e) => setinput(e.target.value)}
+              value={input}
+              onChange={(e) => setinput(e.target.value)}
             />
-            {/* {input && (
-              <div className="absolute right-0 top-12 h-[400px] bg-gray-100 border shadow-lg rounded-lg w-[240px] z-10">
+            {input && (
+              <div className="absolute overflow-x-hidden overflow-y-auto right-0 top-12 max-h-[400px] w-[300px] divide-y-2 bg-gray-100 border shadow-lg rounded-lg z-10">
                 {filterSearchedUsers().map((user, i) => (
-                  <div>{user.profile.firstName}</div>
+                  <Link
+                    to={`/dashboard/users/${user.user._id}`}
+                    title="Click to see details"
+                    key={i}
+                    className="text-gray-600 px-5 py-2 block hover:bg-gray-300"
+                  >
+                    <div className="text-sm">{renderFullname(user)}</div>
+                    <div className="text-[12px]">{user.user.email}</div>
+                  </Link>
                 ))}
               </div>
-            )} */}
+            )}
           </div>
           <IconButton
             variant="text"
