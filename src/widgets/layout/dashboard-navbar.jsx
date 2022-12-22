@@ -111,6 +111,7 @@ export function DashboardNavbar() {
                 {filterSearchedUsers().map((user, i) => (
                   <Link
                     to={`/dashboard/users/${user.user._id}`}
+                    onClick={(e) => setinput('')}
                     title="Click to see details"
                     key={i}
                     className="text-gray-600 px-5 py-2 block hover:bg-gray-300"
