@@ -41,7 +41,11 @@ export function Profile() {
       .then((res) => res.json())
       .then((data) => {
         if (data.profile) setProfileInfo(data.profile);
-        setsettings({ active: data.user.active, roles: data.user.roles });
+        setsettings({
+          active: data.user.active,
+          roles: data.user.roles,
+          geoFenceAlert: data.user.geoFenceAlert,
+        });
         return data;
       })
   );
@@ -63,7 +67,7 @@ export function Profile() {
     title: '',
   });
 
-  console.log(profileInfo);
+  // console.log(profileInfo);
 
   function onProfileInfoChangeHandler(e) {
     const { name, value } = e.target;
@@ -98,10 +102,10 @@ export function Profile() {
   // settings ==========
   const [settings, setsettings] = useState({
     active: false,
-    getGeofenceAlert: false,
+    geoFenceAlert: false,
     roles: ['USER'],
   });
-  console.log('settings', settings);
+  // console.log('settings', settings);
 
   function settingsChangeHandler(e) {
     const { name, checked } = e.target;
@@ -121,6 +125,22 @@ export function Profile() {
   }
   const updateSettings = (e) => {
     e.preventDefault();
+    fetch(`${BASE_URL}/api/admin/update/settings/${userId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(settings),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        refetch({ force: true });
+        toast.success('Updated settings successfully!');
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error('Failed to update settings!');
+      });
   };
   //settings----------------
 
@@ -221,15 +241,15 @@ export function Profile() {
                       />
                       <Switch
                         id="getAlert"
-                        name="getGeofenceAlert"
+                        name="geoFenceAlert"
                         label="Get Geofence Alert"
-                        checked={settings.getGeofenceAlert}
+                        checked={settings.geoFenceAlert}
                         onChange={settingsChangeHandler}
                       />
                     </div>
                     <div>
                       <h5>Tick Desired Permisions</h5>
-                      <div className="flex flex-col">
+                      <fieldset className="flex flex-col">
                         <Checkbox
                           label="ADMIN"
                           id="admin"
@@ -251,7 +271,7 @@ export function Profile() {
                           checked={settings.roles.includes('USER')}
                           onChange={permissionChangeHandler}
                         />
-                      </div>
+                      </fieldset>
                     </div>
 
                     <Button type="submit" className="w-fit">
