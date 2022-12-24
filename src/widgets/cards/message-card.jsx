@@ -44,14 +44,17 @@ export function MessageCard({ emergency, userId, refetch, token }) {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((res) => {
-        refetch({ force: true });
-        toast.success('Updated emergency contact successfully!');
-        handleOpen();
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error('Failed to update emergency contact!');
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          refetch({ force: true });
+          toast.success('Updated emergency contact successfully!');
+          handleOpen();
+        } else {
+          handleOpen();
+          console.log(data);
+          toast.error('Failed to update emergency contact!');
+        }
       });
   }
   return (

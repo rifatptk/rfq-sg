@@ -44,11 +44,16 @@ const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((res) => {
-        refetch({ force: true });
-        toast.success('Successfully updated geofence!');
-      })
-      .catch((err) => toast.error('Failed to update geofence'));
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          refetch({ force: true });
+          toast.success('Successfully updated geofence!');
+        } else {
+          console.log(data);
+          toast.error('Failed to update geofence');
+        }
+      });
   }
   return (
     <>

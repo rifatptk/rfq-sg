@@ -87,14 +87,17 @@ export function Profile() {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((res) => {
-        refetch({ force: true });
-        toast.success('Updated profile info successfully!');
-        handleOpen();
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error('Failed to update profile info!');
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          refetch({ force: true });
+          toast.success('Updated profile info successfully!');
+          handleOpen();
+        } else {
+          handleOpen();
+          console.log(data);
+          toast.error('Failed to update profile info!');
+        }
       });
   }
   //edit profile info---------
@@ -133,13 +136,15 @@ export function Profile() {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((res) => {
-        refetch({ force: true });
-        toast.success('Updated settings successfully!');
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error('Failed to update settings!');
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          refetch({ force: true });
+          toast.success('Updated settings successfully!');
+        } else {
+          console.log(data);
+          toast.error('Failed to update settings!');
+        }
       });
   };
   //settings----------------
@@ -159,13 +164,15 @@ export function Profile() {
       },
     })
       .then((res) => res.json())
-      .then((data) => {
-        toast.success('Deleted User successfully!');
-        navigate('/dashboard/users');
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error(err.msg);
+      .then((response) => {
+        if (response.success) {
+          toast.success('Deleted User successfully!');
+          navigate('/dashboard/users');
+        } else {
+          handleOpenDeletePrompt();
+          console.log(response);
+          toast.error(response.msg);
+        }
       });
   }
 
