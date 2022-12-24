@@ -1,10 +1,15 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Dashboard, Auth } from '@/layouts';
 import { authContext } from './context/authContext';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
+import { notify } from './utils/notify';
 
 function App() {
   const { isAuth } = useContext(authContext);
+
+  useEffect(() => {
+    notify();
+  }, []);
 
   return (
     <Routes>

@@ -20,6 +20,7 @@ const CENTER = {
 };
 
 const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
+  const API_FENCE = geofence;
   const [fenceData, setFenceData] = useState(geofence);
   function setRadius(num) {
     setFenceData((prev) => ({ ...prev, radius: Number(num) }));
@@ -90,7 +91,11 @@ const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
             icon={<MapIcon />}
           />
           <div className="w-fit ml-auto my-5 md:my-0 flex gap-5">
-            <Button color="red" variant="text">
+            <Button
+              color="red"
+              variant="text"
+              onClick={() => setFenceData(API_FENCE)}
+            >
               Cancel
             </Button>
             <Button onClick={updateGeofence}>Save</Button>

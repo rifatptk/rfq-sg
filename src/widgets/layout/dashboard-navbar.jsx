@@ -26,9 +26,6 @@ import {
 import { useQuery } from 'react-query';
 import { BASE_URL } from '@/apiConfigs';
 import { useState } from 'react';
-// import { useQuery } from 'react-query';
-// import { BASE_URL } from '@/apiConfigs';
-// import { useState } from 'react';
 
 export function DashboardNavbar() {
   const [controller, dispatch] = useMaterialTailwindController();
