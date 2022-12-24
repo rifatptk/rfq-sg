@@ -20,7 +20,7 @@ import { ProfileInfoCard, MessageCard } from '@/widgets/cards';
 import RiMap from '@/components/RiMap';
 import { useState } from 'react';
 import { BASE_URL } from '@/apiConfigs';
-import { useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import HashLoader from 'react-spinners/HashLoader';
 import { toast } from 'react-toastify';
@@ -143,6 +143,31 @@ export function Profile() {
       });
   };
   //settings----------------
+
+  //delete user=============
+  const [deletePromptOpened, setdeletePromptOpened] = useState(false);
+  const handleOpenDeletePrompt = () => {
+    setdeletePromptOpened(!deletePromptOpened);
+  };
+  const navigate = useNavigate();
+  function deleteUser() {
+    fetch(`${BASE_URL}/api/admin/delete/user/${userId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        toast.success('Deleted User successfully!');
+        navigate('/dashboard/users');
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.msg);
+      });
+  }
 
   return (
     <>
@@ -278,6 +303,13 @@ export function Profile() {
                       Update
                     </Button>
                   </form>
+                  <Button
+                    onClick={handleOpenDeletePrompt}
+                    color="red"
+                    className="mt-10 w-full"
+                  >
+                    Delete User
+                  </Button>
                 </div>
               </div>
 
@@ -321,7 +353,7 @@ export function Profile() {
           )}
         </CardBody>
       </Card>
-      {/* modal */}
+      {/* edit profile info modal */}
       <Dialog size="xl" open={open} handler={handleOpen}>
         <DialogHeader className="text-base md:text-xl">
           Edit User Profile.
@@ -421,6 +453,40 @@ export function Profile() {
             </Button>
           </DialogFooter>
         </form>
+      </Dialog>
+      {/* delete user prompt modal */}
+      <Dialog
+        size="xl"
+        open={deletePromptOpened}
+        handler={handleOpenDeletePrompt}
+      >
+        <DialogHeader className="text-base md:text-xl">
+          Delete User
+        </DialogHeader>
+        <DialogBody divider className="flex flex-col text-center ">
+          <h3 className="text-lg font-bold mb-3 ">
+            Are you sure want to delete this user?
+          </h3>
+
+          <p>
+            This action will remove all of the informations about this user from
+            the database.
+          </p>
+          <p>You will not be able to retreive them again.</p>
+          <p>This operation cannot be undone.</p>
+        </DialogBody>
+        <DialogFooter className="py-2">
+          <Button
+            variant="text"
+            onClick={handleOpenDeletePrompt}
+            className="mr-1"
+          >
+            <span>Cancel</span>
+          </Button>
+          <Button variant="gradient" color="red" onClick={deleteUser}>
+            <span>Confirm</span>
+          </Button>
+        </DialogFooter>
       </Dialog>
     </>
   );

@@ -3,11 +3,8 @@ import {
   CardHeader,
   CardBody,
   Typography,
-  // Avatar,
   Chip,
   Button,
-  // Tooltip,
-  // Progress,
 } from '@material-tailwind/react';
 import {
   CheckCircleIcon,
@@ -16,9 +13,7 @@ import {
 } from '@heroicons/react/24/solid';
 import { authorsTableData } from '@/data';
 import { Link } from 'react-router-dom';
-// import { useEffect, useState } from 'react';
 import { BASE_URL } from '@/apiConfigs';
-// import { toast } from 'react-toastify';
 import { useQuery } from 'react-query';
 import { HashLoader } from 'react-spinners';
 
@@ -50,14 +45,13 @@ export function Tables() {
             Users Table
           </Typography>
         </CardHeader>
-        <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
+        <CardBody className="overflow-x-auto px-0 pt-0 pb-2">
           <table className="w-full min-w-[640px] table-auto">
             <thead>
               <tr>
                 {[
                   'user',
                   'geofence',
-                  'function',
                   'status',
                   'tel',
                   'NID',
@@ -80,7 +74,7 @@ export function Tables() {
             </thead>
             <tbody>
               {users?.users?.map((data, key) => {
-                const className = `py-3 px-5 ${
+                const className = `py-3 px-4 ${
                   key === authorsTableData.length - 1
                     ? ''
                     : 'border-b border-blue-gray-50'
@@ -89,13 +83,7 @@ export function Tables() {
                 return (
                   <tr key={key}>
                     <td className={className}>
-                      <div className="flex items-center gap-4">
-                        {/* <Avatar
-                          src={img}
-                          alt={name}
-                          size="sm"
-                          className="bg-gray-500"
-                        /> */}
+                      <div className="flex items-center gap-2">
                         <div>
                           <Typography
                             variant="small"
@@ -132,14 +120,14 @@ export function Tables() {
                         </div>
                       )}
                     </td>
-                    <td className={className}>
+                    {/* <td className={className}>
                       <Typography className="text-xs font-semibold text-blue-gray-600">
                         {data.user.roles[0]}
                       </Typography>
                       <Typography className="text-xs font-normal text-blue-gray-500">
                         Staff
                       </Typography>
-                    </td>
+                    </td> */}
                     <td className={className}>
                       <Chip
                         variant="gradient"
