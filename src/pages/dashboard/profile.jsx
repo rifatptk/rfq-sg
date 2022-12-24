@@ -20,7 +20,7 @@ import { ProfileInfoCard, MessageCard } from '@/widgets/cards';
 import RiMap from '@/components/RiMap';
 import { useState } from 'react';
 import { BASE_URL } from '@/apiConfigs';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import HashLoader from 'react-spinners/HashLoader';
 import { toast } from 'react-toastify';
