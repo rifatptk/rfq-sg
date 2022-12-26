@@ -10,7 +10,11 @@ import {
 import { useMaterialTailwindController, setOpenSidenav } from '@/context';
 import { authContext } from '@/context/authContext';
 import { useContext } from 'react';
-import { BellIcon, TableCellsIcon } from '@heroicons/react/24/solid';
+import {
+  BellIcon,
+  TableCellsIcon,
+  UserPlusIcon,
+} from '@heroicons/react/24/solid';
 
 const icon = {
   className: 'w-5 h-5 text-inherit',
@@ -25,6 +29,11 @@ const sideNavLinks = [
     icon: <BellIcon {...icon} />,
     name: 'notifications',
     path: '/notifications',
+  },
+  {
+    icon: <UserPlusIcon {...icon} />,
+    name: 'Add new user',
+    path: '/add-user',
   },
 ];
 

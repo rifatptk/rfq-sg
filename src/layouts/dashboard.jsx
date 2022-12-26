@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { Sidenav, DashboardNavbar, Configurator } from '@/widgets/layout';
 import { useMaterialTailwindController } from '@/context';
 import { Notifications, Profile, Tables } from '@/pages/dashboard';
+import AddNewUser from '@/pages/dashboard/AddNewUser';
 
 export function Dashboard() {
   const [controller] = useMaterialTailwindController();
@@ -23,6 +24,7 @@ export function Dashboard() {
           <Route path="/users" element={<Tables />} />
           <Route path="/users/:userId" element={<Profile />} />
           <Route path="/notifications" element={<Notifications />} />
+          <Route path="/add-user" element={<AddNewUser />} />
         </Routes>
       </div>
     </div>
