@@ -1,3 +1,4 @@
+import { BASE_URL } from '@/apiConfigs';
 import {
   Button,
   Card,
@@ -10,8 +11,11 @@ import {
   Typography,
 } from '@material-tailwind/react';
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const AddNewUser = () => {
+  const token = localStorage.getItem('token');
+
   const [userInfo, setUserInfo] = useState({
     email: '',
     password: '',
@@ -33,10 +37,40 @@ const AddNewUser = () => {
       [name]: value,
     }));
   }
+
   function createUser(e) {
     e.preventDefault();
-    console.log(userInfo);
-    e.target.reset();
+    fetch(BASE_URL + '/api/admin/create/user', {
+      method: 'POST',
+      body: JSON.stringify(userInfo),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          e.target.reset();
+          toast.success(data.msg);
+        } else {
+          const errors = Object.values(data.mappedErrors).map(
+            (el) => `${el.msg}`
+          );
+          toast.error(
+            <div>
+              <h3 className="font-bold">Errors</h3>
+              {errors.map((err, i) => (
+                <p>
+                  <small key={i} className="capitalize">
+                    {i + 1}. {err}
+                  </small>
+                </p>
+              ))}
+            </div>
+          );
+        }
+      });
   }
   return (
     <>
@@ -54,7 +88,6 @@ const AddNewUser = () => {
           <form onSubmit={createUser}>
             <CardBody className="grid md:grid-cols-2 gap-4">
               <Input
-                required
                 name="email"
                 type="email"
                 label="Email"
@@ -62,7 +95,6 @@ const AddNewUser = () => {
                 onChange={userInfoChangeHandler}
               />
               <Input
-                required
                 name="password"
                 type="password"
                 label="Password"
@@ -70,42 +102,36 @@ const AddNewUser = () => {
                 onChange={userInfoChangeHandler}
               />
               <Input
-                required
                 name="firstName"
                 label="First Name"
                 size="lg"
                 onChange={userInfoChangeHandler}
               />
               <Input
-                required
                 name="middleName"
                 label="Middle Name"
                 size="lg"
                 onChange={userInfoChangeHandler}
               />
               <Input
-                required
                 name="surName"
                 label="Sur Name"
                 size="lg"
                 onChange={userInfoChangeHandler}
               />
               <Input
-                required
                 name="title"
                 label="Title"
                 size="lg"
                 onChange={userInfoChangeHandler}
               />
               <Input
-                required
                 name="phone"
                 label="Tel:"
                 size="lg"
                 onChange={userInfoChangeHandler}
               />
               <Input
-                required
                 name="passportId"
                 label="Passport No."
                 size="lg"
@@ -125,14 +151,12 @@ const AddNewUser = () => {
                 <Option value="Indian">Indian</Option>
               </Select>
               <Input
-                required
                 name="nationalId"
                 label="NID No."
                 size="lg"
                 onChange={userInfoChangeHandler}
               />
               <Input
-                required
                 name="address"
                 label="Address"
                 size="lg"
