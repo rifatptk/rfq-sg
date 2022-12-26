@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
   Typography,
   Alert,
@@ -12,8 +11,22 @@ import {
   ExclamationTriangleIcon,
   XCircleIcon,
 } from '@heroicons/react/24/outline';
+// import { io } from 'socket.io-client';
+// import { BASE_URL } from '@/apiConfigs';
 
 export function Notifications() {
+  // const socket = io(BASE_URL);
+
+  // useEffect(() => {
+  //   socket.on('connection', (skt) => {
+  //     console.log('connected');
+  //   });
+
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, [socket]);
+
   const colors = {
     IN_AREA: 'green',
     NOT_IN_AREA: 'red',
@@ -26,13 +39,13 @@ export function Notifications() {
     NOT_RESPONDING: <XCircleIcon className="w-6" />,
   };
 
-  const [notifications, setnotifications] = useState([
+  const notifications = [
     { time: '12:20', name: 'Sadman', geofence: 'IN_AREA' },
     { time: '02:20', name: 'Majedur', geofence: 'NOT_IN_AREA' },
     { time: '02:22', name: 'Bikash', geofence: 'NOT_RESPONDING' },
     { time: '02:23', name: 'Shakil', geofence: 'IN_AREA' },
     { time: '12:24', name: 'Roben', geofence: 'NOT_IN_AREA' },
-  ]);
+  ];
 
   return (
     <div className="mx-auto my-20 flex max-w-screen-lg flex-col gap-8">
