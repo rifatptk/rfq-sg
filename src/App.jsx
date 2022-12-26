@@ -18,7 +18,7 @@ function App() {
       {isAuth ? (
         <>
           <Route path="/dashboard" element={<Dashboard />}>
-            <Route index element={<Tables />} />
+            <Route index element={<Navigate to="users" />} />
             <Route path="users" element={<Tables />} />
             <Route path="users/:userId" element={<Profile />} />
             <Route path="notifications" element={<Notifications />} />

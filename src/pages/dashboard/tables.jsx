@@ -11,7 +11,6 @@ import {
   XCircleIcon,
   ExclamationTriangleIcon,
 } from '@heroicons/react/24/solid';
-import { authorsTableData } from '@/data';
 import { Link } from 'react-router-dom';
 import { BASE_URL } from '@/apiConfigs';
 import { useQuery } from 'react-query';
@@ -75,7 +74,7 @@ export function Tables() {
             <tbody>
               {users?.users?.map((data, key) => {
                 const className = `py-3 px-4 ${
-                  key === authorsTableData.length - 1
+                  key === users.users.length - 1
                     ? ''
                     : 'border-b border-blue-gray-50'
                 }`;
