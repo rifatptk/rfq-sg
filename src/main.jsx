@@ -4,7 +4,7 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@material-tailwind/react';
 import { MaterialTailwindControllerProvider } from '@/context';
-import '../public/css/tailwind.css';
+import './tailwind.css';
 import AuthProvider from './context/authContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
