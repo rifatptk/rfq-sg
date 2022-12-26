@@ -5,19 +5,8 @@ import {
   IconButton,
   Breadcrumbs,
   Input,
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
-  Avatar,
 } from '@material-tailwind/react';
-import {
-  Cog6ToothIcon,
-  BellIcon,
-  ClockIcon,
-  CreditCardIcon,
-  Bars3Icon,
-} from '@heroicons/react/24/solid';
+import { Cog6ToothIcon, Bars3Icon } from '@heroicons/react/24/solid';
 import {
   useMaterialTailwindController,
   setOpenConfigurator,
@@ -136,7 +125,7 @@ export function DashboardNavbar() {
           >
             <Cog6ToothIcon className="h-5 w-5 text-blue-gray-500" />
           </IconButton>
-          <Menu>
+          {/* <Menu>
             <MenuHandler>
               <IconButton variant="text" color="blue-gray">
                 <BellIcon className="h-5 w-5 text-blue-gray-500" />
@@ -213,7 +202,7 @@ export function DashboardNavbar() {
                 </div>
               </MenuItem>
             </MenuList>
-          </Menu>
+          </Menu> */}
         </div>
       </div>
     </Navbar>

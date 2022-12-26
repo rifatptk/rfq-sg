@@ -9,9 +9,34 @@ import {
   Select,
   Typography,
 } from '@material-tailwind/react';
-import React from 'react';
+import React, { useState } from 'react';
 
 const AddNewUser = () => {
+  const [userInfo, setUserInfo] = useState({
+    email: '',
+    password: '',
+    firstName: '',
+    middleName: '',
+    surName: '',
+    title: '',
+    phone: '',
+    passportId: '',
+    nationality: '',
+    nationalId: '',
+    address: '',
+  });
+
+  function userInfoChangeHandler(e) {
+    const { name, value } = e.target;
+    setUserInfo((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
+  function createUser(e) {
+    e.preventDefault();
+    console.log(userInfo);
+  }
   return (
     <>
       <div className="container mt-10 mx-auto p-4 ">
@@ -25,31 +50,100 @@ const AddNewUser = () => {
               Add New User
             </Typography>
           </CardHeader>
-          <CardBody className="grid md:grid-cols-2 gap-4">
-            <Input label="First Name" size="lg" />
-            <Input label="Last Name" size="lg" />
-            <Input label="Title" size="lg" />
-            <Select label="Select Status">
-              <Option>Active</Option>
-              <Option>Inactive</Option>
-            </Select>
-            <Input label="Surname" size="lg" />
-            <Input label="Tel:" size="lg" />
-            <Input type="email" label="Email" size="lg" />
-            <Input label="Passport" size="lg" />
-            <Input label="NID" size="lg" />
-            <Select label="Select Nationality">
-              <Option>American</Option>
-              <Option>British</Option>
-              <Option>Bangladesh</Option>
-              <Option>Indian</Option>
-            </Select>
-          </CardBody>
-          <CardFooter className="pt-0">
-            <Button variant="gradient" fullWidth>
-              Submit
-            </Button>
-          </CardFooter>
+          <form onSubmit={createUser}>
+            <CardBody className="grid md:grid-cols-2 gap-4">
+              <Input
+                required
+                name="email"
+                type="email"
+                label="Email"
+                size="lg"
+                onChange={userInfoChangeHandler}
+              />
+              <Input
+                required
+                name="password"
+                type="password"
+                label="Password"
+                size="lg"
+                onChange={userInfoChangeHandler}
+              />
+              <Input
+                required
+                name="firstName"
+                label="First Name"
+                size="lg"
+                onChange={userInfoChangeHandler}
+              />
+              <Input
+                required
+                name="middleName"
+                label="Middle Name"
+                size="lg"
+                onChange={userInfoChangeHandler}
+              />
+              <Input
+                required
+                name="surName"
+                label="Sur Name"
+                size="lg"
+                onChange={userInfoChangeHandler}
+              />
+              <Input
+                required
+                name="title"
+                label="Title"
+                size="lg"
+                onChange={userInfoChangeHandler}
+              />
+              <Input
+                required
+                name="phone"
+                label="Tel:"
+                size="lg"
+                onChange={userInfoChangeHandler}
+              />
+              <Input
+                required
+                name="passportId"
+                label="Passport No."
+                size="lg"
+                onChange={userInfoChangeHandler}
+              />
+              <Select
+                label="Select Nationality"
+                onChange={(selected) =>
+                  userInfoChangeHandler({
+                    target: { name: 'nationality', value: selected },
+                  })
+                }
+              >
+                <Option value="American">American</Option>
+                <Option value="British">British</Option>
+                <Option value="Bangladeshi">Bangladeshi</Option>
+                <Option value="Indian">Indian</Option>
+              </Select>
+              <Input
+                required
+                name="nationalId"
+                label="NID No."
+                size="lg"
+                onChange={userInfoChangeHandler}
+              />
+              <Input
+                required
+                name="address"
+                label="Address"
+                size="lg"
+                onChange={userInfoChangeHandler}
+              />
+            </CardBody>
+            <CardFooter className="pt-0">
+              <Button type="submit" variant="gradient" fullWidth>
+                Submit
+              </Button>
+            </CardFooter>
+          </form>
         </Card>
       </div>
     </>
