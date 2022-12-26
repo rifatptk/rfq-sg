@@ -164,7 +164,7 @@ const AddNewUser = () => {
               />
             </CardBody>
             <CardFooter className="pt-0">
-              <Button type="submit" variant="gradient">
+              <Button type="submit" variant="gradient" fullWidth>
                 Submit
               </Button>
             </CardFooter>

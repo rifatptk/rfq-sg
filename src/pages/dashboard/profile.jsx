@@ -177,11 +177,11 @@ export function Profile() {
 
   return (
     <>
-      <div className="relative mt-8 h-72 w-full overflow-hidden rounded-xl bg-[url(https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80)] bg-cover	bg-center">
+      {/* <div className="relative mt-8 h-72 w-full overflow-hidden rounded-xl bg-[url(https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80)] bg-cover	bg-center">
         <div className="absolute inset-0 h-full w-full bg-blue-500/50" />
-      </div>
-      <Card className="mx-3 -mt-16 mb-6 lg:mx-4">
-        <CardBody className="p-4">
+      </div> */}
+      <Card className="border my-6 lg:mx-4">
+        <CardBody className="p-5 md:p-10">
           {user && (
             <>
               <div className="mb-10 ">
@@ -204,7 +204,7 @@ export function Profile() {
                   </div>
                 </div>
               </div>
-              <div className="gird-cols-1 mb-12 grid gap-12 px-4 lg:grid-cols-2 ">
+              <div className="gird-cols-1 mb-12 grid gap-12 lg:grid-cols-2">
                 {/* profile info */}
                 <div>
                   <ProfileInfoCard
@@ -259,7 +259,7 @@ export function Profile() {
 
                   <form
                     onSubmit={updateSettings}
-                    className="space-y-5 bg-gray-100 rounded-lg border shadow-inner p-5 "
+                    className="space-y-5 bg-gray-100 rounded-lg border shadow-inner p-3 md:p-5 "
                   >
                     <div className="flex flex-col gap-3">
                       <h5>Status</h5>
@@ -320,7 +320,7 @@ export function Profile() {
               </div>
 
               {/* geofence */}
-              <div className="px-4 pb-4">
+              <div className="pb-4">
                 <Typography variant="h6" color="blue-gray" className="mb-2">
                   Geofence
                 </Typography>

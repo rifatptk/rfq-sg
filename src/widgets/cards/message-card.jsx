@@ -61,7 +61,7 @@ export function MessageCard({ emergency, userId, refetch, token }) {
     <>
       {emergency ? (
         <div className="flex items-center justify-between gap-4 mt-2">
-          <div className="flex items-center gap-4 bg-gray-100 rounded-lg p-4 border">
+          <div className="flex items-center gap-4 bg-gray-100 rounded-lg p-2 md:p-4 border">
             <div className="h-10 w-10 rounded-full grid place-items-center bg-gray-500 font-bold uppercase text-xl text-white">
               {emergency.firstName[0]}
             </div>
