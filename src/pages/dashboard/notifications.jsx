@@ -5,17 +5,34 @@ import {
   Card,
   CardHeader,
   CardBody,
+  Button,
 } from '@material-tailwind/react';
-import { InformationCircleIcon } from '@heroicons/react/24/outline';
+import {
+  CheckCircleIcon,
+  ExclamationTriangleIcon,
+  XCircleIcon,
+} from '@heroicons/react/24/outline';
 
 export function Notifications() {
-  const [showAlertsWithIcon, setShowAlertsWithIcon] = useState({
-    blue: true,
-    green: true,
-    orange: true,
-    red: true,
-  });
-  const alerts = ['blue', 'green', 'orange', 'red'];
+  const colors = {
+    IN_AREA: 'green',
+    NOT_IN_AREA: 'red',
+    NOT_RESPONDING: 'gray',
+  };
+
+  const icons = {
+    IN_AREA: <CheckCircleIcon className="w-6" />,
+    NOT_IN_AREA: <ExclamationTriangleIcon className="w-6" />,
+    NOT_RESPONDING: <XCircleIcon className="w-6" />,
+  };
+
+  const [notifications, setnotifications] = useState([
+    { time: '12:20', name: 'Sadman', geofence: 'IN_AREA' },
+    { time: '02:20', name: 'Majedur', geofence: 'NOT_IN_AREA' },
+    { time: '02:22', name: 'Bikash', geofence: 'NOT_RESPONDING' },
+    { time: '02:23', name: 'Shakil', geofence: 'IN_AREA' },
+    { time: '12:24', name: 'Roben', geofence: 'NOT_IN_AREA' },
+  ]);
 
   return (
     <div className="mx-auto my-20 flex max-w-screen-lg flex-col gap-8">
@@ -24,31 +41,24 @@ export function Notifications() {
           color="transparent"
           floated={false}
           shadow={false}
-          className="m-0 p-4"
+          className="m-0 p-4 flex justify-between"
         >
           <Typography variant="h5" color="blue-gray">
             Notifications
           </Typography>
+          <Button>Mark all as read</Button>
         </CardHeader>
         <CardBody className="flex flex-col gap-4 p-4">
-          {alerts.map((color) => (
+          {notifications.map((notification, i) => (
             <Alert
-              key={color}
-              show={showAlertsWithIcon[color]}
-              color={color}
-              icon={
-                <InformationCircleIcon strokeWidth={2} className="h-6 w-6" />
-              }
-              dismissible={{
-                onClose: () =>
-                  setShowAlertsWithIcon((current) => ({
-                    ...current,
-                    [color]: false,
-                  })),
-              }}
+              key={i}
+              color={colors[notification.geofence]}
+              icon={icons[notification.geofence]}
             >
-              A simple {color} alert with an <a href="/">example link</a>. Give
-              it a click if you like.
+              <div className="flex justify-between">
+                <span>{`${notification.name} is ${notification.geofence}`}</span>
+                <small>{notification.time}</small>
+              </div>
             </Alert>
           ))}
         </CardBody>
