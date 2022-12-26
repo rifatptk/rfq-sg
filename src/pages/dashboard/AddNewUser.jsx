@@ -36,6 +36,7 @@ const AddNewUser = () => {
   function createUser(e) {
     e.preventDefault();
     console.log(userInfo);
+    e.target.reset();
   }
   return (
     <>
@@ -139,7 +140,7 @@ const AddNewUser = () => {
               />
             </CardBody>
             <CardFooter className="pt-0">
-              <Button type="submit" variant="gradient" fullWidth>
+              <Button type="submit" variant="gradient">
                 Submit
               </Button>
             </CardFooter>
