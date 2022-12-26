@@ -47,7 +47,7 @@ export function Notifications() {
                   })),
               }}
             >
-              A simple {color} alert with an <a href="#">example link</a>. Give
+              A simple {color} alert with an <a href="/">example link</a>. Give
               it a click if you like.
             </Alert>
           ))}

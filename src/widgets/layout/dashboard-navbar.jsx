@@ -73,17 +73,18 @@ export function DashboardNavbar() {
                 {layout}
               </Typography>
             </Link>
-            <Typography
-              variant="small"
-              color="blue-gray"
-              className="font-normal"
-            >
-              {page}
-            </Typography>
+            {page && (
+              <Link to={`/${layout}/${page}`}>
+                <Typography
+                  variant="small"
+                  color="blue-gray"
+                  className="font-normal opacity-50 transition-all hover:text-blue-500 hover:opacity-100"
+                >
+                  {page}
+                </Typography>
+              </Link>
+            )}
           </Breadcrumbs>
-          <Typography variant="h6" color="blue-gray">
-            {page}
-          </Typography>
         </div>
         <div className="flex items-center">
           <div className="relative mr-auto md:mr-4 md:w-56">

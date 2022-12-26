@@ -1,7 +1,6 @@
 import {
   Card,
   CardBody,
-  Avatar,
   Typography,
   Switch,
   Tooltip,
