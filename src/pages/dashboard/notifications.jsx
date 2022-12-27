@@ -8,6 +8,8 @@ import {
 } from '@material-tailwind/react';
 import {
   CheckCircleIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
   ExclamationTriangleIcon,
   XCircleIcon,
 } from '@heroicons/react/24/outline';
@@ -74,6 +76,14 @@ export function Notifications() {
               </div>
             </Alert>
           ))}
+          <div className="flex gap-3">
+            <Button disabled size="sm" className="w-fit ">
+              <ChevronLeftIcon className="w-5 h-5" />
+            </Button>
+            <Button size="sm" className="w-fit ">
+              <ChevronRightIcon className="w-5 h-5" />
+            </Button>
+          </div>
         </CardBody>
       </Card>
     </div>
