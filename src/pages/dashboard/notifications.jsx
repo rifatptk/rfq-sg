@@ -64,7 +64,7 @@ export function Notifications() {
           <Typography variant="h5" color="blue-gray">
             Notifications
           </Typography>
-          <Button>Mark all as read</Button>
+          <Button size="sm">Mark all as read</Button>
         </CardHeader>
         <CardBody className="flex flex-col gap-4 p-4">
           {notifications.map((notification, i) => (
@@ -86,14 +86,14 @@ export function Notifications() {
               size="sm"
               className="w-fit"
             >
-              <ChevronLeftIcon className="w-5 h-5" />
+              <ChevronLeftIcon className="w-4 h-4" />
             </Button>
             <Button
               onClick={() => setPage((prev) => ++prev)}
               size="sm"
               className="w-fit"
             >
-              <ChevronRightIcon className="w-5 h-5" />
+              <ChevronRightIcon className="w-4 h-4" />
             </Button>
           </div>
         </CardBody>
