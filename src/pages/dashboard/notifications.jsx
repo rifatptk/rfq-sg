@@ -6,13 +6,7 @@ import {
   CardBody,
   Button,
 } from '@material-tailwind/react';
-import {
-  CheckCircleIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ExclamationTriangleIcon,
-  XCircleIcon,
-} from '@heroicons/react/24/outline';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { BASE_URL } from '@/apiConfigs';
