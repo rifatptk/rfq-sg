@@ -14,6 +14,12 @@ import {
   XCircleIcon,
 } from '@heroicons/react/24/outline';
 import { useState } from 'react';
+import { useQuery } from 'react-query';
+import { BASE_URL } from '@/apiConfigs';
+import { HashLoader } from 'react-spinners';
+import { toast } from 'react-toastify';
+import formatDistance from 'date-fns/formatDistance';
+
 // import { io } from 'socket.io-client';
 // import { BASE_URL } from '@/apiConfigs';
 
@@ -23,22 +29,51 @@ const colors = {
   NOT_RESPONDING: 'gray',
 };
 
-const icons = {
-  IN_AREA: <CheckCircleIcon className="w-6" />,
-  NOT_IN_AREA: <ExclamationTriangleIcon className="w-6" />,
-  NOT_RESPONDING: <XCircleIcon className="w-6" />,
-};
-
-const notifications = [
-  { time: '12:20', name: 'Sadman', geofence: 'IN_AREA' },
-  { time: '02:20', name: 'Majedur', geofence: 'NOT_IN_AREA' },
-  { time: '02:22', name: 'Bikash', geofence: 'NOT_RESPONDING' },
-  { time: '02:23', name: 'Shakil', geofence: 'IN_AREA' },
-  { time: '12:24', name: 'Roben', geofence: 'NOT_IN_AREA' },
-];
-
 export function Notifications() {
   const [page, setPage] = useState(1);
+  const token = localStorage.getItem('token');
+
+  function fetchNotifications({ page }) {
+    const notifications = fetch(
+      `${BASE_URL}/api/admin/notification/all?page=${page}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    ).then((res) => res.json());
+
+    return notifications;
+  }
+
+  const {
+    isLoading,
+    error,
+    data: notifications,
+    refetch,
+  } = useQuery(['notifications', page], fetchNotifications, {
+    // Set the interval to 5 seconds (5000 milliseconds)
+    refetchInterval: 5000,
+    refetchOnWindowFocus: false,
+  });
+  console.log(notifications);
+
+  function markAllAsRead() {
+    fetch(`${BASE_URL}/api/admin/notification/markallasread`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          refetch({ force: true });
+          toast.success('Marked unread notifications as read!');
+        } else {
+          console.log(data);
+          toast.error('Failed to Mark as read!');
+        }
+      });
+  }
   // const socket = io(BASE_URL);
 
   // useEffect(() => {
@@ -63,38 +98,63 @@ export function Notifications() {
           <Typography variant="h5" color="blue-gray">
             Notifications
           </Typography>
-          <Button size="sm">Mark all as read</Button>
+          <Button size="sm" onClick={markAllAsRead}>
+            Mark all as read
+          </Button>
         </CardHeader>
-        <CardBody className="flex flex-col gap-4 p-4">
-          {notifications.map((notification, i) => (
-            <Alert
-              key={i}
-              color={colors[notification.geofence]}
-              icon={icons[notification.geofence]}
-            >
-              <div className="flex justify-between">
-                <span>{`${notification.name} is ${notification.geofence}`}</span>
-                <small>{notification.time}</small>
+        <CardBody className="flex flex-col gap-2 p-4">
+          {notifications && (
+            <>
+              {notifications.Notifications.map((notification, i) => (
+                <Alert
+                  key={i}
+                  className="p-2"
+                  color={colors[notification.geofence]}
+                >
+                  <div className="flex justify-between items-center">
+                    <span>{`${notification.name} is ${notification.geofence}`}</span>
+                    <small>
+                      {formatDistance(
+                        new Date(notification.createAt),
+                        Date.now(),
+                        {
+                          addSuffix: true,
+                        }
+                      )}
+                    </small>
+                  </div>
+                </Alert>
+              ))}
+              <div className="flex gap-3">
+                <Button
+                  onClick={() => setPage((prev) => --prev)}
+                  disabled={page === 1}
+                  size="sm"
+                  className="w-fit"
+                >
+                  <ChevronLeftIcon className="w-4 h-4" />
+                </Button>
+                <Button
+                  onClick={() => setPage((prev) => ++prev)}
+                  size="sm"
+                  className="w-fit"
+                >
+                  <ChevronRightIcon className="w-4 h-4" />
+                </Button>
               </div>
-            </Alert>
-          ))}
-          <div className="flex gap-3">
-            <Button
-              onClick={() => setPage((prev) => --prev)}
-              disabled={page === 1}
-              size="sm"
-              className="w-fit"
-            >
-              <ChevronLeftIcon className="w-4 h-4" />
-            </Button>
-            <Button
-              onClick={() => setPage((prev) => ++prev)}
-              size="sm"
-              className="w-fit"
-            >
-              <ChevronRightIcon className="w-4 h-4" />
-            </Button>
-          </div>
+            </>
+          )}
+
+          {error && (
+            <div className="text-red-500 py-5 w-full text-center">
+              &#9888; Error Fetching Data!
+            </div>
+          )}
+          {isLoading && (
+            <div className="w-fit mx-auto py-5">
+              <HashLoader color="#36d7b7" />
+            </div>
+          )}
         </CardBody>
       </Card>
     </div>

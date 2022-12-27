@@ -35,7 +35,6 @@ const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
   };
 
   function updateGeofence() {
-    console.log('update geofence', fenceData);
     fetch(`${BASE_URL}/api/admin/update/location/${userId}`, {
       method: 'PUT',
       body: JSON.stringify(fenceData),
