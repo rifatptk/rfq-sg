@@ -13,10 +13,13 @@ import {
   ExclamationTriangleIcon,
   XCircleIcon,
 } from '@heroicons/react/24/outline';
+import { useState } from 'react';
+
 // import { io } from 'socket.io-client';
 // import { BASE_URL } from '@/apiConfigs';
 
 export function Notifications() {
+  const [page, setPage] = useState(1);
   // const socket = io(BASE_URL);
 
   // useEffect(() => {
@@ -50,7 +53,7 @@ export function Notifications() {
   ];
 
   return (
-    <div className="mx-auto my-20 flex max-w-screen-lg flex-col gap-8">
+    <div className="mx-auto my-5 flex max-w-screen-lg flex-col gap-8">
       <Card>
         <CardHeader
           color="transparent"
@@ -77,10 +80,19 @@ export function Notifications() {
             </Alert>
           ))}
           <div className="flex gap-3">
-            <Button disabled size="sm" className="w-fit ">
+            <Button
+              onClick={() => setPage((prev) => --prev)}
+              disabled={page === 1}
+              size="sm"
+              className="w-fit"
+            >
               <ChevronLeftIcon className="w-5 h-5" />
             </Button>
-            <Button size="sm" className="w-fit ">
+            <Button
+              onClick={() => setPage((prev) => ++prev)}
+              size="sm"
+              className="w-fit"
+            >
               <ChevronRightIcon className="w-5 h-5" />
             </Button>
           </div>
