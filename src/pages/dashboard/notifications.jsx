@@ -14,9 +14,28 @@ import {
   XCircleIcon,
 } from '@heroicons/react/24/outline';
 import { useState } from 'react';
-
 // import { io } from 'socket.io-client';
 // import { BASE_URL } from '@/apiConfigs';
+
+const colors = {
+  IN_AREA: 'green',
+  NOT_IN_AREA: 'red',
+  NOT_RESPONDING: 'gray',
+};
+
+const icons = {
+  IN_AREA: <CheckCircleIcon className="w-6" />,
+  NOT_IN_AREA: <ExclamationTriangleIcon className="w-6" />,
+  NOT_RESPONDING: <XCircleIcon className="w-6" />,
+};
+
+const notifications = [
+  { time: '12:20', name: 'Sadman', geofence: 'IN_AREA' },
+  { time: '02:20', name: 'Majedur', geofence: 'NOT_IN_AREA' },
+  { time: '02:22', name: 'Bikash', geofence: 'NOT_RESPONDING' },
+  { time: '02:23', name: 'Shakil', geofence: 'IN_AREA' },
+  { time: '12:24', name: 'Roben', geofence: 'NOT_IN_AREA' },
+];
 
 export function Notifications() {
   const [page, setPage] = useState(1);
@@ -31,26 +50,6 @@ export function Notifications() {
   //     socket.disconnect();
   //   };
   // }, [socket]);
-
-  const colors = {
-    IN_AREA: 'green',
-    NOT_IN_AREA: 'red',
-    NOT_RESPONDING: 'gray',
-  };
-
-  const icons = {
-    IN_AREA: <CheckCircleIcon className="w-6" />,
-    NOT_IN_AREA: <ExclamationTriangleIcon className="w-6" />,
-    NOT_RESPONDING: <XCircleIcon className="w-6" />,
-  };
-
-  const notifications = [
-    { time: '12:20', name: 'Sadman', geofence: 'IN_AREA' },
-    { time: '02:20', name: 'Majedur', geofence: 'NOT_IN_AREA' },
-    { time: '02:22', name: 'Bikash', geofence: 'NOT_RESPONDING' },
-    { time: '02:23', name: 'Shakil', geofence: 'IN_AREA' },
-    { time: '12:24', name: 'Roben', geofence: 'NOT_IN_AREA' },
-  ];
 
   return (
     <div className="mx-auto my-5 flex max-w-screen-lg flex-col gap-8">
