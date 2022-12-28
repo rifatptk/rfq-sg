@@ -20,6 +20,11 @@ const NotificationProvider = ({ children }) => {
     };
     const socket = io(BASE_URL);
 
+    socket.on('connect', () => {
+      console.log('Socket connection established!');
+      toast[toastTypes['IN_AREA']]('Socket connection established!');
+    });
+
     socket.on('notification', (notification) => {
       setnotificationArrived(true);
       toast[toastTypes]('');
