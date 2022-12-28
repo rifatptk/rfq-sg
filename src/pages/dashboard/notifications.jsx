@@ -12,10 +12,7 @@ import { useQuery } from 'react-query';
 import { BASE_URL } from '@/apiConfigs';
 import { HashLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
-import formatDistance from 'date-fns/formatDistance';
-
-// import { io } from 'socket.io-client';
-// import { BASE_URL } from '@/apiConfigs';
+import moment from 'moment/moment';
 
 const colors = {
   IN_AREA: 'green',
@@ -27,7 +24,7 @@ export function Notifications() {
   const [page, setPage] = useState(1);
   const token = localStorage.getItem('token');
 
-  function fetchNotifications({ page }) {
+  function fetchNotifications(page) {
     const notifications = fetch(
       `${BASE_URL}/api/admin/notification/all?page=${page}`,
       {
@@ -43,12 +40,13 @@ export function Notifications() {
     error,
     data: notifications,
     refetch,
-  } = useQuery(['notifications', page], fetchNotifications, {
+  } = useQuery(['notifications', page], () => fetchNotifications(page), {
+    keepPreviousData: true,
     // Set the interval to 5 seconds (5000 milliseconds)
-    refetchInterval: 5000,
-    refetchOnWindowFocus: false,
+    // refetchInterval: 5000,
+    // refetchOnWindowFocus: false,
   });
-  console.log(notifications);
+  // console.log(notifications);
 
   function markAllAsRead() {
     fetch(`${BASE_URL}/api/admin/notification/markallasread`, {
@@ -68,17 +66,6 @@ export function Notifications() {
         }
       });
   }
-  // const socket = io(BASE_URL);
-
-  // useEffect(() => {
-  //   socket.on('connection', (skt) => {
-  //     console.log('connected');
-  //   });
-
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, [socket]);
 
   return (
     <div className="mx-auto my-5 flex max-w-screen-lg flex-col gap-8">
@@ -108,13 +95,7 @@ export function Notifications() {
                   <div className="flex justify-between items-center">
                     <span>{`${notification.name} is ${notification.geofence}`}</span>
                     <small>
-                      {formatDistance(
-                        new Date(notification.createAt),
-                        Date.now(),
-                        {
-                          addSuffix: true,
-                        }
-                      )}
+                      {moment(new Date(notification.createdAt)).fromNow()}
                     </small>
                   </div>
                 </Alert>
@@ -129,6 +110,7 @@ export function Notifications() {
                   <ChevronLeftIcon className="w-4 h-4" />
                 </Button>
                 <Button
+                  disabled={Math.ceil(notifications.Total / 10) === page}
                   onClick={() => setPage((prev) => ++prev)}
                   size="sm"
                   className="w-fit"
