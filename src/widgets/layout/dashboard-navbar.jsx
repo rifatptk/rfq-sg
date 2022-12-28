@@ -24,6 +24,7 @@ import { BellIcon, ClockIcon } from '@heroicons/react/24/outline';
 import { HashLoader } from 'react-spinners';
 import { notificationContext } from '@/context/notificationContext';
 import { toast } from 'react-toastify';
+import moment from 'moment/moment';
 
 export function DashboardNavbar() {
   const [controller, dispatch] = useMaterialTailwindController();
@@ -68,7 +69,11 @@ export function DashboardNavbar() {
     error,
     data: unreadNotifications,
     refetch,
-  } = useQuery('unreadNotifications', fetchUnreadNotifications);
+  } = useQuery('unreadNotifications', fetchUnreadNotifications, {
+    // Set the interval to 5 seconds (5000 milliseconds)
+    refetchInterval: 5000,
+    refetchOnWindowFocus: false,
+  });
   // console.log(unreadNotifications);
   const { notificationArrived, setnotificationArrived } =
     useContext(notificationContext);
@@ -184,7 +189,7 @@ export function DashboardNavbar() {
               <div className="">
                 <BellIcon className="h-6 w-6 text-blue-gray-500" />
                 {unreadNotifications?.unreadNotificatin.length && (
-                  <div className="absolute top-0 right-0 bg-red-500 text-sm w-5 h-5 rounded-full grid place-items-center">
+                  <div className="absolute top-0 right-0 bg-red-500 text-[12px] w-5 h-5 rounded-full grid place-items-center">
                     {unreadNotifications.unreadNotificatin.length}
                   </div>
                 )}
@@ -207,7 +212,8 @@ export function DashboardNavbar() {
                       color="blue-gray"
                       className="flex items-center gap-1 text-xs font-normal opacity-60"
                     >
-                      <ClockIcon className="h-3.5 w-3.5" /> 13 minutes ago
+                      <ClockIcon className="h-3.5 w-3.5" />{' '}
+                      {moment(new Date(notification.createdAt)).fromNow()}
                     </Typography>
                   </div>
                 </MenuItem>

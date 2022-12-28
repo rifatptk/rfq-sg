@@ -1,5 +1,5 @@
 import { BASE_URL } from '@/apiConfigs';
-import { notify } from '@/utils/notify';
+// import { notify } from '@/utils/notify';
 import { createContext, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { io } from 'socket.io-client';
@@ -26,9 +26,10 @@ const NotificationProvider = ({ children }) => {
     });
 
     socket.on('notification', (notification) => {
+      console.log(notification);
       setnotificationArrived(true);
-      toast[toastTypes]('');
-      notify();
+      // toast[toastTypes]('');
+      // notify();
     });
 
     return () => {
