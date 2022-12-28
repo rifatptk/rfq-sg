@@ -50,7 +50,7 @@ export function Notifications() {
 
   useEffect(() => {
     if (notificationArrived) {
-      refetch();
+      refetch({ force: true });
       setnotificationArrived(false);
     }
   }, [notificationArrived, setnotificationArrived, refetch]);

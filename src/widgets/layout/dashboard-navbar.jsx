@@ -9,6 +9,7 @@ import {
   MenuHandler,
   MenuList,
   MenuItem,
+  Button,
 } from '@material-tailwind/react';
 import { Cog6ToothIcon, Bars3Icon } from '@heroicons/react/24/solid';
 import {
@@ -22,6 +23,7 @@ import { useContext, useEffect, useState } from 'react';
 import { BellIcon, ClockIcon } from '@heroicons/react/24/outline';
 import { HashLoader } from 'react-spinners';
 import { notificationContext } from '@/context/notificationContext';
+import { toast } from 'react-toastify';
 
 export function DashboardNavbar() {
   const [controller, dispatch] = useMaterialTailwindController();
@@ -73,10 +75,29 @@ export function DashboardNavbar() {
 
   useEffect(() => {
     if (notificationArrived) {
-      refetch();
+      refetch({ force: true });
       setnotificationArrived(false);
     }
   }, [notificationArrived, setnotificationArrived, refetch]);
+
+  function markAllAsRead() {
+    fetch(`${BASE_URL}/api/admin/notification/markallasread`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          refetch({ force: true });
+          toast.success('Marked unread notifications as read!');
+        } else {
+          console.log(data);
+          toast.error('Failed to Mark as read!');
+        }
+      });
+  }
 
   return (
     <Navbar
@@ -191,6 +212,15 @@ export function DashboardNavbar() {
                   </div>
                 </MenuItem>
               ))}
+              {unreadNotifications?.unreadNotificatin.length && (
+                <Button
+                  size="sm"
+                  className="my-3 block mx-auto"
+                  onClick={markAllAsRead}
+                >
+                  Mark all as read
+                </Button>
+              )}
               {isLoading && (
                 <div className="w-fit mx-auto py-5">
                   <HashLoader color="#36d7b7" />
