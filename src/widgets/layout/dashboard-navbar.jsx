@@ -188,7 +188,7 @@ export function DashboardNavbar() {
             <MenuHandler className="relative cursor-pointer p-2 rounded-lg hover:bg-gray-200 ml-4">
               <div className="">
                 <BellIcon className="h-6 w-6 text-blue-gray-500" />
-                {unreadNotifications?.unreadNotificatin.length && (
+                {!!unreadNotifications?.unreadNotificatin.length && (
                   <div className="absolute top-0 right-0 bg-red-500 text-[12px] w-5 h-5 rounded-full grid place-items-center">
                     {unreadNotifications.unreadNotificatin.length}
                   </div>
@@ -235,6 +235,11 @@ export function DashboardNavbar() {
               {error && (
                 <div className="text-red-500 py-5 w-full text-center">
                   &#9888; Error Fetching Data!
+                </div>
+              )}
+              {!unreadNotifications?.unreadNotificatin.length && (
+                <div className="py-5 w-full text-center">
+                  &#9888; No new notifications!
                 </div>
               )}
             </MenuList>
