@@ -1,33 +1,39 @@
 import { BASE_URL } from '@/apiConfigs';
+import { notify } from '@/utils/notify';
 import { createContext, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { io } from 'socket.io-client';
 
 const notificationContext = createContext({
-  connected: false,
+  notificationArrived: false,
+  setnotificationArrived: () => {},
 });
 
-const AuthProvider = ({ children }) => {
-  const socket = io(BASE_URL);
+const NotificationProvider = ({ children }) => {
+  const [notificationArrived, setnotificationArrived] = useState(false);
 
   useEffect(() => {
-    socket.on('connect', (skt) => {
-      console.log('socket connected');
+    const toastTypes = {
+      IN_AREA: 'success',
+      NOT_IN_ARE: 'error',
+      NOT_RESPONDING: 'warning',
+    };
+    const socket = io(BASE_URL);
 
-      socket.emit('usermsg', 'this is user message!');
-      socket.on('usermsg', (msg) => {
-        console.log(msg);
-      });
+    socket.on('notification', (notification) => {
+      setnotificationArrived(true);
+      toast[toastTypes]('');
+      notify();
     });
 
     return () => {
       socket.disconnect();
     };
-  }, [socket]);
+  }, []);
 
   return (
     <notificationContext.Provider
-    // value={}
+      value={{ notificationArrived, setnotificationArrived }}
     >
       {children}
     </notificationContext.Provider>
@@ -35,4 +41,4 @@ const AuthProvider = ({ children }) => {
 };
 
 export { notificationContext };
-export default AuthProvider;
+export default NotificationProvider;

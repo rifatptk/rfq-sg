@@ -18,9 +18,10 @@ import {
 } from '@/context';
 import { useQuery } from 'react-query';
 import { BASE_URL } from '@/apiConfigs';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { BellIcon, ClockIcon } from '@heroicons/react/24/outline';
 import { HashLoader } from 'react-spinners';
+import { notificationContext } from '@/context/notificationContext';
 
 export function DashboardNavbar() {
   const [controller, dispatch] = useMaterialTailwindController();
@@ -64,12 +65,18 @@ export function DashboardNavbar() {
     isLoading,
     error,
     data: unreadNotifications,
-  } = useQuery('unreadNotifications', fetchUnreadNotifications, {
-    // Set the interval to 5 seconds (5000 milliseconds)
-    refetchInterval: 5000,
-    refetchOnWindowFocus: false,
-  });
+    refetch,
+  } = useQuery('unreadNotifications', fetchUnreadNotifications);
   // console.log(unreadNotifications);
+  const { notificationArrived, setnotificationArrived } =
+    useContext(notificationContext);
+
+  useEffect(() => {
+    if (notificationArrived) {
+      refetch();
+      setnotificationArrived(false);
+    }
+  }, [notificationArrived, setnotificationArrived, refetch]);
 
   return (
     <Navbar

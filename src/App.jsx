@@ -1,17 +1,12 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Dashboard, Auth } from '@/layouts';
 import { authContext } from './context/authContext';
-import { useContext, useEffect } from 'react';
-import { notify } from './utils/notify';
+import { useContext } from 'react';
 import { Notifications, Profile, Tables } from './pages/dashboard';
 import AddNewUser from './pages/dashboard/AddNewUser';
 
 function App() {
   const { isAuth } = useContext(authContext);
-
-  useEffect(() => {
-    notify();
-  }, []);
 
   return (
     <Routes>
