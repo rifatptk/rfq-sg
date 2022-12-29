@@ -1,8 +1,8 @@
 import { BASE_URL } from '@/apiConfigs';
-// import { notify } from '@/utils/notify';
 import { createContext, useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
 import { io } from 'socket.io-client';
+// import { toast } from 'react-toastify';
+// import { notify } from '@/utils/notify';
 
 const notificationContext = createContext({
   notificationArrived: false,
@@ -13,23 +13,28 @@ const NotificationProvider = ({ children }) => {
   const [notificationArrived, setnotificationArrived] = useState(false);
 
   useEffect(() => {
-    const toastTypes = {
-      IN_AREA: 'success',
-      NOT_IN_ARE: 'error',
-      NOT_RESPONDING: 'warning',
-    };
+    // const toastTypes = {
+    //   IN_AREA: 'success',
+    //   NOT_IN_ARE: 'error',
+    //   NOT_RESPONDING: 'warning',
+    // };
     const socket = io(BASE_URL);
 
     socket.on('connect', () => {
       console.log('Socket connection established!');
-      toast[toastTypes['IN_AREA']]('Socket connection established!');
     });
 
-    socket.on('notification', (notification) => {
-      console.log(notification);
-      setnotificationArrived(true);
-      // toast[toastTypes]('');
-      // notify();
+    socket.on('showNotification', (notification) => {
+      console.log('showNotification: ', notification);
+      // setnotificationArrived(true);
+    });
+
+    socket.on('demo', (msg) => {
+      console.log('Demo: ', msg);
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Socket disconnected!');
     });
 
     return () => {

@@ -10,7 +10,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useContext, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { BASE_URL } from '@/apiConfigs';
-import { HashLoader } from 'react-spinners';
+import { BarLoader, HashLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 import moment from 'moment/moment';
 import { notificationContext } from '@/context/notificationContext';
@@ -41,6 +41,7 @@ export function Notifications() {
     error,
     data: notifications,
     refetch,
+    // isFetching,
   } = useQuery(['notifications', page], () => fetchNotifications(page), {
     keepPreviousData: true,
     // Set the interval to 5 seconds (5000 milliseconds)
@@ -110,6 +111,9 @@ export function Notifications() {
                   </div>
                 </Alert>
               ))}
+              {/* <div>
+                <BarLoader loading={isFetching} color="#36d7b7" />
+              </div> */}
               <div className="flex gap-3">
                 <Button
                   onClick={() => setPage((prev) => --prev)}
