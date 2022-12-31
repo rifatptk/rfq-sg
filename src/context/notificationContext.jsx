@@ -29,9 +29,9 @@ const NotificationProvider = ({ children }) => {
       // setnotificationArrived(true);
     });
 
-    socket.on('demo', (msg) => {
-      console.log('Demo: ', msg);
-    });
+    // socket.on('demo', (msg) => {
+    //   console.log('Demo: ', msg);
+    // });
 
     socket.on('disconnect', () => {
       console.log('Socket disconnected!');
