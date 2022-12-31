@@ -10,7 +10,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useContext, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { BASE_URL } from '@/apiConfigs';
-import { BarLoader, HashLoader } from 'react-spinners';
+import { HashLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 import moment from 'moment/moment';
 import { notificationContext } from '@/context/notificationContext';
