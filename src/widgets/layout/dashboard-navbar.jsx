@@ -198,7 +198,7 @@ export function DashboardNavbar() {
             <MenuList className="w-max max-h-[400px] ">
               {unreadNotifications?.unreadNotificatin.map((notification, i) => (
                 <MenuItem key={i} className="flex items-center gap-3">
-                  <div>
+                  <Link to={`/dashboard/users/${notification.userId}`}>
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -215,7 +215,7 @@ export function DashboardNavbar() {
                       <ClockIcon className="h-3.5 w-3.5" />{' '}
                       {moment(new Date(notification.createdAt)).fromNow()}
                     </Typography>
-                  </div>
+                  </Link>
                 </MenuItem>
               ))}
               {unreadNotifications?.unreadNotificatin.length && (
