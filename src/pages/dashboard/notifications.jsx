@@ -14,6 +14,7 @@ import { HashLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 import moment from 'moment/moment';
 import { notificationContext } from '@/context/notificationContext';
+import { Link } from 'react-router-dom';
 
 const colors = {
   IN_AREA: 'green',
@@ -104,7 +105,16 @@ export function Notifications() {
                   color={colors[notification.geofence]}
                 >
                   <div className="flex justify-between items-center">
-                    <span>{`${notification.name} is ${notification.geofence}`}</span>
+                    <div className="text-sm">
+                      <Link
+                        to={`/dashboard/users/${notification.userId}`}
+                        className="hover:underline text-base"
+                      >
+                        {notification.name}
+                      </Link>{' '}
+                      is{' '}
+                      {notification.geofence.replaceAll('_', ' ').toLowerCase()}
+                    </div>
                     <small>
                       {moment(new Date(notification.createdAt)).fromNow()}
                     </small>
