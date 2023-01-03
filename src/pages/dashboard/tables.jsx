@@ -52,7 +52,7 @@ export function Tables() {
                   {[
                     'user',
                     'geofence',
-                    'status',
+                    'address',
                     'tel',
                     'NID',
                     'passport',
@@ -129,12 +129,15 @@ export function Tables() {
                       </Typography>
                     </td> */}
                       <td className={className}>
-                        <Chip
+                        {/* <Chip
                           variant="gradient"
                           color={data.user.active ? 'green' : 'blue-gray'}
                           value={data.user.active ? 'active' : 'inactive'}
                           className="py-0.5 px-2 text-[11px] font-medium"
-                        />
+                        /> */}
+                        <div className="text-[12px]">
+                          {data.profile?.address || 'Empty'}
+                        </div>
                       </td>
                       <td className={className}>
                         <Typography className="text-xs font-semibold text-blue-gray-600">
