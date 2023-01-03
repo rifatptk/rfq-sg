@@ -145,10 +145,9 @@ const AddNewUser = () => {
                   })
                 }
               >
-                <Option value="American">American</Option>
-                <Option value="British">British</Option>
-                <Option value="Bangladeshi">Bangladeshi</Option>
                 <Option value="Indian">Indian</Option>
+                <Option value="Pakistani">Pakistani</Option>
+                <Option value="Bangladeshi">Bangladeshi</Option>
               </Select>
               <Input
                 name="nationalId"
