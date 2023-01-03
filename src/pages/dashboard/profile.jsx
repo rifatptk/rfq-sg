@@ -426,6 +426,8 @@ export function Profile() {
               <Option value="Indian">Indian</Option>
               <Option value="Pakistani">Pakistani</Option>
               <Option value="Bangladeshi">Bangladeshi</Option>
+              <Option value="Dutch">Dutch</Option>
+              <Option value="Korean">Korean</Option>
             </Select>
             <Input
               required
