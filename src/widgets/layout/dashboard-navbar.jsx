@@ -70,7 +70,6 @@ export function DashboardNavbar() {
     data: unreadNotifications,
     refetch,
   } = useQuery('unreadNotifications', fetchUnreadNotifications, {
-    // Set the interval to 5 seconds (5000 milliseconds)
     refetchInterval: 5000,
     refetchOnWindowFocus: false,
   });

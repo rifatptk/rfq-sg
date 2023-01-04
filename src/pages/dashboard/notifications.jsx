@@ -45,7 +45,6 @@ export function Notifications() {
     // isFetching,
   } = useQuery(['notifications', page], () => fetchNotifications(page), {
     keepPreviousData: true,
-    // Set the interval to 5 seconds (5000 milliseconds)
     refetchInterval: 5000,
     refetchOnWindowFocus: false,
   });
