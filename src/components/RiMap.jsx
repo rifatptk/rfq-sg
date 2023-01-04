@@ -58,7 +58,7 @@ const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
 
   //current user location
   const { data: userLocation } = useQuery(
-    ['user-location', userId],
+    ['userLocation', userId],
     () =>
       fetch(`${BASE_URL}/api/admin/user-location/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -94,7 +94,7 @@ const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
           {userLocation && (
             <Marker
               icon="../../public/img/user-40.png"
-              className="w-4 h-4"
+              clickable={false}
               zIndex={-1}
               position={{
                 lng: Number(userLocation.long),
