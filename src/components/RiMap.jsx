@@ -71,87 +71,83 @@ const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
     // }
   );
 
-  const renderMap = () => {
-    return (
-      <>
-        <LoadScript googleMapsApiKey={process.env.REACT_APP_GMAPS_API_KEY}>
-          <GoogleMap
-            mapContainerClassName="w-full h-[400px] rounded-lg"
-            zoom={14}
+  return (
+    <>
+      <LoadScript googleMapsApiKey={process.env.REACT_APP_GMAPS_API_KEY}>
+        <GoogleMap
+          mapContainerClassName="w-full h-[400px] rounded-lg"
+          zoom={14}
+          center={{
+            lng: Number(fenceData.long),
+            lat: Number(fenceData.lat),
+          }}
+          onClick={setCenter}
+        >
+          <Circle
+            radius={Number(fenceData.radius)}
             center={{
               lng: Number(fenceData.long),
               lat: Number(fenceData.lat),
             }}
-            onClick={setCenter}
-          >
-            <Circle
-              radius={Number(fenceData.radius)}
-              center={{
-                lng: Number(fenceData.long),
-                lat: Number(fenceData.lat),
-              }}
-              options={options}
-            />
-            {userLocation && (
-              <Marker
-                icon="../../public/img/user-40.png"
-                className="w-4 h-4"
-                zIndex={-1}
-                position={{
-                  lng: Number(userLocation.long),
-                  lat: Number(userLocation.lat),
-                }}
-              />
-            )}
+            options={options}
+          />
+          {userLocation && (
             <Marker
-              opacity={0.8}
+              icon="../../public/img/user-40.png"
+              className="w-4 h-4"
+              zIndex={-1}
               position={{
-                lng: Number(fenceData.long),
-                lat: Number(fenceData.lat),
+                lng: Number(userLocation.long),
+                lat: Number(userLocation.lat),
               }}
-              draggable={true}
-              onDragEnd={setCenter}
             />
-          </GoogleMap>
-        </LoadScript>
-        <div>
-          <p className="text-xs my-1">
-            <strong>Radius: </strong>
-            {geofence.radius / 1000} KM
-          </p>
-          <div className="md:flex items-center gap-5">
-            <Input
-              type="number"
-              label="Enter Geofence Radius in KM"
-              size="lg"
-              // value={fenceData.radius / 1000}
-              onChange={(e) => setRadius(e.target.value * 1000)}
-              icon={<MapIcon />}
-            />
-            <div className="w-fit ml-auto my-5 md:my-0 flex gap-5">
-              <Button
-                color="red"
-                variant="text"
-                onClick={() => setFenceData(API_FENCE)}
-              >
-                Cancel
-              </Button>
-              <Button onClick={updateGeofence}>Save</Button>
-            </div>
-          </div>
-          <div className="text-sm mt-5">
-            <p className="font-bold">How To Change Geofence?</p>
-            1. Click on the map or drag the marker to set Geofence center <br />
-            2. Enter Geofence radius in KM
-            <br />
-            3. Check realtime preview & hit save!
+          )}
+          <Marker
+            opacity={0.8}
+            position={{
+              lng: Number(fenceData.long),
+              lat: Number(fenceData.lat),
+            }}
+            draggable={true}
+            onDragEnd={setCenter}
+          />
+        </GoogleMap>
+      </LoadScript>
+      <div>
+        <p className="text-xs my-1">
+          <strong>Radius: </strong>
+          {geofence.radius / 1000} KM
+        </p>
+        <div className="md:flex items-center gap-5">
+          <Input
+            type="number"
+            label="Enter Geofence Radius in KM"
+            size="lg"
+            // value={fenceData.radius / 1000}
+            onChange={(e) => setRadius(e.target.value * 1000)}
+            icon={<MapIcon />}
+          />
+          <div className="w-fit ml-auto my-5 md:my-0 flex gap-5">
+            <Button
+              color="red"
+              variant="text"
+              onClick={() => setFenceData(API_FENCE)}
+            >
+              Cancel
+            </Button>
+            <Button onClick={updateGeofence}>Save</Button>
           </div>
         </div>
-      </>
-    );
-  };
-
-  return renderMap();
+        <div className="text-sm mt-5">
+          <p className="font-bold">How To Change Geofence?</p>
+          1. Click on the map or drag the marker to set Geofence center <br />
+          2. Enter Geofence radius in KM
+          <br />
+          3. Check realtime preview & hit save!
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default React.memo(RiMap);
