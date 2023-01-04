@@ -96,6 +96,7 @@ const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
               <Marker
                 icon="../../public/img/user-40.png"
                 className="w-4 h-4"
+                zIndex={-1}
                 position={{
                   lng: Number(userLocation.long),
                   lat: Number(userLocation.lat),
@@ -103,6 +104,7 @@ const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
               />
             )}
             <Marker
+              opacity={0.8}
               position={{
                 lng: Number(fenceData.long),
                 lat: Number(fenceData.lat),
