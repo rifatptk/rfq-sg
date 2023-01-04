@@ -7,13 +7,12 @@ import {
   Button,
 } from '@material-tailwind/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { BASE_URL } from '@/apiConfigs';
 import { HashLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 import moment from 'moment/moment';
-import { notificationContext } from '@/context/notificationContext';
 import { Link } from 'react-router-dom';
 
 const colors = {
@@ -49,15 +48,15 @@ export function Notifications() {
     refetchOnWindowFocus: false,
   });
   // console.log(notifications);
-  const { notificationArrived, setnotificationArrived } =
-    useContext(notificationContext);
+  // const { notificationArrived, setnotificationArrived } =
+  //   useContext(notificationContext);
 
-  useEffect(() => {
-    if (notificationArrived) {
-      refetch({ force: true });
-      setnotificationArrived(false);
-    }
-  }, [notificationArrived, setnotificationArrived, refetch]);
+  // useEffect(() => {
+  //   if (notificationArrived) {
+  //     refetch({ force: true });
+  //     setnotificationArrived(false);
+  //   }
+  // }, [notificationArrived, setnotificationArrived, refetch]);
 
   function markAllAsRead() {
     fetch(`${BASE_URL}/api/admin/notification/markallasread`, {

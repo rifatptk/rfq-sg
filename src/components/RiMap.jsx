@@ -4,6 +4,7 @@ import { Button, Input } from '@material-tailwind/react';
 import { MapIcon } from '@heroicons/react/24/outline';
 import { BASE_URL } from '@/apiConfigs';
 import { toast } from 'react-toastify';
+import { useQuery } from 'react-query';
 
 const options = {
   strokeColor: '#2196F3',
@@ -55,6 +56,21 @@ const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
       });
   }
 
+  //current user location
+  const { data: userLocation } = useQuery(
+    ['user-location', userId],
+    () =>
+      fetch(`${BASE_URL}/api/admin/user-location/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((res) => res.json())
+        .then((data) => data.userLocaton)
+    // {
+    //   refetchInterval: 5000,
+    //   refetchOnWindowFocus: false,
+    // }
+  );
+
   const renderMap = () => {
     return (
       <>
@@ -76,6 +92,16 @@ const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
               }}
               options={options}
             />
+            {userLocation && (
+              <Marker
+                icon="../../public/img/user-40.png"
+                className="w-4 h-4"
+                position={{
+                  lng: Number(userLocation.long),
+                  lat: Number(userLocation.lat),
+                }}
+              />
+            )}
             <Marker
               position={{
                 lng: Number(fenceData.long),

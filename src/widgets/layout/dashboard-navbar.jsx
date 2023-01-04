@@ -19,10 +19,9 @@ import {
 } from '@/context';
 import { useQuery } from 'react-query';
 import { BASE_URL } from '@/apiConfigs';
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { BellIcon, ClockIcon } from '@heroicons/react/24/outline';
 import { HashLoader } from 'react-spinners';
-import { notificationContext } from '@/context/notificationContext';
 import { toast } from 'react-toastify';
 import moment from 'moment/moment';
 
@@ -74,15 +73,15 @@ export function DashboardNavbar() {
     refetchOnWindowFocus: false,
   });
   // console.log(unreadNotifications);
-  const { notificationArrived, setnotificationArrived } =
-    useContext(notificationContext);
+  // const { notificationArrived, setnotificationArrived } =
+  //   useContext(notificationContext);
 
-  useEffect(() => {
-    if (notificationArrived) {
-      refetch({ force: true });
-      setnotificationArrived(false);
-    }
-  }, [notificationArrived, setnotificationArrived, refetch]);
+  // useEffect(() => {
+  //   if (notificationArrived) {
+  //     refetch({ force: true });
+  //     setnotificationArrived(false);
+  //   }
+  // }, [notificationArrived, setnotificationArrived, refetch]);
 
   function markAllAsRead() {
     fetch(`${BASE_URL}/api/admin/notification/markallasread`, {
