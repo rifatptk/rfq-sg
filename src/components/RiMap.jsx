@@ -129,7 +129,7 @@ const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
           </div>
         </div>
         <div className="text-sm mt-5">
-          <p className="font-bold">How To Change Geofence?</p>
+          <p className="font-bold">How To Update Geofence?</p>
           1. Click on the map or drag the marker to set Geofence center <br />
           2. Enter Geofence radius in KM
           <br />
