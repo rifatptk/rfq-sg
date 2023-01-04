@@ -93,7 +93,7 @@ const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
           />
           {userLocation && (
             <Marker
-              icon="../../public/img/user-40.png"
+              icon="/img/user-40.png"
               clickable={false}
               zIndex={-1}
               position={{
