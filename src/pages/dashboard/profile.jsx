@@ -23,6 +23,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import HashLoader from 'react-spinners/HashLoader';
 import { toast } from 'react-toastify';
+import { nationalities } from '@/constants';
 
 export function Profile() {
   const token = localStorage.getItem('token');
@@ -360,12 +361,17 @@ export function Profile() {
         </CardBody>
       </Card>
       {/* edit profile info modal */}
-      <Dialog size="xl" open={open} handler={handleOpen}>
+      <Dialog
+        size="xl"
+        open={open}
+        handler={handleOpen}
+        className="overflow-visible"
+      >
         <DialogHeader className="text-base md:text-xl">
           Edit User Profile.
         </DialogHeader>
         <form onSubmit={updateProfileInfo}>
-          <DialogBody divider className="grid md:grid-cols-2 gap-2 md:gap-4 ">
+          <DialogBody divider className="grid md:grid-cols-2 gap-2 md:gap-4">
             <Input
               required
               label="First Name"
@@ -426,8 +432,14 @@ export function Profile() {
               <Option value="Indian">Indian</Option>
               <Option value="Pakistani">Pakistani</Option>
               <Option value="Bangladeshi">Bangladeshi</Option>
-              <Option value="Dutch">Dutch</Option>
-              <Option value="Korean">Korean</Option>
+              <Option value="" className="font-bold border-b">
+                All
+              </Option>
+              {nationalities.map((el, i) => (
+                <Option key={i} value={el}>
+                  {el}
+                </Option>
+              ))}
             </Select>
             <Input
               required

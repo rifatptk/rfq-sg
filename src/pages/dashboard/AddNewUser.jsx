@@ -1,4 +1,5 @@
 import { BASE_URL } from '@/apiConfigs';
+import { nationalities } from '@/constants';
 import {
   Button,
   Card,
@@ -148,8 +149,14 @@ const AddNewUser = () => {
                 <Option value="Indian">Indian</Option>
                 <Option value="Pakistani">Pakistani</Option>
                 <Option value="Bangladeshi">Bangladeshi</Option>
-                <Option value="Dutch">Dutch</Option>
-                <Option value="Korean">Korean</Option>
+                <Option value="" className="font-bold border-b">
+                  All
+                </Option>
+                {nationalities.map((el, i) => (
+                  <Option key={i} value={el}>
+                    {el}
+                  </Option>
+                ))}
               </Select>
               <Input
                 name="nationalId"
