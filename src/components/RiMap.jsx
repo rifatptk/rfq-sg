@@ -60,7 +60,7 @@ const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
     <>
       <LoadScript googleMapsApiKey={process.env.REACT_APP_GMAPS_API_KEY}>
         <GoogleMap
-          mapContainerClassName="w-full h-[400px] rounded-lg"
+          mapContainerClassName="w-full h-[500px] rounded-lg"
           zoom={14}
           center={{
             lng: Number(fenceData.long),
@@ -89,16 +89,31 @@ const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
         </GoogleMap>
       </LoadScript>
       <div>
-        <p className="text-xs my-1">
-          <strong>Radius: </strong>
-          {geofence.radius / 1000} KM
-        </p>
+        <div className="flex items-center gap-1 my-1">
+          <img
+            src="/img/map-marker.png"
+            alt=""
+            className="h-8 p-1 border rounded-lg"
+          />
+          <p className="text-xs">Geofence center</p>
+
+          <img
+            src="/img/user-32.png"
+            alt=""
+            className="ml-5 h-8 p-1 border rounded-lg"
+          />
+          <p className="text-xs">User location</p>
+
+          <p className="ml-5 text-xs">
+            <strong>Radius: </strong>
+            {geofence.radius / 1000} KM
+          </p>
+        </div>
         <div className="md:flex items-center gap-5">
           <Input
             type="number"
             label="Enter Geofence Radius in KM"
             size="lg"
-            // value={fenceData.radius / 1000}
             onChange={(e) => setRadius(e.target.value * 1000)}
             icon={<MapIcon />}
           />
