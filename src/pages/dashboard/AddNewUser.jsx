@@ -43,16 +43,15 @@ const AddNewUser = () => {
   function createUser(e) {
     e.preventDefault();
 
-    // const formData = new FormData();
-    // Object.entries(userInfo).forEach((entry) => {
-    //   formData.append(entry[0], entry[1]);
-    // });
+    const formData = new FormData();
+    Object.entries(userInfo).forEach((entry) => {
+      formData.append(entry[0], entry[1]);
+    });
 
     fetch(BASE_URL + '/api/admin/create/user', {
       method: 'POST',
-      body: JSON.stringify(userInfo),
+      body: formData,
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     })
