@@ -18,7 +18,7 @@ const AddNewUser = () => {
   const token = localStorage.getItem('token');
 
   const [userInfo, setUserInfo] = useState({
-    picture: '',
+    avatar: '',
     email: '',
     password: '',
     firstName: '',
@@ -96,8 +96,8 @@ const AddNewUser = () => {
               >
                 <img
                   src={
-                    userInfo.picture
-                      ? URL.createObjectURL(userInfo.picture)
+                    userInfo.avatar
+                      ? URL.createObjectURL(userInfo.avatar)
                       : '/img/add-avatar.png'
                   }
                   alt="profile-pic"
@@ -109,7 +109,7 @@ const AddNewUser = () => {
                 </p>
               </label>
               <input
-                name="picture"
+                name="avatar"
                 type="file"
                 accept="image/*"
                 className="hidden"

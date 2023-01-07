@@ -49,13 +49,16 @@ export function Profile() {
         return data;
       })
   );
-  console.log('single-user', user);
+  // console.log('single-user', user);
 
   //edit profile info=========
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
 
+  const [dp, setdp] = useState(null);
+
   const [profileInfo, setProfileInfo] = useState({
+    avatar: '',
     address: '',
     firstName: '',
     middleName: '',
@@ -67,7 +70,7 @@ export function Profile() {
     title: '',
   });
 
-  // console.log(profileInfo);
+  console.log(profileInfo);
 
   function onProfileInfoChangeHandler(e) {
     const { name, value } = e.target;
@@ -178,18 +181,24 @@ export function Profile() {
 
   return (
     <>
-      {/* <div className="relative mt-8 h-72 w-full overflow-hidden rounded-xl bg-[url(https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80)] bg-cover	bg-center">
-        <div className="absolute inset-0 h-full w-full bg-blue-500/50" />
-      </div> */}
       <Card className="border my-5 lg:mx-4">
         <CardBody className="p-5 md:p-10">
           {user && (
             <>
               <div className="mb-10 ">
                 <div className="flex items-center gap-6">
-                  <div className="uppercase w-20 h-20 text-4xl text-white grid place-items-center font-bold shadow-lg rounded-full bg-blue-400">
-                    {user?.profile?.firstName[0] || 'Q'}
-                  </div>
+                  {profileInfo.avatar ? (
+                    <img
+                      src={profileInfo.avatar}
+                      alt=""
+                      className="w-20 h-20 shadow-lg rounded-full object-cover object-bottom"
+                    />
+                  ) : (
+                    <div className="uppercase w-20 h-20 text-4xl text-white grid place-items-center font-bold shadow-lg rounded-full bg-blue-400">
+                      {user?.profile?.firstName[0] || 'Q'}
+                    </div>
+                  )}
+
                   <div>
                     <Typography variant="h5" color="blue-gray" className="mb-1">
                       {`${user?.profile?.firstName || 'No Name'} ${
@@ -360,6 +369,7 @@ export function Profile() {
           )}
         </CardBody>
       </Card>
+
       {/* edit profile info modal */}
       <Dialog
         size="xl"
@@ -372,6 +382,33 @@ export function Profile() {
         </DialogHeader>
         <form onSubmit={updateProfileInfo}>
           <DialogBody divider className="grid md:grid-cols-2 gap-2 md:gap-4">
+            <label
+              htmlFor="picture"
+              className="col-span-2 cursor-pointer w-fit"
+              title="Click to change."
+            >
+              <img
+                src={
+                  dp
+                    ? URL.createObjectURL(dp)
+                    : profileInfo.avatar || '/img/add-avatar.png'
+                }
+                alt="profile-pic"
+                className="w-[160px] h-[160px] rounded-full object-cover object-bottom ring-4"
+              />
+
+              <p className="text-center mt-3 rounded-lg border">
+                Profile picture
+              </p>
+            </label>
+            <input
+              name="picture"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              id="picture"
+              onChange={(e) => setdp(e.target.files[0])}
+            />
             <Input
               required
               label="First Name"
