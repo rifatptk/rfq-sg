@@ -20,7 +20,7 @@ const CENTER = {
   radius: 200,
 };
 
-const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
+const RiMap = ({ geofence = CENTER, userId, token, refetch, setIsLoader }) => {
   const API_FENCE = geofence;
   const [fenceData, setFenceData] = useState(geofence);
   function setRadius(num) {
@@ -36,6 +36,8 @@ const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
   };
 
   function updateGeofence() {
+    setIsLoader(true);
+
     fetch(`${BASE_URL}/api/admin/update/location/${userId}`, {
       method: 'PUT',
       body: JSON.stringify(fenceData),
@@ -53,6 +55,7 @@ const RiMap = ({ geofence = CENTER, userId, token, refetch }) => {
           console.log(data);
           toast.error('Failed to update geofence');
         }
+        setIsLoader(false);
       });
   }
 

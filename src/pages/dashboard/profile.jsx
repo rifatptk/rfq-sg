@@ -271,6 +271,7 @@ export function Profile() {
                       refetch={refetch}
                       emergency={user.emergency}
                       userId={userId}
+                      setIsLoader={setIsLoader}
                     />
                   </ul>
                 </div>
@@ -366,6 +367,7 @@ export function Profile() {
                     refetch={refetch}
                     userId={userId}
                     token={token}
+                    setIsLoader={setIsLoader}
                   />
                 </div>
               </div>

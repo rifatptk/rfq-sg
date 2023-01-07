@@ -13,7 +13,13 @@ import { useState } from 'react';
 import { BASE_URL } from '@/apiConfigs';
 import { toast } from 'react-toastify';
 
-export function MessageCard({ emergency, userId, refetch, token }) {
+export function MessageCard({
+  emergency,
+  userId,
+  refetch,
+  token,
+  setIsLoader,
+}) {
   const [data, setData] = useState({
     firstName: emergency?.firstName || '',
     middleName: emergency?.middleName || '',
@@ -36,6 +42,8 @@ export function MessageCard({ emergency, userId, refetch, token }) {
 
   function updateEmegencyContact(e) {
     e.preventDefault();
+    setIsLoader(true);
+
     fetch(`${BASE_URL}/api/admin/update/emergency/${userId}`, {
       method: 'PATCH',
       body: JSON.stringify(data),
@@ -55,6 +63,7 @@ export function MessageCard({ emergency, userId, refetch, token }) {
           console.log(data);
           toast.error('Failed to update emergency contact!');
         }
+        setIsLoader(false);
       });
   }
   return (
