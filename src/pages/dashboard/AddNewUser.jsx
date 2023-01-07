@@ -10,6 +10,7 @@ import {
   Typography,
 } from '@material-tailwind/react';
 import React, { useState } from 'react';
+import { HashLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 
 const AddNewUser = () => {
@@ -40,8 +41,11 @@ const AddNewUser = () => {
     }));
   }
 
+  const [isLoading, setIsLoading] = useState(false);
+
   function createUser(e) {
     e.preventDefault();
+    setIsLoading(true);
 
     const formData = new FormData();
     Object.entries(userInfo).forEach((entry) => {
@@ -58,8 +62,22 @@ const AddNewUser = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          e.target.reset();
+          setUserInfo({
+            avatar: '',
+            email: '',
+            password: '',
+            firstName: '',
+            middleName: '',
+            surName: '',
+            title: '',
+            phone: '',
+            passportId: '',
+            nationality: '',
+            nationalId: '',
+            address: '',
+          });
           toast.success(data.msg);
+          setIsLoading(false);
         } else {
           const errors = Object.values(data.mappedErrors).map(
             (el) => `${el.msg}`
@@ -76,9 +94,11 @@ const AddNewUser = () => {
               ))}
             </div>
           );
+          setIsLoading(false);
         }
       });
   }
+
   return (
     <>
       <div className="container mt-10 mx-auto p-4 ">
@@ -130,6 +150,7 @@ const AddNewUser = () => {
                 type="email"
                 label="Email"
                 size="lg"
+                value={userInfo.email}
                 onChange={userInfoChangeHandler}
               />
               <Input
@@ -137,6 +158,7 @@ const AddNewUser = () => {
                 type="password"
                 label="Password"
                 size="lg"
+                value={userInfo.password}
                 onChange={userInfoChangeHandler}
               />
               <Input
@@ -144,47 +166,54 @@ const AddNewUser = () => {
                 label="First Name"
                 size="lg"
                 onChange={userInfoChangeHandler}
+                value={userInfo.firstName}
               />
               <Input
                 name="middleName"
                 label="Middle Name"
                 size="lg"
                 onChange={userInfoChangeHandler}
+                value={userInfo.middleName}
               />
               <Input
                 name="surName"
                 label="Sur Name"
                 size="lg"
                 onChange={userInfoChangeHandler}
+                value={userInfo.surName}
               />
               <Input
                 name="title"
                 label="Title"
                 size="lg"
                 onChange={userInfoChangeHandler}
+                value={userInfo.title}
               />
               <Input
                 name="phone"
                 label="Tel:"
                 size="lg"
                 onChange={userInfoChangeHandler}
+                value={userInfo.phone}
               />
               <Input
                 name="passportId"
                 label="Passport No."
                 size="lg"
                 onChange={userInfoChangeHandler}
+                value={userInfo.passportId}
               />
               <select
                 name="nationality"
                 onChange={userInfoChangeHandler}
+                value={userInfo.nationality}
                 className="outline-none border border-gray-400 rounded-lg"
               >
                 <option hidden>Select nationality</option>
                 <option value="Indian">Indian</option>
                 <option value="Pakistani">Pakistani</option>
                 <option value="Bangladeshi">Bangladeshi</option>
-                <option value="" disabled className="font-bold">
+                <option disabled className="font-bold">
                   All
                 </option>
                 {nationalities.map((el, i) => (
@@ -198,12 +227,14 @@ const AddNewUser = () => {
                 label="NID No."
                 size="lg"
                 onChange={userInfoChangeHandler}
+                value={userInfo.nationalId}
               />
               <Input
                 name="address"
                 label="Address"
                 size="lg"
                 onChange={userInfoChangeHandler}
+                value={userInfo.address}
               />
             </CardBody>
             <CardFooter className="pt-0">
@@ -214,6 +245,11 @@ const AddNewUser = () => {
           </form>
         </Card>
       </div>
+      {isLoading && (
+        <div className="fixed inset-0 grid place-items-center bg-black/80 z-50 backdrop-blur-[2px]">
+          <HashLoader color="#36d7b7" />
+        </div>
+      )}
     </>
   );
 };
