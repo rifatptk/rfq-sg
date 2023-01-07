@@ -18,6 +18,7 @@ const AddNewUser = () => {
   const token = localStorage.getItem('token');
 
   const [userInfo, setUserInfo] = useState({
+    picture: '',
     email: '',
     password: '',
     firstName: '',
@@ -88,6 +89,37 @@ const AddNewUser = () => {
           </CardHeader>
           <form onSubmit={createUser}>
             <CardBody className="grid md:grid-cols-2 gap-4">
+              <label
+                htmlFor="picture"
+                className="col-span-2 cursor-pointer w-fit"
+                title="Click to change."
+              >
+                <img
+                  src={
+                    userInfo.picture
+                      ? URL.createObjectURL(userInfo.picture)
+                      : '/img/add-avatar.png'
+                  }
+                  alt="profile-pic"
+                  className="w-[160px] h-[160px] rounded-full object-cover ring-4"
+                />
+
+                <p className="text-center mt-3 rounded-lg border">
+                  Profile picture
+                </p>
+              </label>
+              <input
+                name="picture"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                id="picture"
+                onChange={(e) =>
+                  userInfoChangeHandler({
+                    target: { name: e.target.name, value: e.target.files[0] },
+                  })
+                }
+              />
               <Input
                 name="email"
                 type="email"
