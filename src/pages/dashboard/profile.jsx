@@ -191,7 +191,7 @@ export function Profile() {
                     <img
                       src={profileInfo.avatar}
                       alt=""
-                      className="w-20 h-20 shadow-lg rounded-full object-cover object-bottom"
+                      className="w-20 h-20 shadow-lg rounded-full object-cover"
                     />
                   ) : (
                     <div className="uppercase w-20 h-20 text-4xl text-white grid place-items-center font-bold shadow-lg rounded-full bg-blue-400">
@@ -394,7 +394,7 @@ export function Profile() {
                     : profileInfo.avatar || '/img/add-avatar.png'
                 }
                 alt="profile-pic"
-                className="w-[160px] h-[160px] rounded-full object-cover object-bottom ring-4"
+                className="w-[160px] h-[160px] rounded-full object-cover ring-4"
               />
 
               <p className="text-center mt-3 rounded-lg border">
