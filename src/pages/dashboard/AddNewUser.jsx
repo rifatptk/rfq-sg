@@ -207,7 +207,7 @@ const AddNewUser = () => {
                 name="nationality"
                 onChange={userInfoChangeHandler}
                 value={userInfo.nationality}
-                className="outline-none border border-gray-400 rounded-lg"
+                className="outline-none border border-gray-400 rounded-lg px-3 py-[10px]"
               >
                 <option hidden>Select nationality</option>
                 <option value="Indian">Indian</option>
