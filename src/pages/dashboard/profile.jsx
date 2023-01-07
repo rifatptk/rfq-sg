@@ -11,8 +11,6 @@ import {
   DialogFooter,
   Input,
   Checkbox,
-  Select,
-  Option,
 } from '@material-tailwind/react';
 import { PencilSquareIcon } from '@heroicons/react/24/solid';
 import { ProfileInfoCard, MessageCard } from '@/widgets/cards';
@@ -384,7 +382,7 @@ export function Profile() {
           <DialogBody divider className="grid md:grid-cols-2 gap-2 md:gap-4">
             <label
               htmlFor="picture"
-              className="col-span-2 cursor-pointer w-fit"
+              className="md:col-span-2 cursor-pointer w-fit mx-auto"
               title="Click to change."
             >
               <img
@@ -397,7 +395,7 @@ export function Profile() {
                 className="w-[160px] h-[160px] rounded-full object-cover ring-4"
               />
 
-              <p className="text-center mt-3 rounded-lg border">
+              <p className="text-center mt-3 rounded-lg border text-gray-600 py-1">
                 Profile picture
               </p>
             </label>
@@ -458,26 +456,25 @@ export function Profile() {
               value={profileInfo.address}
               onChange={onProfileInfoChangeHandler}
             />
-            <Select
-              label="Select Nationality"
+            <select
               name="nationality"
               value={profileInfo.nationality}
-              onChange={(selected) =>
-                setProfileInfo({ ...profileInfo, nationality: selected })
-              }
+              onChange={onProfileInfoChangeHandler}
+              className="outline-none border border-gray-400 rounded-lg"
             >
-              <Option value="Indian">Indian</Option>
-              <Option value="Pakistani">Pakistani</Option>
-              <Option value="Bangladeshi">Bangladeshi</Option>
-              <Option value="" className="font-bold border-b">
+              <option hidden>Select nationality</option>
+              <option value="Indian">Indian</option>
+              <option value="Pakistani">Pakistani</option>
+              <option value="Bangladeshi">Bangladeshi</option>
+              <option value="" disabled className="font-bold">
                 All
-              </Option>
+              </option>
               {nationalities.map((el, i) => (
-                <Option key={i} value={el}>
+                <option key={i} value={el}>
                   {el}
-                </Option>
+                </option>
               ))}
-            </Select>
+            </select>
             <Input
               required
               label="NID"
