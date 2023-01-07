@@ -49,7 +49,7 @@ const AddNewUser = () => {
 
     const formData = new FormData();
     Object.entries(userInfo).forEach((entry) => {
-      formData.append(entry[0], entry[1]);
+      if (entry[1]) formData.append(entry[0], entry[1]);
     });
 
     fetch(BASE_URL + '/api/admin/create/user', {
@@ -77,7 +77,6 @@ const AddNewUser = () => {
             address: '',
           });
           toast.success(data.msg);
-          setIsLoading(false);
         } else {
           const errors = Object.values(data.mappedErrors).map(
             (el) => `${el.msg}`
@@ -86,17 +85,18 @@ const AddNewUser = () => {
             <div>
               <h3 className="font-bold">Errors</h3>
               {errors.map((err, i) => (
-                <p>
-                  <small key={i} className="capitalize">
+                <p key={i}>
+                  <small className="capitalize">
                     {i + 1}. {err}
                   </small>
                 </p>
               ))}
             </div>
           );
-          setIsLoading(false);
         }
-      });
+        setIsLoading(false);
+      })
+      .catch((err) => console.log(err));
   }
 
   return (

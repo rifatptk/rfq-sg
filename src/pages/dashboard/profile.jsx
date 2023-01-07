@@ -49,6 +49,7 @@ export function Profile() {
   );
   // console.log('single-user', user);
 
+  const [isLoader, setIsLoader] = useState(false);
   //edit profile info=========
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
@@ -80,11 +81,18 @@ export function Profile() {
 
   function updateProfileInfo(e) {
     e.preventDefault();
+    setIsLoader(true);
+
+    const formData = new FormData();
+    Object.entries(profileInfo).forEach((entry) => {
+      if (entry[1]) formData.append(entry[0], entry[1]);
+    });
+    if (dp) formData.append('avatar', dp);
+
     fetch(`${BASE_URL}/api/admin/update/profile/${userId}`, {
       method: 'PATCH',
-      body: JSON.stringify(profileInfo),
+      body: formData,
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     })
@@ -93,12 +101,14 @@ export function Profile() {
         if (data.success) {
           refetch({ force: true });
           toast.success('Updated profile info successfully!');
+          setdp(null);
           handleOpen();
         } else {
           handleOpen();
           console.log(data);
           toast.error('Failed to update profile info!');
         }
+        setIsLoader(false);
       });
   }
   //edit profile info---------
@@ -129,6 +139,8 @@ export function Profile() {
   }
   const updateSettings = (e) => {
     e.preventDefault();
+    setIsLoader(true);
+
     fetch(`${BASE_URL}/api/admin/update/settings/${userId}`, {
       method: 'PATCH',
       body: JSON.stringify(settings),
@@ -146,6 +158,7 @@ export function Profile() {
           console.log(data);
           toast.error('Failed to update settings!');
         }
+        setIsLoader(false);
       });
   };
   //settings----------------
@@ -157,6 +170,8 @@ export function Profile() {
   };
   const navigate = useNavigate();
   function deleteUser() {
+    setIsLoader(true);
+
     fetch(`${BASE_URL}/api/admin/delete/user/${userId}`, {
       method: 'DELETE',
       headers: {
@@ -174,6 +189,7 @@ export function Profile() {
           console.log(response);
           toast.error(response.msg);
         }
+        setIsLoader(false);
       });
   }
 
@@ -466,7 +482,7 @@ export function Profile() {
               <option value="Indian">Indian</option>
               <option value="Pakistani">Pakistani</option>
               <option value="Bangladeshi">Bangladeshi</option>
-              <option value="" disabled className="font-bold">
+              <option disabled className="font-bold">
                 All
               </option>
               {nationalities.map((el, i) => (
@@ -496,7 +512,10 @@ export function Profile() {
             <Button
               variant="text"
               color="red"
-              onClick={handleOpen}
+              onClick={() => {
+                handleOpen();
+                setdp(null);
+              }}
               className="mr-1"
             >
               <span>Cancel</span>
@@ -541,6 +560,11 @@ export function Profile() {
           </Button>
         </DialogFooter>
       </Dialog>
+      {isLoader && (
+        <div className="fixed inset-0 grid place-items-center bg-black/80 z-[10000] backdrop-blur-[2px]">
+          <HashLoader color="#36d7b7" />
+        </div>
+      )}
     </>
   );
 }
