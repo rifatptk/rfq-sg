@@ -46,6 +46,11 @@ const AuthProvider = ({ children }) => {
           toast.error(data.msg);
         }
         setloading(false);
+      })
+      .catch((err) => {
+        setloading(false);
+        console.log(err);
+        toast.error('Something went wrong!');
       });
   }
 
