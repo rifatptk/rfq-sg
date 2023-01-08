@@ -55,10 +55,18 @@ export function DashboardNavbar() {
     } ${user?.profile?.surName || ''}`;
   }
 
-  function fetchUnreadNotifications(page) {
+  function fetchUnreadNotifications() {
     const notifications = fetch(`${BASE_URL}/api/admin/notification/unread`, {
       headers: { Authorization: `Bearer ${token}` },
-    }).then((res) => res.json());
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          return data;
+        } else {
+          return null;
+        }
+      });
 
     return notifications;
   }
@@ -72,16 +80,6 @@ export function DashboardNavbar() {
     refetchInterval: 5000,
     refetchOnWindowFocus: false,
   });
-  // console.log(unreadNotifications);
-  // const { notificationArrived, setnotificationArrived } =
-  //   useContext(notificationContext);
-
-  // useEffect(() => {
-  //   if (notificationArrived) {
-  //     refetch({ force: true });
-  //     setnotificationArrived(false);
-  //   }
-  // }, [notificationArrived, setnotificationArrived, refetch]);
 
   function markAllAsRead() {
     fetch(`${BASE_URL}/api/admin/notification/markallasread`, {
