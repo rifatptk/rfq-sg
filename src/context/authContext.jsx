@@ -38,16 +38,17 @@ const AuthProvider = ({ children }) => {
     })
       .then((res) => res.json())
       .then((data) => {
+        if (data.success) {
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('userId', data.userId);
+          setuserId(data.userId);
+        } else {
+          toast.error(data.msg);
+        }
         setloading(false);
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('userId', data.userId);
-        setuserId(data.userId);
-      })
-      .catch((err) => {
-        setloading(false);
-        toast.error('Sorry, Invalid Credentials!');
       });
   }
+
   function doLogout() {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
