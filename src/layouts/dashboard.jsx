@@ -13,7 +13,7 @@ export function Dashboard() {
           sidenavType === 'dark' ? '/img/logo-ct.png' : '/img/logo-ct-dark.png'
         }
       />
-      <div className="p-4 xl:ml-80">
+      <div className="p-4 xl:ml-[256px]">
         <DashboardNavbar />
         <Configurator />
         <Outlet />

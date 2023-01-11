@@ -4,6 +4,7 @@ import {
   CardBody,
   Typography,
   Button,
+  Tooltip,
 } from '@material-tailwind/react';
 import {
   CheckCircleIcon,
@@ -14,12 +15,11 @@ import { Link } from 'react-router-dom';
 import { BASE_URL } from '@/apiConfigs';
 import { useQuery } from 'react-query';
 import { HashLoader } from 'react-spinners';
-import { useState } from 'react';
+import { DataGrid } from '@mui/x-data-grid';
+import TableToolbar from '@/components/TableToolbar';
 
 export function Tables() {
   const token = localStorage.getItem('token');
-
-  const [sortBy, setsortBy] = useState(null);
 
   const {
     isLoading,
@@ -36,151 +36,155 @@ export function Tables() {
       refetchOnWindowFocus: false,
     }
   );
+  function getFullName(params) {
+    const { firstName, middleName, surName } = params.row.profile;
+    return `${firstName} ${middleName} ${surName}`;
+  }
+  function renderGeofence(params) {
+    const { geofence } = params.row.user;
 
-  console.log(sortBy);
+    const indicators = {
+      NOT_RESPONDING: (
+        <Tooltip
+          content="No response"
+          animate={{
+            mount: { scale: 1, y: 0 },
+            unmount: { scale: 0, y: 25 },
+          }}
+        >
+          <XCircleIcon className="w-8 text-gray-500" />
+          {/* <small className="text-[10px]">No Response</small> */}
+        </Tooltip>
+      ),
+      IN_AREA: (
+        <Tooltip
+          content="In area"
+          animate={{
+            mount: { scale: 1, y: 0 },
+            unmount: { scale: 0, y: 25 },
+          }}
+        >
+          <CheckCircleIcon className="w-8 text-green-500" />
+          {/* <small className="text-[10px]">In Area</small> */}
+        </Tooltip>
+      ),
+      NOT_IN_AREA: (
+        <Tooltip
+          content="Out of area"
+          animate={{
+            mount: { scale: 1, y: 0 },
+            unmount: { scale: 0, y: 25 },
+          }}
+        >
+          <ExclamationTriangleIcon className="w-8 text-red-500" />
+          {/* <small className="text-[10px]">Out Of Area</small> */}
+        </Tooltip>
+      ),
+    };
 
-  // function sortUsers() {
-  //   if (!sortBy) return users;
-  // if(sortBy==='user'){
-  //   return users?.sort((a,b)=>{
-  //     a.profile?.nae
-  //   })
-  // }
-  // }
+    return (
+      <div className="flex items-center gap-2">{indicators[geofence]} </div>
+    );
+  }
+
+  const userColumns = [
+    {
+      field: 'user',
+      headerName: 'User',
+      minWidth: 240,
+      flex: 1,
+      valueGetter: getFullName,
+      renderCell: (params) => {
+        return (
+          <div className="flex items-center gap-2">
+            <img
+              className="w-10 h-10 rounded-full object-cover shrink-0"
+              src={params.row.profile.avatar || '/img/add-avatar.png'}
+              alt="avatar"
+            />
+            <div>
+              <p className="font-semibold"> {getFullName(params)}</p>
+              <small>{params.row.user.email}</small>
+            </div>
+          </div>
+        );
+      },
+    },
+
+    {
+      field: 'geofence',
+      headerName: 'Geofence',
+      width: 80,
+      align: 'center',
+      valueGetter: (params) => params.row.user.geofence,
+      renderCell: renderGeofence,
+    },
+    {
+      field: 'address',
+      headerName: 'Address',
+      minWidth: 120,
+      flex: 1,
+      valueGetter: (params) => params.row.profile.address,
+      renderCell: (params) => <small>{params.row.profile.address}</small>,
+    },
+    {
+      field: 'tel',
+      headerName: 'TEL',
+      minWidth: 150,
+      valueGetter: (params) => params.row.profile.phone,
+    },
+    {
+      field: 'nid',
+      headerName: 'NID',
+      minWidth: 150,
+      valueGetter: (params) => params.row.profile.nationalId,
+    },
+    {
+      field: 'passport',
+      headerName: 'Passport',
+      minWidth: 150,
+      valueGetter: (params) => params.row.profile.passportId,
+    },
+    {
+      field: 'action',
+      headerName: '',
+      minWidth: 120,
+      renderCell: (params) => (
+        <Link to={`/dashboard/users/${params.row.user._id}`}>
+          <Button size="sm">View/Edit</Button>
+        </Link>
+      ),
+    },
+  ];
 
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
       <Card>
-        <CardHeader variant="gradient" color="blue" className="mb-8 p-6">
+        <CardHeader variant="gradient" color="blue" className="p-6">
           <Typography variant="h6" color="white">
             Users Table
           </Typography>
         </CardHeader>
-        <CardBody className="overflow-x-auto px-0 pt-0 pb-2">
-          {users && (
-            <>
-              <table className="w-full min-w-[640px] table-auto">
-                <thead>
-                  <tr>
-                    {[
-                      'user',
-                      'geofence',
-                      'address',
-                      'tel',
-                      'NID',
-                      'passport',
-                      '',
-                    ].map((el) => (
-                      <th
-                        key={el}
-                        onClick={() => setsortBy(el)}
-                        title={`Click to sort by ${el.toUpperCase()}`}
-                        className="border-b cursor-pointer border-blue-gray-50 py-3 px-5 text-left text-blue-gray-400 hover:text-blue-400 "
-                      >
-                        <Typography
-                          variant="small"
-                          className="text-[11px] font-bold uppercase"
-                        >
-                          {el}
-                        </Typography>
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.users?.map((data, key) => {
-                    const className = `py-3 px-4 ${
-                      key === users.users.length - 1
-                        ? ''
-                        : 'border-b border-blue-gray-50'
-                    }`;
-
-                    return (
-                      <tr key={key}>
-                        <td className={className}>
-                          <div className="flex items-center gap-2">
-                            <div>
-                              <Typography
-                                variant="small"
-                                color="blue-gray"
-                                className="font-semibold"
-                              >
-                                {`${data.profile?.firstName || 'No Name'} ${
-                                  data.profile?.middleName || ''
-                                } ${data.profile?.surName || ''}`}
-                              </Typography>
-                              <Typography className="text-xs font-normal text-blue-gray-500">
-                                {data.user.email}
-                              </Typography>
-                            </div>
-                          </div>
-                        </td>
-                        <td className={className}>
-                          {data.user.geofence === 'NOT_RESPONDING' && (
-                            <div className="flex items-center gap-2">
-                              <XCircleIcon className="w-8 text-gray-500" />
-                              <small className="text-[10px]">No Response</small>
-                            </div>
-                          )}
-                          {data.user.geofence === 'IN_AREA' && (
-                            <div className="flex items-center gap-2">
-                              <CheckCircleIcon className="w-8 text-green-500" />
-                              <small className="text-[10px]">In Area</small>
-                            </div>
-                          )}
-                          {data.user.geofence === 'NOT_IN_AREA' && (
-                            <div className="flex items-center gap-2">
-                              <ExclamationTriangleIcon className="w-8 text-red-500" />
-                              <small className="text-[10px]">Out Of Area</small>
-                            </div>
-                          )}
-                        </td>
-                        {/* <td className={className}>
-                      <Typography className="text-xs font-semibold text-blue-gray-600">
-                        {data.user.roles[0]}
-                      </Typography>
-                      <Typography className="text-xs font-normal text-blue-gray-500">
-                        Staff
-                      </Typography>
-                    </td> */}
-                        <td className={className}>
-                          {/* <Chip
-                          variant="gradient"
-                          color={data.user.active ? 'green' : 'blue-gray'}
-                          value={data.user.active ? 'active' : 'inactive'}
-                          className="py-0.5 px-2 text-[11px] font-medium"
-                        /> */}
-                          <div className="text-[12px]">
-                            {data.profile?.address || 'Empty'}
-                          </div>
-                        </td>
-                        <td className={className}>
-                          <Typography className="text-xs font-semibold text-blue-gray-600">
-                            {data.profile?.phone || 'Empty'}
-                          </Typography>
-                        </td>
-                        <td className={className}>
-                          <Typography className="text-xs font-semibold text-blue-gray-600">
-                            {data.profile?.nationalId || 'Empty'}
-                          </Typography>
-                        </td>
-                        <td className={className}>
-                          <Typography className="text-xs font-semibold text-blue-gray-600">
-                            {data.profile?.passportId || 'Empty'}
-                          </Typography>
-                        </td>
-                        <td className={className}>
-                          <Link to={`/dashboard/users/${data.user._id}`}>
-                            <Button size="sm">View/Edit</Button>
-                          </Link>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </>
+        <CardBody className="overflow-x-auto px-0 pt-0 ">
+          {!!users && (
+            <DataGrid
+              getRowId={(el) => el.user._id}
+              rows={users?.users}
+              columns={userColumns}
+              rowsPerPageOptions={[5, 10, 20, 25, 50, 75, 100]}
+              autoHeight
+              density="standard"
+              components={{ Toolbar: TableToolbar }}
+              sx={{
+                border: 'none',
+                p: 2,
+                '& .MuiDataGrid-row .MuiDataGrid-cell': {
+                  borderBottom: 'none',
+                },
+              }}
+            />
           )}
+
           {error && (
             <div className="text-red-500 py-5 w-full text-center">
               &#9888; Error Fetching Data!
