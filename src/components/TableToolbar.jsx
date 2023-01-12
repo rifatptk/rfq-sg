@@ -3,7 +3,6 @@ import {
   GridToolbarContainer,
   GridToolbarDensitySelector,
   GridToolbarExport,
-  GridToolbarFilterButton,
 } from '@mui/x-data-grid';
 
 function TableToolbar() {
@@ -11,7 +10,6 @@ function TableToolbar() {
     <GridToolbarContainer>
       <GridToolbarColumnsButton />
       <GridToolbarDensitySelector />
-      <GridToolbarFilterButton />
       <GridToolbarExport />
     </GridToolbarContainer>
   );
