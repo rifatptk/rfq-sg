@@ -78,7 +78,6 @@ export function DashboardNavbar() {
     refetch,
   } = useQuery('unreadNotifications', fetchUnreadNotifications, {
     refetchInterval: 5000,
-    refetchOnWindowFocus: false,
   });
 
   function markAllAsRead() {

@@ -15,7 +15,6 @@ const RiUserLocation = ({ userId, token }) => {
         .then((data) => data.userLocaton),
     {
       refetchInterval: 5000,
-      refetchOnWindowFocus: false,
     }
   );
 

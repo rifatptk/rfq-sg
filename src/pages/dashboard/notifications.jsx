@@ -45,18 +45,7 @@ export function Notifications() {
   } = useQuery(['notifications', page], () => fetchNotifications(page), {
     keepPreviousData: true,
     refetchInterval: 5000,
-    refetchOnWindowFocus: false,
   });
-  // console.log(notifications);
-  // const { notificationArrived, setnotificationArrived } =
-  //   useContext(notificationContext);
-
-  // useEffect(() => {
-  //   if (notificationArrived) {
-  //     refetch({ force: true });
-  //     setnotificationArrived(false);
-  //   }
-  // }, [notificationArrived, setnotificationArrived, refetch]);
 
   function markAllAsRead() {
     fetch(`${BASE_URL}/api/admin/notification/markallasread`, {

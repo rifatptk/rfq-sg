@@ -33,7 +33,6 @@ export function Tables() {
       }).then((res) => res.json()),
     {
       refetchInterval: 5000,
-      refetchOnWindowFocus: false,
     }
   );
   function getFullName(params) {
