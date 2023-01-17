@@ -4,10 +4,16 @@ import { authContext } from './context/authContext';
 import { useContext } from 'react';
 import { Notifications, Profile, Tables } from './pages/dashboard';
 import AddNewUser from './pages/dashboard/AddNewUser';
+import { PuffLoader } from 'react-spinners';
 
 function App() {
-  const { isAuth } = useContext(authContext);
-
+  const { isAuth, loading } = useContext(authContext);
+  if (loading)
+    return (
+      <div className="fixed inset-0 grid place-items-center bg-black/80 z-[10000] backdrop-blur-[2px]">
+        <PuffLoader color="orange" />
+      </div>
+    );
   return (
     <>
       {isAuth ? (

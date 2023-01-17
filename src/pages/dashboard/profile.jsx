@@ -27,27 +27,30 @@ export function Profile() {
   const token = localStorage.getItem('token');
 
   const { userId } = useParams();
+
   const {
     isLoading,
     error,
     data: user,
     refetch,
-  } = useQuery(['user', userId], () =>
-    fetch(`${BASE_URL}/api/admin/singleUser/${userId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.profile) setProfileInfo(data.profile);
-        setsettings({
-          active: data.user.active,
-          roles: data.user.roles,
-          geoFenceAlert: data.user.geoFenceAlert,
-        });
-        return data;
+  } = useQuery(
+    ['user', userId],
+    () =>
+      fetch(`${BASE_URL}/api/admin/singleUser/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
       })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.profile) setProfileInfo(data.profile);
+          setsettings({
+            active: data.user.active,
+            roles: data.user.roles,
+            geoFenceAlert: data.user.geoFenceAlert,
+          });
+          return data;
+        }),
+    { refetchOnWindowFocus: false }
   );
-  // console.log('single-user', user);
 
   const [isLoader, setIsLoader] = useState(false);
   //edit profile info=========
@@ -68,8 +71,6 @@ export function Profile() {
     surName: '',
     title: '',
   });
-
-  console.log(profileInfo);
 
   function onProfileInfoChangeHandler(e) {
     const { name, value } = e.target;
@@ -119,7 +120,6 @@ export function Profile() {
     geoFenceAlert: false,
     roles: ['USER'],
   });
-  // console.log('settings', settings);
 
   function settingsChangeHandler(e) {
     const { name, checked } = e.target;

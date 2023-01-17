@@ -1,5 +1,5 @@
 import { BASE_URL } from '@/apiConfigs';
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useLayoutEffect } from 'react';
 import { toast } from 'react-toastify';
 
 const authContext = createContext({
@@ -13,16 +13,35 @@ const authContext = createContext({
 
 const AuthProvider = ({ children }) => {
   const [isAuth, setIsAuth] = useState(true);
-  const [loading, setloading] = useState(false);
+  const [loading, setloading] = useState(true);
   const [userId, setuserId] = useState(null);
 
   const token = localStorage.getItem('token');
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (token) {
-      setIsAuth(true);
+      fetch(`${BASE_URL}/api/admin/check/token`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            setIsAuth(true);
+          } else {
+            toast.error(data.msg);
+            doLogout();
+          }
+          setloading(false);
+        })
+        .catch((err) => {
+          toast.error('Something went wrong!');
+          console.log(err);
+          setloading(false);
+        });
     } else {
       setIsAuth(false);
+      setloading(false);
     }
   }, [token]);
 
