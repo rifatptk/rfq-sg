@@ -31,8 +31,6 @@ const AddNewUser = () => {
     address: '',
   });
 
-  console.log(userInfo);
-
   function userInfoChangeHandler(e) {
     const { name, value } = e.target;
     setUserInfo((prev) => ({
@@ -51,6 +49,10 @@ const AddNewUser = () => {
     Object.entries(userInfo).forEach((entry) => {
       if (entry[1]) formData.append(entry[0], entry[1]);
     });
+
+    let errors = [];
+
+    if (!userInfo.avatar) errors.push('Profile picture is required');
 
     fetch(BASE_URL + '/api/admin/create/user', {
       method: 'POST',
@@ -78,8 +80,8 @@ const AddNewUser = () => {
           });
           toast.success(data.msg);
         } else {
-          const errors = Object.values(data.mappedErrors).map(
-            (el) => `${el.msg}`
+          Object.values(data.mappedErrors).map((el) =>
+            errors.push(`${el.msg}`)
           );
           toast.error(
             <div>
@@ -96,7 +98,21 @@ const AddNewUser = () => {
         }
         setIsLoading(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        toast.error(
+          <div>
+            <h3 className="font-bold">Errors</h3>
+            {errors.map((err, i) => (
+              <p key={i}>
+                <small className="capitalize">
+                  {i + 1}. {err}
+                </small>
+              </p>
+            ))}
+          </div>
+        );
+        setIsLoading(false);
+      });
   }
 
   return (
