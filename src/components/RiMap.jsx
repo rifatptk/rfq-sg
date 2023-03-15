@@ -61,7 +61,7 @@ const RiMap = ({ geofence = CENTER, userId, token, refetch, setIsLoader }) => {
 
   return (
     <>
-      <LoadScript googleMapsApiKey={process.env.REACT_APP_GMAPS_API_KEY}>
+      <LoadScript googleMapsApiKey={import.meta.env.VITE_GMAPS_API_KEY}>
         <GoogleMap
           mapContainerClassName="w-full h-[500px] rounded-lg"
           zoom={14}
