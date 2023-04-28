@@ -66,3 +66,5 @@ If you are using npm
 ```bash
 npm run build
 ```
+
+Thank you!
